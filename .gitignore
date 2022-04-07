@@ -1,0 +1,27 @@
+**/node_modules/**
+**/keys/**
+**/.env
+**/docker/**
+**/.env.*
+
+
+node_modules
+/node_modules/
+
+
+/server/auth/keys/*
+
+/node_modules/
+docker
+docker.env
+.docker
+.dockerignore
+docker-compose.dev.yml
+docker-compose.test.yml
+docker-compose.yml
+.env
+.env.*
+
+
+# Server ignore files
+# Keep environment variables out of version control

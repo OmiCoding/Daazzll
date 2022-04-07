@@ -1,0 +1,29 @@
+{
+  "compilerOptions": {
+    "target": "esnext",
+    "module": "commonjs",
+    "jsx": "react",
+    "moduleResolution": "node",
+    "outDir": "lib",
+    "rootDir": "./",
+    "types": ["jest"],
+    "typeRoots": ["./@types", "./node_modules/@types"],
+    "sourceMap": true,
+    "strict": true,
+    "esModuleInterop": true,
+    "forceConsistentCasingInFileNames": true,
+    "skipLibCheck": true,
+    "allowSyntheticDefaultImports": true
+  },
+  "exclude": [
+    "node_modules",
+    "**/node_modules/**",
+    "webpack.config.js",
+    "webpack.development.js",
+    "webpack.production.js",
+    ".babelrc.js",
+    "docker-compose.*",
+    ".docker/**",
+    "./client/*"
+  ]
+}

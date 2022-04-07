@@ -1,0 +1,46 @@
+:root {
+  /* default theme */
+  --default-main-bg-color: #f8f9fa;
+  --default-main-invBg-color: #001d4a;
+  --default-secondary-color: #27476e;
+  --default-tertiary-color: #7f95d1;
+  --default-text-color: #26282a;
+  --default-invTxt-color: #ffffff;
+  --default-prime-btn-color: #4681f4;
+  --default-btn-hover-1: #2158c4;
+  --default-btn-hover-2: #5f8de8;
+  /* --default-second-btn-color: #5783db;
+  --default-third-btn-color: #55c2da; */
+  --default-main-font: "Inter", sans-serif;
+  --default-head-font: "Inter", sans-serif;
+  --default-title-font: "Poppins", sans-serif;
+  --default-fnt-weight-1: 400;
+  --default-fnt-weight-2: 900;
+  --default-heading-1: 2.5rem;
+  --default-heading-2: 2rem;
+  --default-heading-3: 1.5rem;
+  --default-heading-4: 1.2rem;
+  --default-reg-size: 1rem;
+  --default-caption: 0.75rem;
+
+  /* media query sizes */
+  --iphoneSE: 320px;
+  --galaxyNote: 360px;
+  --pixel2: 414px;
+  --iPad: 768px;
+  --iPadPro: 1024px;
+  --laptopSM: 1280px;
+  --desktopSM: 1366px;
+  --laptopMed: 1440px;
+  --desktopMed: 1680px;
+  --desktopLg: 1920px;
+  --desktopXLg: 2560px;
+
+  /* padding sizes */
+  --padding-half: 0.5rem;
+  --padding-1: 1rem;
+  --padding-2: 2rem;
+  --padding-3: 3rem;
+  --padding-4: 4rem;
+  --padding-5: 5rem;
+}

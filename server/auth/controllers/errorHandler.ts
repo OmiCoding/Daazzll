@@ -1,0 +1,17 @@
+import { Request, Response, NextFunction, ErrorRequestHandler } from "express";
+
+const errorHandler: ErrorRequestHandler = function (
+  err: any,
+  req: Request,
+  res: Response,
+  next: NextFunction
+) {
+  if (err.stack) {
+    console.error(err.stack);
+  } else {
+    console.error(err);
+  }
+  return res.status(500).redirect("/");
+};
+
+export default errorHandler;
