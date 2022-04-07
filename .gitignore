@@ -3,6 +3,7 @@
 **/.env
 **/docker/**
 **/.env.*
+**/build/**
 
 
 node_modules
