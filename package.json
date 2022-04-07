@@ -24,7 +24,7 @@
     "test": "npx dotenv -e .env.test -- jest -i",
     "watch:api:dev": "TYPE=node npx dotenv -e .env.test -- webpack build --config webpack.server.js --mode=development",
     "watch:client:dev": "TYPE=web npx dotenv -e .env.test -- webpack build --config webpack.client.js --mode=development",
-    "watch:ssr:dev": "TYPE=ssr npx dotenv -e .env.test -- webpack build --config webpack.client.js --mode=development",
+    "watch:ssr:dev": "TYPE=ssr npx dotenv -e .env.test -- webpack build --config webpack.server.js --mode=development",
     "watch:api:build:dev": "concurrently \"yarn watch:client:dev\" \"yarn watch:ssr:dev\"",
     "watch:ssr:test": "concurrently \"yarn build:client:test\" \"yarn build:ssr:test\"",
     "babel:api:server": "TYPE=node npx dotenv -e .env.test -- babel --extensions .ts,.tsx --config-file ./babel.config.js ./server/api -d lib",
