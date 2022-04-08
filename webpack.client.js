@@ -49,28 +49,3 @@ module.exports = function (env, argV) {
     }
   );
 };
-
-// optimization: {
-//   splitChunks: {
-//     // The chunks prop with the "all" value will split between the modules you define and external (node_modules) chunks
-//     chunks: "all",
-//     // The minimal size for a chunk
-//     minSize: 0,
-//     // Performs the same as minSize but in the initial load
-//     maxInitialRequests: Infinity,
-//     // cacheGroup is used to define rules on how to group our chunks together
-//     cacheGroups: {
-//       // This allows you to create your own custom vendor chunk.
-//       vendor: {
-//         test: /[\\/]node_modules[\\/]/,
-//         name(module) {
-//           const packageName = module.context.match(
-//             /[\\/]node_modules[\\/](.*?)([\\/]|$)/
-//           )[1];
-
-//           return `npm.${packageName.replace("@", "")}`;
-//         },
-//       },
-//     },
-//   },
-// },

@@ -1,8 +1,5 @@
 const path = require("path");
-// const { merge } = require("webpack-merge");
 const LoadablePlugin = require("@loadable/webpack-plugin");
-// const TerserPlugin = require("terser-webpack-plugin");
-// const nodeExternals = require("webpack-node-externals");
 const CopyWebpackPlugin = require("copy-webpack-plugin");
 const {
   createLoadableComponentsTransformer,
