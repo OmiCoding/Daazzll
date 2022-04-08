@@ -4,6 +4,7 @@ import "../../styles/absHeader.css";
 import HamburgerHeader from "./HamburgerHeader";
 import HeaderNav from "./HeaderNav";
 import scrollHeader from "../../hooks/scrollHeader";
+import HamburgerList from "./HamburgerList";
 
 const AbsHeader: React.FC = function () {
   function handleClick(e: SyntheticEvent) {
@@ -37,6 +38,7 @@ const AbsHeader: React.FC = function () {
             <button className="register-btn">Register</button>
           </div>
           <HamburgerHeader handleClick={handleClick} />
+          <HamburgerList />
         </div>
       </div>
     </div>

@@ -54,7 +54,16 @@ module.exports = function ({ mode, entry, target, filename }) {
         },
         {
           test: /\.css$/,
-          use: [MiniCSSExtractPlugin.loader, "css-loader"],
+          use: [
+            MiniCSSExtractPlugin.loader,
+            {
+              loader: "css-loader",
+              options: {
+                importLoaders: 1,
+              },
+            },
+            "postcss-loader",
+          ],
         },
         {
           test: /\.svg$/,

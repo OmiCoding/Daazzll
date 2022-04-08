@@ -3,6 +3,7 @@
 .header-wrapper {
   position: fixed;
   top: -80px;
+  height: 80px;
   left: 0;
   width: 100%;
   z-index: 1;
@@ -12,6 +13,7 @@
 }
 
 .header-flex-wrapper {
+  position: relative;
   display: flex;
   align-items: center;
   height: 100%;
@@ -96,13 +98,12 @@
 
 @media screen and (min-width: 320px) {
   .header-wrapper {
-    height: auto;
     font-size: var(--default-reg-size);
-    padding: 0 0.5rem;
   }
 
   .header-flex-wrapper {
     justify-content: space-between;
+    padding: 0 0.5rem;
   }
 
   .logo-title {
@@ -191,16 +192,31 @@
     stroke-dasharray: 9 25;
     stroke-dashoffset: -15;
   }
+
+  .hamburger-nav-wrapper {
+    position: absolute;
+    bottom: calc(80px - 100vh);
+    left: 0;
+    width: 100%;
+    height: 0;
+    background-color: purple;
+  }
+
+  .hamburger-nav {
+    position: relative;
+    width: 100%;
+    height: 100%;
+  }
 }
 
 @media screen and (min-width: 1280px) {
   .header-wrapper {
-    height: 80px;
     padding: 0 2rem;
   }
 
   .header-flex-wrapper {
     justify-content: space-between;
+    padding: 0;
   }
 
   .logo-title {
@@ -220,6 +236,10 @@
   }
 
   .hamburger-wrapper {
+    display: none;
+  }
+
+  .hamburger-nav-wrapper {
     display: none;
   }
 }
