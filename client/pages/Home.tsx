@@ -6,6 +6,7 @@ const Home: React.FC = function () {
   return (
     <div className="home-wrapper">
       <section className="home"></section>
+      <section className="about"></section>
     </div>
   );
 };

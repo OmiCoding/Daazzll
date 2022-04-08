@@ -17,7 +17,7 @@ const HeaderNav: React.FC = function () {
         </li>
         <li className="nav__list__items">
           <Link to="/about" className="items__link">
-            About
+            Market
           </Link>
         </li>
         <li className="nav__list__items">

@@ -1,8 +1,9 @@
-import React, { SyntheticEvent } from "react";
+import React, { SyntheticEvent, useEffect } from "react";
 import "../../styles/wrappers.css";
 import "../../styles/absHeader.css";
 import HamburgerHeader from "./HamburgerHeader";
 import HeaderNav from "./HeaderNav";
+import scrollHeader from "../../hooks/scrollHeader";
 
 const AbsHeader: React.FC = function () {
   function handleClick(e: SyntheticEvent) {
@@ -20,6 +21,8 @@ const AbsHeader: React.FC = function () {
       }
     }
   }
+
+  scrollHeader();
 
   return (
     <div className="header-wrapper">
