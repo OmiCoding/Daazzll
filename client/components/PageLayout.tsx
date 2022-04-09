@@ -7,10 +7,10 @@ import "../styles/wrappers.css";
 const PageLayout: React.FC = function () {
   return (
     <>
-      <div className="body-wrapper">
+      <main className="main">
         <AbsHeader />
         <Outlet />
-      </div>
+      </main>
     </>
   );
 };

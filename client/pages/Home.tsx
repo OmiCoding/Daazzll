@@ -1,13 +1,15 @@
 import React from "react";
 import "../styles/wrappers.css";
 import "../styles/home.css";
+import HomeSection from "../components/home/HomeSection";
+import AboutSection from "../components/home/AboutSection";
 
 const Home: React.FC = function () {
   return (
-    <div className="home-wrapper">
-      <section className="home"></section>
-      <section className="about"></section>
-    </div>
+    <>
+      <HomeSection />
+      <AboutSection />
+    </>
   );
 };
 

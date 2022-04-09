@@ -1,6 +1,6 @@
 @import "./theme.css";
 
-.body-wrapper {
+.main {
   position: relative;
   width: 100%;
   overflow-x: hidden;

@@ -11,11 +11,19 @@ const HamburgerList: React.FC<{ active: boolean }> = function ({ active }) {
       }
     >
       <nav className="hamburger-nav">
-        <ul className="">
-          <li></li>
-          <li></li>
-          <li></li>
-          <li></li>
+        <ul className="hamburger-nav__list">
+          <li className="hb-nav__list__item">
+            <Link to="/">Home</Link>
+          </li>
+          <li className="hb-nav__list__item">
+            <Link to="/feed">Feed</Link>
+          </li>
+          <li className="hb-nav__list__item">
+            <Link to="/market">Market</Link>
+          </li>
+          <li className="hb-nav__list__item">
+            <Link to="/contact">Contact</Link>
+          </li>
         </ul>
       </nav>
     </div>
