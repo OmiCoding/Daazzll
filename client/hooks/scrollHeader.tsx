@@ -13,22 +13,40 @@ function scrollHeader() {
     }
 
     function moveHeader() {
-      const elem = document.querySelector(".header-wrapper");
+      const headerWrap = document.querySelector(".header-wrapper");
+      const hamburgerBtn = document.getElementById(
+        "abs-header-hamburger-btn"
+      ) as HTMLButtonElement | null;
+      if (!headerWrap) {
+        return;
+      }
 
-      if (!elem) {
+      if (!hamburgerBtn) {
         return;
       }
 
       if (prevPos === 0) {
-        elem.classList.remove("header-wrapper--down");
+        headerWrap.classList.remove("header-wrapper--down");
       }
 
       if (window.scrollY > prevPos) {
+        // scroll absolute header drops down.
         if (window.scrollY > 100) {
-          elem.classList.add("header-wrapper--down");
+          headerWrap.classList.add("header-wrapper--down");
+        }
+        if (hamburgerBtn.disabled) {
+          hamburgerBtn.disabled = !hamburgerBtn.disabled;
         }
       } else {
-        elem.classList.remove("header-wrapper--down");
+        if (document.documentElement.style.overflowY === "hidden") {
+          return;
+        }
+        headerWrap.classList.remove("header-wrapper--down");
+        if (!hamburgerBtn) {
+          return;
+        }
+
+        hamburgerBtn.disabled = !hamburgerBtn.disabled;
       }
 
       prevPos = window.scrollY;
