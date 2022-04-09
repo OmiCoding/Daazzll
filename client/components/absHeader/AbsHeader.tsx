@@ -21,6 +21,8 @@ const AbsHeader: React.FC = function () {
         continue;
       }
     }
+
+    const htmlElem = (document.documentElement.style.overflowY = "hidden");
   }
 
   scrollHeader();
