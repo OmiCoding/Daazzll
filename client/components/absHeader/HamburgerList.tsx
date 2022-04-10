@@ -11,7 +11,7 @@ const HamburgerList: React.FC<{ active: boolean }> = function ({ active }) {
       }
     >
       <nav className="hamburger-nav">
-        <ul className="hamburger-nav__list">
+        <ul className="hamburger-nav-list">
           <li className="hb-nav__list__item">
             <Link to="/">Home</Link>
           </li>

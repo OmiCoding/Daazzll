@@ -17,6 +17,13 @@ function scrollHeader() {
       const hamburgerBtn = document.getElementById(
         "abs-header-hamburger-btn"
       ) as HTMLButtonElement | null;
+
+      const activeNavList = document.querySelector(
+        ".hamburger-nav-wrapper--appear"
+      );
+
+      const scrollPos = window.scrollY;
+
       if (!headerWrap) {
         return;
       }
@@ -29,24 +36,29 @@ function scrollHeader() {
         headerWrap.classList.remove("header-wrapper--down");
       }
 
-      if (window.scrollY > prevPos) {
+      if (scrollPos > prevPos) {
         // scroll absolute header drops down.
-        if (window.scrollY > 100) {
-          headerWrap.classList.add("header-wrapper--down");
+        if (scrollPos > 150) {
+          headerWrap.classList.remove("header-wrapper--down");
         }
-        if (hamburgerBtn.disabled) {
+        if (!hamburgerBtn.disabled) {
           hamburgerBtn.disabled = !hamburgerBtn.disabled;
         }
-      } else {
-        if (document.documentElement.style.overflowY === "hidden") {
-          return;
-        }
-        headerWrap.classList.remove("header-wrapper--down");
-        if (!hamburgerBtn) {
+      } else if (scrollPos < prevPos) {
+        if (activeNavList) {
           return;
         }
 
-        hamburgerBtn.disabled = !hamburgerBtn.disabled;
+        if (scrollPos < 150) {
+          headerWrap.classList.remove("header-wrapper--down");
+          hamburgerBtn.disabled = true;
+          prevPos = scrollPos;
+          return;
+        }
+        headerWrap.classList.add("header-wrapper--down");
+        hamburgerBtn.disabled = false;
+      } else if (scrollPos > 150 && scrollPos === prevPos) {
+        headerWrap.classList.add("header-wrapper--down");
       }
 
       prevPos = window.scrollY;
@@ -63,10 +75,10 @@ function scrollHeader() {
       };
     };
 
-    document.addEventListener("scroll", scrollDebounce(moveHeader, 1000));
+    document.addEventListener("scroll", scrollDebounce(moveHeader, 500));
 
     return () => {
-      document.removeEventListener("scroll", scrollDebounce(moveHeader, 1000));
+      document.removeEventListener("scroll", scrollDebounce(moveHeader, 500));
     };
   }, []);
 }
