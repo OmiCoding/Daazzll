@@ -31,10 +31,21 @@ function useResizeAbsHeader(
       return;
     }
 
-    window.addEventListener("resize", stylesOnOrientation);
+    function debouncer(func: Function, delay: number) {
+      let debounceTimer: ReturnType<typeof setTimeout>;
+
+      return function (this: any, ...args: any[]) {
+        const ctx = this;
+
+        clearTimeout(debounceTimer);
+        debounceTimer = setTimeout(() => func.apply(ctx, args), delay);
+      };
+    }
+
+    window.addEventListener("resize", debouncer(stylesOnOrientation, 500));
 
     return () => {
-      window.removeEventListener("resize", stylesOnOrientation);
+      window.removeEventListener("resize", debouncer(stylesOnOrientation, 500));
     };
   }, [active]);
 }

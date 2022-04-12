@@ -1,4 +1,4 @@
-import React, { SyntheticEvent, useState, useRef, useEffect } from "react";
+import React, { useState, useRef, SyntheticEvent } from "react";
 import "../../styles/wrappers.css";
 import "../../styles/absHeader.css";
 import HamburgerHeader from "./HamburgerHeader";
@@ -6,6 +6,7 @@ import HeaderNav from "./HeaderNav";
 import useScrollAbsHeader from "../../hooks/useScrollAbsHeader";
 import HamburgerList from "./HamburgerList";
 import useResizeAbsHeader from "../../hooks/useResizeAbsHeader";
+import useResetState from "../../hooks/useResetState";
 
 const AbsHeader: React.FC = function () {
   const [active, setActive] = useState(false);
@@ -14,7 +15,7 @@ const AbsHeader: React.FC = function () {
   const headWrapElem = useRef<HTMLDivElement | null>(null);
   const hbWrapElem = useRef<HTMLDivElement | null>(null);
 
-  function handleClick() {
+  function handleClick(e: SyntheticEvent) {
     const htmlElem = document.documentElement;
 
     if (!headerElem.current || !headWrapElem.current || !hbWrapElem.current) {
@@ -39,6 +40,7 @@ const AbsHeader: React.FC = function () {
 
   useScrollAbsHeader();
   useResizeAbsHeader(active, headerElem, headWrapElem, hbWrapElem);
+  useResetState(setActive);
 
   return (
     <div ref={headerElem} className="header-wrapper">

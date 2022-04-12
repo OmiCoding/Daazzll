@@ -64,21 +64,28 @@ function scrollHeader() {
       prevPos = window.scrollY;
     }
 
-    const scrollDebounce = (func: Function, delay: number) => {
+    const debouncer = (func: Function, delay: number) => {
       let debounceTimer: ReturnType<typeof setTimeout>;
 
+      // the event listener calls this inner function
+      // the event listener context is given to the listener, and arguments that are passed to it
       return function (this: any, ...args: any[]) {
         const context = this;
 
+        // this will clear out the setTimeout each time the listener calls the inner function.
         clearTimeout(debounceTimer);
+
+        // the setTimeout is scoped within the eventlistener scope
         debounceTimer = setTimeout(() => func.apply(context, args), delay);
       };
+
+      // the last call of this debouncer will be what is used.
     };
 
-    document.addEventListener("scroll", scrollDebounce(moveHeader, 500));
+    document.addEventListener("scroll", debouncer(moveHeader, 500));
 
     return () => {
-      document.removeEventListener("scroll", scrollDebounce(moveHeader, 500));
+      document.removeEventListener("scroll", debouncer(moveHeader, 500));
     };
   }, []);
 }
