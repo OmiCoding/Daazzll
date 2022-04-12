@@ -33,25 +33,26 @@ export const renderer: RequestHandler = function (
   const jsx = webExtractor.collectChunks(<App />);
 
   const html = renderToString(jsx);
-
+  let templateString = ` 
+  <!DOCTYPE html>
+  <html lang="en">
+  <head>
+    <title>Daazzll</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;900&family=Poppins:wght@900&display=swap" rel="stylesheet"> 
+    ${webExtractor.getLinkTags()}
+    ${webExtractor.getStyleTags()}
+  </head>
+  <body>
+  <script>;window.app=${serialize({ data: "hello" })}</script>
+    <div id="root">${html}</div>
+    ${webExtractor.getScriptTags()}
+  </body>
+</html>`;
   res.set("content-type", "text/html");
-  return res.status(200).send(` 
-    <!doctype html>
-    <html lang="en">
-    <head>
-      <title>Daazzll</title>
-      <link rel="preconnect" href="https://fonts.googleapis.com">
-      <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-      <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;900&family=Poppins:wght@900&display=swap" rel="stylesheet"> 
-      ${webExtractor.getLinkTags()}
-      ${webExtractor.getStyleTags()}
-    </head>
-    <body>
-    <script>
-        ;window.app=${serialize({})}
-      </script>
-      <div id="root">${html}</div>
-      ${webExtractor.getScriptTags()}
-    </body>
-  </html>`);
+
+  templateString = templateString.replace(/(?<=>|^)\s+(?=<|$)/g, "");
+
+  return res.status(200).send(templateString);
 };

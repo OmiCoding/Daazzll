@@ -38,7 +38,7 @@
 @media screen and (min-width: 320px) {
   .header-wrapper {
     height: 80px;
-    font-size: var(--default-heading-4);
+    font-size: var(--heading-4);
   }
 
   .flex-wrapper--center {

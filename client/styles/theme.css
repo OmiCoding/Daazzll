@@ -1,27 +1,25 @@
 :root {
   /* default theme */
-  --default-main-bg-color: #f8f9fa;
-  --default-main-invBg-color: #001d4a;
-  --default-secondary-color: #27476e;
-  --default-tertiary-color: #7f95d1;
-  --default-text-color: #221d23;
-  --default-invTxt-color: #ffffff;
-  --default-prime-btn-color: #4681f4;
-  --default-btn-hover-1: #2158c4;
-  --default-btn-hover-2: #5f8de8;
-  /* --default-second-btn-color: #5783db;
-  --default-third-btn-color: #55c2da; */
-  --default-main-font: "Inter", sans-serif;
-  --default-head-font: "Inter", sans-serif;
-  --default-title-font: "Poppins", sans-serif;
-  --default-fnt-weight-1: 400;
-  --default-fnt-weight-2: 900;
-  --default-heading-1: 2.5rem;
-  --default-heading-2: 2rem;
-  --default-heading-3: 1.5rem;
-  --default-heading-4: 1.2rem;
-  --default-reg-size: 1rem;
-  --default-caption: 0.75rem;
+  --bg-color: #f8f9fa;
+  --invBg-color: #001d4a;
+  --secondary-color: #27476e;
+  --tertiary-color: #7f95d1;
+  --text-color: #221d23;
+  --invTxt-color: #ffffff;
+  --prime-btn-color: #4681f4;
+  --btn-hover-1: #2158c4;
+  --btn-hover-2: #5f8de8;
+  --main-font: "Inter", sans-serif;
+  --head-font: "Inter", sans-serif;
+  --title-font: "Poppins", sans-serif;
+  --fnt-weight-1: 400;
+  --fnt-weight-2: 900;
+  --heading-1: 2.5rem;
+  --heading-2: 2rem;
+  --heading-3: 1.5rem;
+  --heading-4: 1.2rem;
+  --reg-size: 1rem;
+  --caption: 0.75rem;
 
   /* media query sizes */
   --iphoneSE: 320px;
@@ -43,4 +41,8 @@
   --padding-3: 3rem;
   --padding-4: 4rem;
   --padding-5: 5rem;
+}
+
+[data-theme="dark"] {
+  /* Define dark theme here. */
 }
