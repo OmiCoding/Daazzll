@@ -1,9 +1,33 @@
-import React, { Dispatch, SetStateAction, useEffect } from "react";
+import React, {
+  Dispatch,
+  SetStateAction,
+  useEffect,
+  MutableRefObject,
+} from "react";
 
-function useResetState(setActive: Dispatch<SetStateAction<boolean>>) {
+function useResetState(
+  setActive: Dispatch<SetStateAction<boolean>>,
+  headerElem: MutableRefObject<HTMLDivElement | null>,
+  headWrapElem: MutableRefObject<HTMLDivElement | null>,
+  hbWrapElem: MutableRefObject<HTMLDivElement | null>
+) {
   useEffect(() => {
     function resetState() {
-      if (window.innerWidth > 1280) {
+      if (window.innerWidth >= 1280) {
+        if (
+          !headerElem.current ||
+          !headWrapElem.current ||
+          !hbWrapElem.current
+        ) {
+          return;
+        }
+
+        headerElem.current.classList.remove(
+          "header-wrapper-hb--open",
+          "header-wrapper--down"
+        );
+        headWrapElem.current.classList.remove("header-hb-flex-wrapper--ls");
+        hbWrapElem.current.classList.remove("hamburger-nav-wrapper--ls");
         return setActive(false);
       } else {
         return;

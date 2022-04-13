@@ -82,10 +82,10 @@ function scrollHeader() {
       // the last call of this debouncer will be what is used.
     };
 
-    document.addEventListener("scroll", debouncer(moveHeader, 500));
+    window.addEventListener("scroll", debouncer(moveHeader, 500));
 
     return () => {
-      document.removeEventListener("scroll", debouncer(moveHeader, 500));
+      window.removeEventListener("scroll", debouncer(moveHeader, 500));
     };
   }, []);
 }
