@@ -123,8 +123,6 @@ const AbsHeader: React.FC = function () {
       });
     }
 
-    // Create one for height
-
     return;
   }
 };

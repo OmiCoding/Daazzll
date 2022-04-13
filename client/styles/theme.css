@@ -20,6 +20,7 @@
   --heading-4: 1.2rem;
   --reg-size: 1rem;
   --caption: 0.75rem;
+  --btn-size: 0.85rem;
 
   /* media query sizes */
   --iphoneSE: 320px;
@@ -41,6 +42,12 @@
   --padding-3: 3rem;
   --padding-4: 4rem;
   --padding-5: 5rem;
+  -ms-overflow-style: none; /* IE and Edge */
+  scrollbar-width: none; /* Firefox */
+}
+
+:root::-webkit-scrollbar {
+  display: none;
 }
 
 [data-theme="dark"] {
