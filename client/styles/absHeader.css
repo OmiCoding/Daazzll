@@ -168,7 +168,7 @@
 }
 
 
-/* Make a hover for the svg, and also activate the svg animation */
+/* Make a hover for the svg, and also activate the svg animation. */
 
 .hb-nav__list__item:hover > a.hb-nav__item__link {
   color: var(--btn-hover-2);
