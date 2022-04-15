@@ -7,6 +7,8 @@
     "last 4 versions"
   ],
   "scripts": {
+    "db:clean": "sudo rm -rf ./.docker/postgres-data ./.docker/redis-data && mkdir ./.docker/postgres-data ./.docker/redis-data",
+    "db:test:clean": "sudo rm -rf ./.docker/postgres-test ./.docker/redis-test && mkdir ./.docker/redis-test ./.docker/postgres-test",
     "build:client:dev": "TYPE=web webpack build --config webpack.client.js --mode=development",
     "build:client:test": "TYPE=web npx dotenv -e .env.test -- webpack build --config webpack.client.js --mode=production",
     "build:client:prod": "TYPE=web npx dotenv -e .env.production -- webpack build --config webpack.client.js --mode=production",
