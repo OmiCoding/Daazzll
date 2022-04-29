@@ -21,7 +21,7 @@
   font-weight: var(--fnt-weight-3);
   font-size: var(--btn-size);
   color: var(--invTxt-color);
-  background-color: var(--invBg-color);
+  background-color: var(--prime-btn-color);
   border-radius: 5px;
   margin: 0 auto;
 }
@@ -35,6 +35,7 @@
   position: relative;
   height: 100%;
   width: 100%;
+  min-height: 100vh;
 }
 
 .art-wrapper-1 {
@@ -48,6 +49,7 @@
   height: 100%;
   justify-content: center;
   align-items: center;
+  min-height: 100vh;
 }
 
 .page-card-1 {
@@ -150,12 +152,12 @@
 
 .page__input-1:focus,
 .page__input-2:focus {
-  outline: 2px solid var(--prime-btn-color);
+  outline: 2px solid var(--btn-hover-1);
 }
 
 .page__input-1:focus ~ .page__label-1,
 .page__input-2:focus ~ .page__label-2 {
-  color: var(--prime-btn-color);
+  color: var(--btn-hover-1);
 }
 
 .msg-abs-wrapper {
@@ -176,7 +178,6 @@
   width: 1.2rem;
   height: 1.2rem;
   margin-right: 0.3rem;
-  background-color: #000000;
 }
 
 .msg-wrapper--visible {
@@ -184,19 +185,18 @@
 }
 
 .msg-wrapper--invisible {
-  display: block;
+  display: none;
 }
 
 .msg__text {
   display: inline-block;
-  color: var(--text-color);
+  color: var(--danger-color);
   font-size: var(--caption);
   width: 88%;
 }
 
 .password-svg-wrapper {
   position: absolute;
-
   background-color: #000000;
   top: 50%;
   bottom: 50%;

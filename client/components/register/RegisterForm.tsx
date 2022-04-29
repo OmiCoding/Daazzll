@@ -1,8 +1,6 @@
 import React from "react";
 import { Link } from "react-router-dom";
-
-//@ts-ignore
-import WarnSvg from "../../svg/warning-5.svg";
+import WarnSvg from "../../../svgs/warning-08.svg";
 
 type handleSubmit = (e: React.FormEvent<HTMLFormElement>) => void;
 type handleChange = (e: React.ChangeEvent<HTMLInputElement>) => void;
@@ -54,7 +52,9 @@ const RegisterForm: React.FC<{
             }`}
           >
             <div className="msg-wrapper">
-              <div className="warning-wrapper"></div>
+              <div className="warning-wrapper">
+                <WarnSvg />
+              </div>
               <span className="msg__text">{warn_1 ? warn_1 : ""}</span>
             </div>
           </div>
@@ -74,6 +74,9 @@ const RegisterForm: React.FC<{
             }`}
           >
             <div className="msg-wrapper">
+              <div className="warning-wrapper">
+                <WarnSvg />
+              </div>
               <span className="msg__text">{warn_2 ? warn_2 : ""}</span>
             </div>
           </div>
@@ -95,6 +98,9 @@ const RegisterForm: React.FC<{
             }`}
           >
             <div className="msg-wrapper">
+              <div className="warning-wrapper">
+                <WarnSvg />
+              </div>
               <span className="msg__text">{warn_3 ? warn_3 : ""}</span>
             </div>
           </div>
@@ -114,6 +120,9 @@ const RegisterForm: React.FC<{
             }`}
           >
             <div className="msg-wrapper">
+              <div className="warning-wrapper">
+                <WarnSvg />
+              </div>
               <span className="msg__text">{warn_4 ? warn_4 : ""}</span>
             </div>
           </div>
@@ -135,6 +144,9 @@ const RegisterForm: React.FC<{
             }`}
           >
             <div className="msg-wrapper">
+              <div className="warning-wrapper">
+                <WarnSvg />
+              </div>
               <span className="msg__text">{warn_5 ? warn_5 : ""}</span>
             </div>
           </div>
