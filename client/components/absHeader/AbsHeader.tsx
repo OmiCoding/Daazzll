@@ -1,12 +1,12 @@
 import React, { useState, useRef, SyntheticEvent, useMemo } from "react";
 import debounce from "lodash.debounce";
-import "../../styles/wrappers.css";
-import "../../styles/absHeader.css";
 import HamburgerHeader from "./HamburgerHeader";
 import HeaderNav from "./HeaderNav";
 import useScrollAbsHeader from "../../hooks/useScrollAbsHeader";
 import HamburgerList from "./HamburgerList";
 import useResizeAbsHeader from "../../hooks/useResizeAbsHeader";
+import "../../styles/wrappers.css";
+import "../../styles/absHeader.css";
 
 const AbsHeader: React.FC = function () {
   const [active, setActive] = useState(false);
@@ -28,7 +28,6 @@ const AbsHeader: React.FC = function () {
     debounceMemo,
     setActive
   );
-
   return (
     <div ref={headerElem} className="header-wrapper">
       <div className="max-wrapper">
@@ -40,7 +39,7 @@ const AbsHeader: React.FC = function () {
             <HeaderNav />
             <div className="btn-wrapper">
               <button className="login-btn">Login</button>
-              <button className="register-btn">Register</button>
+              <button className="sign-in-btn">Sign In</button>
             </div>
             <HamburgerHeader active={active} handleClick={handleClick} />
           </div>

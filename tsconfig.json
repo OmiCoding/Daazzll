@@ -24,6 +24,5 @@
     ".babelrc.js",
     "docker-compose.*",
     ".docker/**",
-    "./client/*"
   ]
 }

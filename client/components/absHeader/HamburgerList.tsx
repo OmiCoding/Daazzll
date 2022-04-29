@@ -1,5 +1,6 @@
 import React from "react";
 import { Link } from "react-router-dom";
+import CardSvg from "./svgIcons/CardSvg";
 
 type Props = {
   active: boolean;
@@ -29,19 +30,19 @@ const HamburgerList = React.forwardRef<HTMLDivElement, Props>(
               </Link>
             </li>
             <li className="hb-nav__list__item">
-            <div className="hb-nav__item__svg-wrapper"></div>
-              <Link to="/feed" className="hb-nav__item__link">
-                Feed
+              <CardSvg />
+              <Link to="/watch" className="hb-nav__item__link">
+                Watch
               </Link>
             </li>
             <li className="hb-nav__list__item">
-            <div className="hb-nav__item__svg-wrapper"></div>
+              <div className="hb-nav__item__svg-wrapper"></div>
               <Link to="/market" className="hb-nav__item__link">
                 Market
               </Link>
             </li>
             <li className="hb-nav__list__item">
-            <div className="hb-nav__item__svg-wrapper"></div>
+              <div className="hb-nav__item__svg-wrapper"></div>
               <Link to="/contact" className="hb-nav__item__link">
                 Contact
               </Link>

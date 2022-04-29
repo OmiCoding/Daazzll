@@ -1,7 +1,7 @@
 import React from "react";
 
-const Feed = function () {
+const Watch = function () {
   return <div></div>;
 };
 
-export default Feed;
+export default Watch;
