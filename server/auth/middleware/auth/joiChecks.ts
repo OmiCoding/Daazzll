@@ -8,6 +8,7 @@ export const joiDeleteUser: RequestHandler = async function (
   next: NextFunction
 ) {
   try {
+
     if (req.body) {
       const schema = Joi.object({
         email: Joi.string().email().lowercase().required().messages({
@@ -44,12 +45,12 @@ export const joiLogin: RequestHandler = async function (
   next: NextFunction
 ) {
   try {
-    const { username, email } = req.body;
+
     let schema: Joi.ObjectSchema<any>;
 
-    if (email) {
+    if(/[@\.]/.test(req.body.email_user)) {
       schema = Joi.object({
-        email: Joi.string().email().lowercase().required().messages({
+        email_user: Joi.string().email().lowercase().required().messages({
           "string.base": "Please enter a valid username.",
           "string.email:": "Please enter a valid username",
           "any.required": "An email is required.",
@@ -63,7 +64,7 @@ export const joiLogin: RequestHandler = async function (
       });
     } else {
       schema = Joi.object({
-        username: Joi.string().email().lowercase().required().messages({
+        email_user: Joi.string().lowercase().required().messages({
           "string.base": "Please enter a valid username.",
           "string.min": "The username you have entered is too short",
           "string.max": "The username you have entered is too long.",
@@ -95,6 +96,7 @@ export const joiRegister: RequestHandler = async function (
   next: NextFunction
 ) {
   try {
+
     const schema = Joi.object({
       fName: Joi.string().alphanum().min(2).max(255).required().messages({
         "string.base": "please enter a valid name.",
@@ -132,10 +134,6 @@ export const joiRegister: RequestHandler = async function (
         "string.min": "The password must have at least 8 characters.",
         "string.max": "You passed the limit for the password size.",
         "any.required": "A password is required.",
-      }),
-      phone: Joi.string().required().messages({
-        "string.phone": "A phone number is required.",
-        "any.required": "A phone number is required.",
       }),
     });
 

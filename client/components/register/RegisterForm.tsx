@@ -1,25 +1,14 @@
 import React from "react";
 import { Link } from "react-router-dom";
 import WarnSvg from "../../../svgs/warning-08.svg";
+import { RegisterState } from "../../custom-types";
 
-type handleSubmit = (e: React.FormEvent<HTMLFormElement>) => void;
-type handleChange = (e: React.ChangeEvent<HTMLInputElement>) => void;
+interface RegisterFormProps extends RegisterState {
+  handleSubmit: (e: React.FormEvent<HTMLFormElement>) => void;
+  handleChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
+}
 
-const RegisterForm: React.FC<{
-  handleSubmit: handleSubmit;
-  handleChange: handleChange;
-  fName: string;
-  lName: string;
-  email: string;
-  username: string;
-  pass: string;
-  confirmPass: string;
-  warn_1: string | undefined;
-  warn_2: string | undefined;
-  warn_3: string | undefined;
-  warn_4: string | undefined;
-  warn_5: string | undefined;
-}> = function ({
+const RegisterForm: React.FC<RegisterFormProps> = function ({
   handleSubmit,
   handleChange,
   fName,

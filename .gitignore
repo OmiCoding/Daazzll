@@ -5,6 +5,7 @@
 **/.env.*
 **/build/**
 **/lib/**
+**/certs/**
 
 
 node_modules

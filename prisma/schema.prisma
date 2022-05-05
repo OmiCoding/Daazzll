@@ -7,7 +7,7 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
-model User {
+model accounts {
   id        Int            @id @default(autoincrement())
   fName     String         @db.VarChar(255)
   lName     String         @db.VarChar(255)
@@ -18,87 +18,87 @@ model User {
   username  String         @db.VarChar(255)
   role      String
   isAdmin   Boolean        @default(false)
-  channels  Channel[]
-  analytics UserAnalytics?
-  settings  UserSettings?
+  channels  channels[]
+  analytics acc_analytics?
+  settings  acc_settings?
 
   @@unique([email, username])
 }
 
-model UserAnalytics {
-  userId        Int            @id
-  user          User           @relation(fields: [userId], references: [id])
-  votedChannels Channel_Vote[]
-  votedPosts    Post_Vote[]
-  votedShorts   Short_Vote[]
+model acc_analytics {
+  userId        Int             @id
+  user          accounts        @relation(fields: [userId], references: [id])
+  votedChannels channel_votes[]
+  votedPosts    post_votes[]
+  votedShorts   short_votes[]
 }
 
-model UserSettings {
-  userId Int     @id
-  theme  Boolean @default(false)
-  user   User    @relation(fields: [userId], references: [id])
+model acc_settings {
+  userId Int      @id
+  theme  Boolean  @default(false)
+  user   accounts @relation(fields: [userId], references: [id])
 }
 
-model Channel {
-  id        Int            @id @default(autoincrement())
+model channels {
+  id        Int             @id @default(autoincrement())
   type      String
-  name      String         @db.VarChar(100)
+  name      String          @db.VarChar(100)
   userId    Int
-  createdAt DateTime       @default(now())
-  updatedAt DateTime       @updatedAt
-  user      User           @relation(fields: [userId], references: [id])
-  votes     Channel_Vote[]
-  posts     Post[]
+  createdAt DateTime        @default(now())
+  updatedAt DateTime        @updatedAt
+  user      accounts        @relation(fields: [userId], references: [id])
+  votes     channel_votes[]
+  posts     posts[]
 }
 
-model Channel_Vote {
+model channel_votes {
   id        Int           @id @default(autoincrement())
   like      Boolean       @default(false)
   dislike   Boolean       @default(false)
   channelId Int
   userId    Int
-  channel   Channel       @relation(fields: [channelId], references: [id])
-  user      UserAnalytics @relation(fields: [userId], references: [userId])
+  channel   channels      @relation(fields: [channelId], references: [id])
+  user      acc_analytics @relation(fields: [userId], references: [userId])
 }
 
-model Post {
-  id        Int         @id @default(autoincrement())
+model posts {
+  id        Int          @id @default(autoincrement())
   type      String
   title     String
   channelId Int
   video     String?
   postText  String?
   image     String?
-  createdAt DateTime    @default(now())
-  updatedAt DateTime    @updatedAt
-  channel   Channel     @relation(fields: [channelId], references: [id])
-  votes     Post_Vote[]
+  createdAt DateTime     @default(now())
+  updatedAt DateTime     @updatedAt
+  channel   channels     @relation(fields: [channelId], references: [id])
+  votes     post_votes[]
 }
 
-model Post_Vote {
+model post_votes {
   id      Int           @id @default(autoincrement())
   like    Boolean       @default(false)
   dislike Boolean       @default(false)
   postId  Int
   userId  Int
-  post    Post          @relation(fields: [postId], references: [id])
-  user    UserAnalytics @relation(fields: [userId], references: [userId])
+  post    posts         @relation(fields: [postId], references: [id])
+  user    acc_analytics @relation(fields: [userId], references: [userId])
 }
 
-model Short {
-  id         Int          @id @default(autoincrement())
+model shorts {
+  id         Int           @id @default(autoincrement())
   video      String
-  createdAt  DateTime     @default(now())
-  updateAt   DateTime     @updatedAt
-  shortVotes Short_Vote[]
+  createdAt  DateTime      @default(now())
+  updateAt   DateTime      @updatedAt
+  shortVotes short_votes[]
 }
 
-model Short_Vote {
+model short_votes {
   id      Int           @id @default(autoincrement())
   like    Boolean       @default(false)
   dislike Boolean       @default(false)
   shortId Int
   userId  Int
-  short   Short         @relation(fields: [shortId], references: [id])
-  user    UserAnalytics @relation(fields: [userId], references: [userId])
+  short   shorts        @relation(fields: [shortId], references: [id])
+  user    acc_analytics @relation(fields: [userId], references: [userId])
 }

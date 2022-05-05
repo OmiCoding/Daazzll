@@ -1,7 +1,5 @@
 import fs from "fs";
 import util from "util";
-import path from "path";
-import { Request } from "express";
 import jwt from "jsonwebtoken";
 import redisClient from "../../cacheServer";
 // import { v4 as uuidv4 } from "uuid";
@@ -21,6 +19,8 @@ export const genToken = async function (
   exp: string,
   expRedis: number // seconds
 ): Promise<string | null> {
+  
+
   const result = await redisClient.get(payload.userId);
 
   if (result) return null;

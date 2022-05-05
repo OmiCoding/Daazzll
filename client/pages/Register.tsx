@@ -3,21 +3,10 @@ import { Link } from "react-router-dom";
 import RegisterForm from "../components/register/RegisterForm";
 import "../styles/register.css";
 import checkRegister from "../validation/checkRegister";
+import { RegisterState } from "../custom-types";
 
 const Register = function () {
-  const [state, setState] = useState<{
-    fName: string;
-    lName: string;
-    email: string;
-    username: string;
-    pass: string;
-    confirmPass: string;
-    warn_1: string | undefined;
-    warn_2: string | undefined;
-    warn_3: string | undefined;
-    warn_4: string | undefined;
-    warn_5: string | undefined;
-  }>({
+  const [state, setState] = useState<RegisterState>({
     fName: "",
     lName: "",
     email: "",
@@ -74,6 +63,32 @@ const Register = function () {
         warn_5: check["pass"],
       });
     }
+
+    fetch("https://daazzll.local:8433/register", {
+      method: "POST",
+      mode: "cors",
+      credentials: "include",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        fName: fName,
+        lName: lName,
+        email: email,
+        username: username,
+        password: pass,
+        confirmPass: confirmPass,
+      }),
+    })
+      .then((data) => {
+        return data.json();
+      })
+      .then((res) => {
+        console.log(res);
+      })
+      .catch((err) => {
+        console.error(err);
+      });
   };
 
   return (

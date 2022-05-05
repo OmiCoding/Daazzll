@@ -29,21 +29,26 @@ import checkToken from "../middleware/auth/checkToken";
 
 const router = Router();
 
+
+
 // GET Requests
 
+router.get("/logout", [checkGuest, checkUser, checkToken], logout);
+
+
 // POST Requests
+
 router.post(
   "/register",
-  [checkedLoggedIn, checkUser, checkToken, joiRegister, checkRegister],
+  [checkedLoggedIn, joiRegister, checkRegister],
   register
 );
 router.post(
   "/login",
-  [checkedLoggedIn, checkUser, checkToken, joiLogin, checkLogin],
+  [checkedLoggedIn, joiLogin, checkLogin],
   login
 );
 
-router.get("/logout", [checkGuest, checkUser, checkToken], logout);
 
 router.post(
   "/update",

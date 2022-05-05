@@ -4,8 +4,15 @@ import { PrismaClient } from "@prisma/client";
 import { v4 as uuidv4 } from "uuid";
 import { compare, hash } from "bcrypt";
 import { genToken } from "../utils/functions/auth";
+import "dotenv/config";
 
 const prismaClient = new PrismaClient();
+
+let { HOST } = process.env;
+
+if(!HOST) {
+  throw new Error("Host environment is undefined.")
+}
 
 export const deleteUser: RequestHandler = async function (
   req: Request,
@@ -15,7 +22,7 @@ export const deleteUser: RequestHandler = async function (
   try {
     const { email, password } = req.body;
 
-    const user = await prismaClient.user.findFirst({
+    const acc = await prismaClient.accounts.findFirst({
       where: {
         email: email,
       },
@@ -27,13 +34,13 @@ export const deleteUser: RequestHandler = async function (
       },
     });
 
-    if (!user) {
+    if (!acc) {
       return res.status(400).json({
         msg: "Bad request.",
       });
     }
 
-    const verifyPass = await compare(password, user.pass);
+    const verifyPass = await compare(password, acc.pass);
 
     if (!verifyPass) {
       return res.status(400).json({
@@ -41,27 +48,29 @@ export const deleteUser: RequestHandler = async function (
       });
     }
 
-    await prismaClient.user.delete({
+    await prismaClient.accounts.delete({
       where: {
-        id: user.id,
+        id: acc.id,
       },
     });
 
     res.clearCookie("access_token", {
       path: "/",
-      httpOnly: true,
       sameSite: "strict",
+      secure: true,
     });
 
     res.clearCookie("refresh_token", {
       path: "/",
-      httpOnly: true,
       sameSite: "strict",
+      secure: true,
     });
 
     req.user = undefined;
 
-    return res.status(302).redirect("/");
+    return res.status(200).json({
+      msg: "Ok"
+    })
   } catch (e) {
     console.log(e);
     return next(e);
@@ -74,19 +83,20 @@ export const login: RequestHandler = async function (
   next: NextFunction
 ) {
   try {
-    const { username, email, password } = req.body;
-
+    const { email_user, password } = req.body;
     let propName: string;
 
-    if (username) {
-      propName = "username";
+    if(/[@\.]/.test(email_user)) {
+      propName = "email"
     } else {
-      propName = "email";
+      propName = "username"
     }
 
-    const result: any = await prismaClient.user.findFirst({
+
+
+    const result: any = await prismaClient.accounts.findFirst({
       where: {
-        [propName]: propName === "username" ? username : email,
+        [propName]: email_user,
       },
       select: {
         [propName]: true,
@@ -115,7 +125,7 @@ export const login: RequestHandler = async function (
       {
         role: "user",
         userId: accessId,
-        [propName]: propName === "username" ? username : email,
+        [propName]: email_user,
       },
       path.resolve("../keys/jwtRS256.key"),
       "10m",
@@ -126,7 +136,7 @@ export const login: RequestHandler = async function (
       {
         role: "user",
         userId: refreshId,
-        [propName]: propName === "username" ? username : email,
+        [propName]: email_user,
       },
       path.resolve("../keys/jwtRS256.key"),
       "30d",
@@ -136,32 +146,25 @@ export const login: RequestHandler = async function (
     res.cookie("access_token", JSON.stringify(accessToken), {
       path: "/",
       sameSite: "strict",
-      httpOnly: true,
+      secure: true,
       expires: new Date(new Date().getTime() + 10 * 60000),
     });
 
     res.cookie("refresh_token", JSON.stringify(refreshToken), {
       path: "/",
       sameSite: "strict",
-      httpOnly: true,
+      secure: true,
       expires: new Date(new Date().getTime() + 30 * 86400000),
     });
 
-    if (username) {
-      req.user = {
-        role: "user",
-        username,
-        userId: refreshId,
-      };
-    } else {
-      req.user = {
-        role: "user",
-        email,
-        userId: refreshId,
-      };
+    req.user = {
+      role: "user",
+      [propName]: email_user,
+      userId: refreshId
     }
-
-    return res.status(301).redirect("http://localhost:8080/profile");
+    return res.status(200).json({
+      msg: "Ok"
+    })
   } catch (e) {
     return next(e);
   }
@@ -177,24 +180,28 @@ export const logout: RequestHandler = function (
       if (req.cookies.access_token) {
         res.clearCookie("access_token", {
           path: "/",
-          httpOnly: true,
+          secure: true,
           sameSite: "strict",
         });
       }
       if (req.cookies.refresh_token) {
         res.clearCookie("refresh_token", {
           path: "/",
-          httpOnly: true,
+          secure: true,
           sameSite: "strict",
         });
       }
 
       req.user = undefined;
 
-      return res.status(302).redirect("/login");
+      return res.status(200).json({
+        msg: "Ok"
+      });
     } else {
       req.user = undefined;
-      return res.status(302).redirect("/login");
+      return res.status(200).json({
+        msg: "Ok"
+      });
     }
   } catch (e) {
     return next(e);
@@ -212,7 +219,7 @@ export const register: RequestHandler = async function (
     const accessId = uuidv4();
     const refreshId = uuidv4();
 
-    const foundAcc = await prismaClient.user.findFirst({
+    const foundAcc = await prismaClient.accounts.findFirst({
       where: {
         email,
       },
@@ -226,7 +233,7 @@ export const register: RequestHandler = async function (
 
     const hashedPass = await hash(password, 10);
 
-    await prismaClient.user.create({
+    await prismaClient.accounts.create({
       data: {
         role: "user",
         fName,
@@ -237,13 +244,14 @@ export const register: RequestHandler = async function (
       },
     });
 
+
     const accessToken = await genToken(
       {
         role: "user",
         userId: accessId,
         email: email,
       },
-      path.resolve("../keys/jwtRS256.key"),
+      path.resolve("server/auth/keys/jwtRS256.key"),
       "10m",
       600
     );
@@ -254,7 +262,7 @@ export const register: RequestHandler = async function (
         userId: refreshId,
         email: email,
       },
-      path.resolve("../keys/jwtRS256.key"),
+      path.resolve("server/auth/keys/jwtRS256.key"),
       "30d",
       1800
     );
@@ -265,13 +273,13 @@ export const register: RequestHandler = async function (
     res.cookie("access_token", accessToken, {
       path: "/",
       sameSite: "strict",
-      httpOnly: true,
+      secure: true,
       expires: new Date(new Date().getTime() + 10 * 60000),
     });
     res.cookie("refresh_token", refreshToken, {
       path: "/",
       sameSite: "strict",
-      httpOnly: true,
+      secure: true,
       expires: new Date(new Date().getTime() + 30 * 86400000),
     });
 
@@ -281,7 +289,9 @@ export const register: RequestHandler = async function (
       userId: accessId,
     };
 
-    return res.status(302).redirect("http://localhost:8080/profile");
+    return res.status(200).json({
+      msg: "Ok"
+    })
   } catch (e) {
     return next(e);
   }
@@ -294,7 +304,7 @@ export const setToken: RequestHandler = function (
 ) {
   try {
     return res.status(200).json({
-      msg: "ok",
+      msg: "Ok",
     });
   } catch (e) {
     return next(e);
@@ -321,7 +331,7 @@ export const updateUser: RequestHandler = async function (
       updateObj.username = username;
     }
 
-    const user = await prismaClient.user.findFirst({
+    const acc = await prismaClient.accounts.findFirst({
       where: {
         email: email,
       },
@@ -332,13 +342,13 @@ export const updateUser: RequestHandler = async function (
       },
     });
 
-    if (!user) {
+    if (!acc) {
       return res.status(400).json({
         msg: "Bad request.",
       });
     }
 
-    const verifyPass = await compare(password, user.pass);
+    const verifyPass = await compare(password, acc.pass);
 
     if (!verifyPass) {
       return res.status(400).json({
@@ -346,11 +356,11 @@ export const updateUser: RequestHandler = async function (
       });
     }
 
-    await prismaClient.user.update({
+    await prismaClient.accounts.update({
       where: {
         email_username: {
-          email: user.email,
-          username: user.username,
+          email: acc.email,
+          username: acc.username,
         },
       },
       data: {

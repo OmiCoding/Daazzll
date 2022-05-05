@@ -4,10 +4,17 @@ import path from "path";
 import { RequestHandler, Request, Response, NextFunction } from "express";
 import jwt from "jsonwebtoken";
 import { v4 as uuidv4 } from "uuid";
-
 import redisClient from "../../cacheServer";
 import { RedisAuthToken } from "../../custom-types";
 import { regenToken } from "../../utils/functions/auth";
+import "dotenv/config";
+
+let { HOST } = process.env;
+
+if(!HOST) {
+  throw new Error("Host is not defined.");
+}
+
 
 const readFile = util.promisify(fs.readFile);
 
@@ -33,6 +40,7 @@ const checkToken: RequestHandler = async function (
           async function (e, decoded) {
             const payload: any = decoded;
             if (e) {
+              // This is the acess_token Error
               if (e.name === "TokenExpiredError") {
                 jwt.verify(
                   req.cookies.refresh_token,
@@ -48,26 +56,24 @@ const checkToken: RequestHandler = async function (
                         res.clearCookie("refresh_token", {
                           path: "/",
                           sameSite: "strict",
-                          httpOnly: true,
+                          secure: true,
                         });
                         res.clearCookie("access_token", {
                           path: "/",
                           sameSite: "strict",
-                          httpOnly: true,
+                          secure: true,
                         });
 
                         req.user = undefined;
 
-                        return res.status(401).redirect("/login");
+                        return res.status(401).redirect(HOST + "/login");
                       } else {
-                        return res.status(401).redirect("back");
+                        return res.status(401).redirect(HOST + "/login");
                       }
                     }
 
-                    // Something here
-
                     if (!decoded) {
-                      return res.status(401).redirect("back");
+                      return res.status(401).redirect(HOST + "/");
                     }
 
                     let prop: string;
@@ -80,13 +86,13 @@ const checkToken: RequestHandler = async function (
                     const result: any = await redisClient.get(payload.userId);
 
                     if (!result) {
-                      return res.status(401).redirect("/login");
+                      return res.status(401).redirect(HOST + "/login");
                     }
 
                     const tokenObj: RedisAuthToken = JSON.parse(result);
 
                     if (tokenObj.token !== req.cookies.refresh_token) {
-                      return res.status(401).redirect("/login");
+                      return res.status(401).redirect(HOST + "/login");
                     } else {
                       const accessId = uuidv4();
                       const refreshId = uuidv4();
@@ -122,26 +128,26 @@ const checkToken: RequestHandler = async function (
                       res.clearCookie("refresh_token", {
                         path: "/",
                         sameSite: "strict",
-                        httpOnly: true,
+                        secure: true,
                       });
 
                       res.clearCookie("access_token", {
                         path: "/",
                         sameSite: "strict",
-                        httpOnly: true,
+                        secure: true,
                       });
 
                       res.cookie("refresh_token", refreshToken, {
                         path: "/",
                         sameSite: "strict",
-                        httpOnly: true,
+                        secure: true,
                         expires: new Date(new Date().getTime() + 30 * 86400000),
                       });
 
                       res.cookie("access_token", accessToken, {
                         path: "/",
                         sameSite: "strict",
-                        httpOnly: true,
+                        secure: true,
                         expires: new Date(new Date().getTime() + 10 * 60000),
                       });
 
@@ -161,17 +167,18 @@ const checkToken: RequestHandler = async function (
                   }
                 );
               } else {
-                return res.status(401).redirect("back");
+                return res.status(401).redirect(HOST + "/login");
               }
             } else {
               const result: any = await redisClient.get(payload.userId);
 
               if (!result) {
-                return res.status(401).redirect("back");
+                return res.status(401).redirect(HOST + "/login");
               }
 
+              // If 
               if (result.token !== req.cookies.access_token) {
-                return res.status(401).redirect("back");
+                return res.status(401).redirect(HOST + "/login");
               } else {
                 return next();
               }
@@ -194,23 +201,23 @@ const checkToken: RequestHandler = async function (
                   res.clearCookie("refresh_token", {
                     path: "/",
                     sameSite: "strict",
-                    httpOnly: true,
+                    secure: true,
                   });
                   res.clearCookie("access_token", {
                     path: "/",
                     sameSite: "strict",
-                    httpOnly: true,
+                    secure: true,
                   });
 
                   req.user = undefined;
 
-                  return res.status(401).redirect("/login");
+                  return res.status(401).redirect(HOST + "/login");
                 }
-                return res.status(401).redirect("back");
+                return res.status(401).redirect(HOST + "/login");
               }
 
               if (!decoded) {
-                return res.status(401).redirect("back");
+                return res.status(401).redirect(HOST + "/login");
               }
 
               let prop: string;
@@ -223,13 +230,13 @@ const checkToken: RequestHandler = async function (
               const result: any = await redisClient.get(payload.userId);
 
               if (!result) {
-                return res.status(401).redirect("/login");
+                return res.status(401).redirect(HOST + "/login");
               }
 
               const tokenObj: RedisAuthToken = JSON.parse(result);
 
               if (tokenObj.token !== req.cookies.refresh_token) {
-                return res.status(401).redirect("/login");
+                return res.status(401).redirect(HOST + "/login");
               } else {
                 const accessId = uuidv4();
                 const refreshId = uuidv4();
@@ -261,26 +268,26 @@ const checkToken: RequestHandler = async function (
                 res.clearCookie("refresh_token", {
                   path: "/",
                   sameSite: "strict",
-                  httpOnly: true,
+                  secure: true,
                 });
 
                 res.clearCookie("access_token", {
                   path: "/",
                   sameSite: "strict",
-                  httpOnly: true,
+                  secure: true,
                 });
 
                 res.cookie("refresh_token", refreshToken, {
                   path: "/",
                   sameSite: "strict",
-                  httpOnly: true,
+                  secure: true,
                   expires: new Date(new Date().getTime() + 30 * 86400000),
                 });
 
                 res.cookie("access_token", accessToken, {
                   path: "/",
                   sameSite: "strict",
-                  httpOnly: true,
+                  secure: true,
                   expires: new Date(new Date().getTime() + 10 * 60000),
                 });
 
@@ -298,11 +305,11 @@ const checkToken: RequestHandler = async function (
             }
           );
         } else {
-          return res.status(401).redirect("/login");
+          return res.status(401).redirect(HOST + "/login");
         }
       }
     } else {
-      return res.status(401).redirect("/login");
+      return res.status(401).redirect(HOST + "/login");
     }
   } catch (e) {
     return next(e);

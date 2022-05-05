@@ -6,8 +6,15 @@ import {
   validUser,
   validName,
   validPass,
-  validPhone,
 } from "../validation/authValidation";
+
+import "dotenv/config";
+
+let { HOST } = process.env;
+
+if(!HOST) {
+  throw new Error("Host is not defined.");
+}
 
 export const checkDeleteUser: RequestHandler = function (
   req: Request,
@@ -60,7 +67,7 @@ export const checkGuest: RequestHandler = function (
   ) {
     return next();
   } else {
-    return res.status(401).redirect("/login");
+    return res.status(401).json({ msg: "Not authorized." });
   }
 };
 
@@ -70,9 +77,9 @@ export const checkedLoggedIn: RequestHandler = function (
   next: NextFunction
 ) {
   if (req.cookies.access_token) {
-    return res.status(302).redirect("back");
+     
+    return res.status(403).json({ msg: "Bad request." });
   }
-
   return next();
 };
 
@@ -81,12 +88,12 @@ export const checkLogin: RequestHandler = function (
   res: Response,
   next: NextFunction
 ) {
-  const { username, email, password } = req.body;
+  const { email_user, password } = req.body;
 
   let check: string | boolean | undefined;
 
-  if (email) {
-    check = validEmail(email);
+  if(/[@\.]/.test(email_user)) {
+    check = validEmail(email_user);
 
     if (check) {
       return res.status(400).json({
@@ -102,7 +109,7 @@ export const checkLogin: RequestHandler = function (
       });
     }
   } else {
-    check = validUser(username);
+    check = validUser(email_user);
 
     if (check) {
       return res.status(400).json({
@@ -119,7 +126,7 @@ export const checkRegister: RequestHandler = function (
   res: Response,
   next: NextFunction
 ) {
-  const { fName, lName, username, email, phone, pass, confirmPass } = req.body;
+  const { fName, lName, username, email, password, confirmPass } = req.body;
 
   let check: string | boolean | undefined;
 
@@ -147,15 +154,7 @@ export const checkRegister: RequestHandler = function (
     });
   }
 
-  check = validPass(pass, confirmPass);
-
-  if (check) {
-    return res.status(400).json({
-      msg: check,
-    });
-  }
-
-  check = validPhone(phone);
+  check = validPass(password, confirmPass);
 
   if (check) {
     return res.status(400).json({
@@ -184,7 +183,9 @@ export const checkUser: RequestHandler = function (
   if (req.user) {
     return next();
   } else {
-    return res.status(401).redirect("/login");
+    return res.status(403).json({
+      msg: "Not authorized."
+    });
   }
 };
 
