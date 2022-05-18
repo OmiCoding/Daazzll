@@ -5,8 +5,11 @@ import "../styles/general.css";
 import LoginForm from "../components/login/LoginForm";
 import checkLogin from "../validation/checkLogin";
 import { LoginState } from "../custom-types";
+import useAuth from "../hooks/useAuth";
 
 const Login = function () {
+  const { login } = useAuth();
+
   const [state, setState] = useState<LoginState>({
     acc: "",
     pass: "",
@@ -35,28 +38,9 @@ const Login = function () {
       });
     }
 
-    // Change this for production mode
-    fetch("http://localhost:8433/login", {
-      method: "POST",
-      mode: "cors",
-      headers: {
-        Accept: "application/json",
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({
-        email_user: acc,
-        password: pass,
-      }),
-    })
-      .then((data) => {
-        return data.json();
-      })
-      .then((res) => {
-        console.log(res);
-      })
-      .catch((err) => {
-        console.error(err);
-      });
+    if (login) {
+      login({ email_user: acc, password: pass }, () => {});
+    }
   };
 
   return (

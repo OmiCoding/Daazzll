@@ -13,7 +13,7 @@ describe("Testing the update User controller", () => {
   beforeAll(async () => {
     const prisma = new PrismaClient();
 
-    await prisma.user.create({
+    await prisma.accounts.create({
       data: {
         role: "user",
         fName: "Jose",

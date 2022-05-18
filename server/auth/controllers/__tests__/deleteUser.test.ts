@@ -12,7 +12,7 @@ app.post("/delete", deleteUser);
 describe("Testing the deleteUser controller", () => {
   beforeAll(async () => {
     const prisma = new PrismaClient();
-    await prisma.user.create({
+    await prisma.accounts.create({
       data: {
         role: "user",
         fName: "Hank",
@@ -39,36 +39,4 @@ describe("Testing the deleteUser controller", () => {
         return done();
       });
   });
-
-  // test("Test that the deleteUser controller fails when it is the wrong password.", (done) => {
-  //   request(app)
-  //     .post("/delete")
-  //     .set("Accept", "application/json")
-  //     .expect(400)
-  //     .send({
-  //       email: "hankhill123@gmail.com",
-  //       password: "hankhl123!",
-  //     })
-  //     .end(function (err, res) {
-  //       if (err) return done(err);
-
-  //       return done();
-  //     });
-  // });
-
-  // test("Test that the deleteUser controller fails when it is the wrong password.", (done) => {
-  //   request(app)
-  //     .post("/delete")
-  //     .set("Accept", "application/json")
-  //     .expect(302)
-  //     .send({
-  //       email: "hankhill123@gmail.com",
-  //       password: "hankhill123!",
-  //     })
-  //     .end(function (err, res) {
-  //       if (err) return done(err);
-
-  //       return done();
-  //     });
-  // });
 });

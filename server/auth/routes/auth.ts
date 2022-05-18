@@ -6,6 +6,7 @@ import {
   register,
   login,
   logout,
+  checkAuth,
 } from "../controllers/authControllers";
 
 import {
@@ -16,6 +17,7 @@ import {
   checkUpdateUser,
   checkUser,
   checkedLoggedIn,
+  tokenExist,
 } from "../middleware/auth/authChecks";
 
 import {
@@ -35,6 +37,7 @@ const router = Router();
 
 router.get("/logout", [checkGuest, checkUser, checkToken], logout);
 
+router.get("/checkauth", [tokenExist, checkToken], checkAuth)
 
 // POST Requests
 

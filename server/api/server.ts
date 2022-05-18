@@ -36,9 +36,12 @@ app.use(express.json());
 // include helmet
 if (process.env.BUILD === "development" || process.env.BUILD === "test") {
   app.use(cors({
-    origin: ["https://daazzll.local:8080", "https://daazzll.local:8433"],
-    methods: ["GET", "POST", "PUT", "DELETE"],
+    origin: ["https://daazzll.local:8080", "https://daazzll.local:8433", "https://daazzll.local:8080/", 
+    "https://daazzll.local:8433/"],
+    methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"],
     credentials: true,
+    allowedHeaders: ["Authorization", "Content-Type"],
+    exposedHeaders: ["Authorization"]
   }))
 
 } else {

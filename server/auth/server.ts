@@ -1,7 +1,7 @@
 import path from "path"
 import fs from "fs"
 import https from "https";
-import express from "express";
+import express, { NextFunction } from "express";
 import cors from "cors";
 import cookieParser from "cookie-parser";
 import dbClient from "./prismaClient";
@@ -9,6 +9,8 @@ import auth from "./routes/auth";
 import errorHandler from "./controllers/errorHandler";
 import "dotenv/config"
 import redisClient from "./cacheServer"
+import { tokenExist } from "./middleware/auth/authChecks";
+import checkToken from "./middleware/auth/checkToken";
 
 interface ReqUser {
   role?: string;
@@ -58,12 +60,15 @@ app.use(express.json());
 // include helmet
 if (BUILD === "development" || BUILD === "test") {
 app.use(cors({
-  origin: ["https://daazzll.local:8080", "https://daazzll.local:8433"],
-  methods: ["GET", "POST", "PUT", "DELETE"],
+  origin: ["https://daazzll.local:8080", 
+          "https://daazzll.local:8433", 
+          "https://daazzll.local:8080/", 
+          "https://daazzll.local:8433/"],
+  methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"],
   credentials: true,
-  
+  allowedHeaders: ["Authorization", "Content-Type"],
+  // exposedHeaders: ["Authorization"]
 }))
-
 } else {
   // when we go into production...
 }

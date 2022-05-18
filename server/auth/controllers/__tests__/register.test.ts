@@ -16,7 +16,7 @@ app.post("/registerFoundAcc", registerFoundUser);
 
 describe("Testing the register route", () => {
   beforeAll(async () => {
-    await prisma.user.create({
+    await prisma.accounts.create({
       data: {
         id: 1,
         role: "user",
@@ -30,7 +30,7 @@ describe("Testing the register route", () => {
   });
 
   afterAll(async () => {
-    await prisma.user.delete({
+    await prisma.accounts.delete({
       where: {
         id: 1,
       },

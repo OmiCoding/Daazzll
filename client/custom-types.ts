@@ -19,3 +19,37 @@ export interface LoginState {
   warn_1: string | undefined;
   warn_2: string | undefined;
 }
+
+type RegisterFunc = (body: RegisterBody, cb: () => void) => void;
+type LoginFunc = (body: LoginBody, cb: () => void) => void;
+type checkAuthFunc = () => void;
+type LogoutFunc = () => void;
+
+export interface AuthContextType {
+  auth: boolean;
+  register?: RegisterFunc;
+  login?: LoginFunc;
+  logout?: LogoutFunc;
+  checkAuth?: checkAuthFunc;
+}
+
+export interface AuthAction {
+  type: string;
+  data?: any;
+}
+
+export type AuthReducer<S, A> = (prevState: S, action: A) => AuthContextType;
+
+export interface LoginBody {
+  email_user: string;
+  password: string;
+}
+
+export interface RegisterBody {
+  fName: string;
+  lName: string;
+  email: string;
+  username: string;
+  password: string;
+  confirmPass: string;
+}

@@ -127,7 +127,7 @@ export const login: RequestHandler = async function (
         userId: accessId,
         [propName]: email_user,
       },
-      path.resolve("../keys/jwtRS256.key"),
+      path.resolve("server/auth/keys/jwtRS256.key"),
       "10m",
       600
     );
@@ -138,7 +138,7 @@ export const login: RequestHandler = async function (
         userId: refreshId,
         [propName]: email_user,
       },
-      path.resolve("../keys/jwtRS256.key"),
+      path.resolve("server/auth/keys/jwtRS256.key"),
       "30d",
       1800
     );
@@ -376,3 +376,14 @@ export const updateUser: RequestHandler = async function (
     return next(e);
   }
 };
+
+export const checkAuth: RequestHandler = async function(req: Request, res: Response, next: NextFunction) {
+  try {
+    return res.status(200).json({
+      msg: "Ok."
+    })
+  } catch(e) {
+    console.log(e);
+    next(e);
+  }
+}

@@ -1,11 +1,14 @@
 import React, { ChangeEvent, FormEvent, useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useLocation, useNavigate } from "react-router-dom";
 import RegisterForm from "../components/register/RegisterForm";
 import "../styles/register.css";
 import checkRegister from "../validation/checkRegister";
 import { RegisterState } from "../custom-types";
+import useAuth from "../hooks/useAuth";
 
 const Register = function () {
+  const { register } = useAuth();
+
   const [state, setState] = useState<RegisterState>({
     fName: "",
     lName: "",
@@ -20,6 +23,11 @@ const Register = function () {
     warn_5: undefined,
   });
 
+  let navigate = useNavigate();
+  let location = useLocation();
+  console.log(location);
+
+  // @ts-ignore
   const {
     fName,
     lName,
@@ -64,31 +72,12 @@ const Register = function () {
       });
     }
 
-    fetch("https://daazzll.local:8433/register", {
-      method: "POST",
-      mode: "cors",
-      credentials: "include",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({
-        fName: fName,
-        lName: lName,
-        email: email,
-        username: username,
-        password: pass,
-        confirmPass: confirmPass,
-      }),
-    })
-      .then((data) => {
-        return data.json();
-      })
-      .then((res) => {
-        console.log(res);
-      })
-      .catch((err) => {
-        console.error(err);
-      });
+    if (register) {
+      register(
+        { fName, lName, email, username, password: pass, confirmPass },
+        () => {}
+      );
+    }
   };
 
   return (

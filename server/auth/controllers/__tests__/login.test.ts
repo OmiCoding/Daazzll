@@ -16,7 +16,7 @@ describe("Testing the login route.", () => {
   beforeAll(async () => {
     const password = await bcrypt.hash("johndoe123!", 10);
 
-    await prisma.user.create({
+    await prisma.accounts.create({
       data: {
         id: 2,
         role: "user",
@@ -30,7 +30,7 @@ describe("Testing the login route.", () => {
   });
 
   afterAll(async () => {
-    prisma.user.delete({
+    prisma.accounts.delete({
       where: {
         id: 2,
       },
