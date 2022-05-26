@@ -47,7 +47,7 @@ function useResizeAbsHeader(
     return () => {
       window.removeEventListener("resize", debounceMemo);
     };
-  }, [active, setActive]);
+  }, [active, setActive, debounceMemo]);
 }
 
 export default useResizeAbsHeader;

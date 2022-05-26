@@ -1,4 +1,4 @@
-
+import { Dispatch } from "react"
 export interface RegisterState {
   fName: string;
   lName: string;
@@ -21,8 +21,8 @@ export interface LoginState {
 }
 
 type RegisterFunc = (body: RegisterBody, cb: () => void) => void;
-type LoginFunc = (body: LoginBody, cb: () => void) => void;
-type checkAuthFunc = () => void;
+type LoginFunc = (body: LoginBody) => void;
+type checkAuthFunc = (cb: (pass: boolean) => void) => void;
 type LogoutFunc = () => void;
 
 export interface AuthContextType {
@@ -31,6 +31,7 @@ export interface AuthContextType {
   login?: LoginFunc;
   logout?: LogoutFunc;
   checkAuth?: checkAuthFunc;
+  dispatch?:  Dispatch<AuthAction>;
 }
 
 export interface AuthAction {

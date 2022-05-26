@@ -1,5 +1,4 @@
 import React, { ReactNode, useReducer } from "react";
-import Cookies from "js-cookie";
 import {
   AuthAction,
   AuthContextType,
@@ -9,20 +8,30 @@ import {
 } from "../../custom-types";
 import AuthContext from "./AuthContext";
 import authReducer from "./authReducer";
-import { REGISTER_USER, LOGIN_USER, LOGOUT_USER, ERROR_PAGE } from "./cases";
+import { REGISTER_USER, LOGIN_USER, ERROR_PAGE } from "./cases";
 
 interface ProviderProps {
   children: ReactNode;
+}
+interface sessionObj {
+  pass: boolean;
 }
 
 // Change the fetch url's for production
 
 const AuthProvider: React.FC<ProviderProps> = function ({ children }) {
+  const hp: any = sessionStorage.getItem("hallpass");
+  let hpObj: sessionObj | null;
+
+  hpObj = JSON.parse(hp) || null;
+
   const [state, dispatch] = useReducer<
     AuthReducer<AuthContextType, AuthAction>
   >(authReducer, {
-    auth: false,
+    auth: hpObj ? hpObj.pass : false,
   });
+
+  console.log(state.auth);
 
   const register = function (body: RegisterBody, cb: () => void) {
     fetch("https://daazzll.local:8433/register", {
@@ -52,7 +61,7 @@ const AuthProvider: React.FC<ProviderProps> = function ({ children }) {
       });
   };
 
-  const login = function (body: LoginBody, cb: () => void) {
+  const login = function (body: LoginBody) {
     fetch("https://daazzll.local:8433/login", {
       method: "POST",
       mode: "cors",
@@ -68,7 +77,6 @@ const AuthProvider: React.FC<ProviderProps> = function ({ children }) {
           dispatch({
             type: LOGIN_USER,
           });
-          cb();
         }
       })
       .catch((err) => {
@@ -90,29 +98,10 @@ const AuthProvider: React.FC<ProviderProps> = function ({ children }) {
     });
   };
 
-  const checkAuth = function () {
-    let accessToken = Cookies.get("access_token");
-    fetch("https://daazzll.local:8433/checkauth", {
-      method: "GET",
-      mode: "cors",
-      credentials: "include",
-      headers: {
-        "Content-Type": "application/json",
-        Authorization: `Bearer ${accessToken}`,
-      },
-    })
-      .then((data) => data.status)
-      .then((res) => {
-        console.log(res);
-        if (res === 200) {
-        }
-      })
-      .catch((err) => {
-        dispatch({
-          type: ERROR_PAGE,
-        });
-      });
-  };
+  // const checkAuth = function (cb: (pass: boolean) => void) {
+  //   const accessToken = Cookies.get("access_token");
+
+  // };
 
   return (
     <AuthContext.Provider
@@ -120,7 +109,7 @@ const AuthProvider: React.FC<ProviderProps> = function ({ children }) {
         ...state,
         register,
         login,
-        checkAuth,
+        dispatch,
       }}
     >
       {children}

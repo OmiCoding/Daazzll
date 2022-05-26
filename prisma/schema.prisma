@@ -21,6 +21,7 @@ model accounts {
   channels  channels[]
   analytics acc_analytics?
   settings  acc_settings?
+  profile   acc_profiles?
 
   @@unique([email, username])
 }
@@ -37,6 +38,16 @@ model acc_settings {
   userId Int      @id
   theme  Boolean  @default(false)
   user   accounts @relation(fields: [userId], references: [id])
+}
+
+model acc_profiles {
+  userId    Int      @id
+  website   String?
+  discord   String?
+  facebook  String?
+  instagram String?
+  twitter   String?
+  user      accounts @relation(fields: [userId], references: [id])
 }
 
 model channels {

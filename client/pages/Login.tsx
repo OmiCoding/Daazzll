@@ -5,7 +5,7 @@ import "../styles/general.css";
 import LoginForm from "../components/login/LoginForm";
 import checkLogin from "../validation/checkLogin";
 import { LoginState } from "../custom-types";
-import useAuth from "../hooks/useAuth";
+import useAuth from "../hooks/auth/useAuth";
 
 const Login = function () {
   const { login } = useAuth();
@@ -39,7 +39,7 @@ const Login = function () {
     }
 
     if (login) {
-      login({ email_user: acc, password: pass }, () => {});
+      login({ email_user: acc, password: pass });
     }
   };
 
@@ -49,7 +49,9 @@ const Login = function () {
       <div className="flex-wrapper-1">
         <div className="page-card-1">
           <h2 className="page__logo-1">Daazzll</h2>
-          <h3 className="page__header-1">Welcome back, you've been missed!</h3>
+          <h3 className="page__header-1">
+            Welcome back, you&lsquo;ve been missed!
+          </h3>
           <LoginForm
             handleChange={handleChange}
             handleSubmit={handleSubmit}

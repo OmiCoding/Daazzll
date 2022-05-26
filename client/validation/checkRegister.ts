@@ -13,7 +13,7 @@ const checkRegister = function (
   confirmPass: string
 ): MsgObj | false {
   let check: string | boolean = validName(fName);
-  let warnings: MsgObj = {};
+  const warnings: MsgObj = {};
 
   if (check) {
     warnings["fName"] = check;

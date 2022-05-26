@@ -1,11 +1,11 @@
 import { useEffect } from "react";
 
-function scrollHeader() {
+function useScrollAbsHeader() {
   useEffect(() => {
     let prevPos = window.scrollY;
 
     if (prevPos > 150) {
-      let headerElem = document.querySelector(".header-wrapper");
+      const headerElem = document.querySelector(".header-wrapper");
 
       if (headerElem) {
         headerElem.classList.add("header-wrapper--down");
@@ -64,19 +64,17 @@ function scrollHeader() {
       prevPos = window.scrollY;
     }
 
-    const debouncer = (func: Function, delay: number) => {
+    const debouncer = (func: any, delay: number) => {
       let debounceTimer: ReturnType<typeof setTimeout>;
 
       // the event listener calls this inner function
-      // the event listener context is given to the listener, and arguments that are passed to it
+      // the event listener context is given to this inner function, and arguments that are passed to it
       return function (this: any, ...args: any[]) {
-        const context = this;
-
         // this will clear out the setTimeout each time the listener calls the inner function.
         clearTimeout(debounceTimer);
 
         // the setTimeout is scoped within the eventlistener scope
-        debounceTimer = setTimeout(() => func.apply(context, args), delay);
+        debounceTimer = setTimeout(() => func.apply(this, args), delay);
       };
 
       // the last call of this debouncer will be what is used.
@@ -90,4 +88,4 @@ function scrollHeader() {
   }, []);
 }
 
-export default scrollHeader;
+export default useScrollAbsHeader;

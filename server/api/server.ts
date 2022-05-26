@@ -4,19 +4,32 @@ import path from "path";
 import express from "express";
 import cors from "cors";
 import cookieParser from "cookie-parser";
+import sessions from "express-session";
+import connectRedis from "connect-redis";
 import prismaClient from "./prismaClient";
+import redisClient from "./cacheServer"
 import { renderer, errorHandler } from "./controllers";
+import { ReqUser } from "./custome-types";
 import "dotenv/config";
-// This needs to be added in production
-// import helmet from "helmet";
 
-let { API_SERVER_PORT } = process.env;
-
-if (!API_SERVER_PORT) {
-  API_SERVER_PORT = "8080";
+declare global {
+  namespace Express {
+    export interface Request {
+      user?: ReqUser;
+    }
+  }
 }
 
+const { API_SERVER_PORT, SESSION_SECRET } = process.env;
 
+if (!API_SERVER_PORT) {
+  throw new Error ("api port is undefined.")
+}
+if(!SESSION_SECRET) {
+  throw new Error("Session secret is undefined.")
+}
+
+const RedisStore = connectRedis(sessions);
 const keyPath = path.join(__dirname + "../../../certs/daazzll.local-key.pem")
 const certPath = path.join(__dirname + "../../../certs/daazzll.local.pem");
 
@@ -54,6 +67,24 @@ const BUILD_PATH = path.resolve("build");
 
 app.use(cookieParser())
 app.use("/static", express.static(BUILD_PATH));
+app.use(sessions({
+  secret: SESSION_SECRET,
+  store: new RedisStore({ client: redisClient }),
+  resave: false,
+  saveUninitialized: false,
+  cookie: {
+    secure: true,
+    httpOnly: true,
+    domain: "daazzll.local"
+  }
+}));
+app.use(function(req, res, next) {
+  console.log(req.session);
+  console.log(req.sessionID)
+  console.log(" ");
+  console.log(req.user);
+  return next();
+});
 app.use(errorHandler);
 app.use("*", renderer);
 

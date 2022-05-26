@@ -12,7 +12,6 @@ import UnauthorizedContext from "./components/auth/UnauthorizedContext";
 
 const App: React.FC = function () {
   // Protected Routes on the frontend are defined here
-
   return (
     <Routes>
       <Route path="/" element={<PageLayout />}>
@@ -20,9 +19,9 @@ const App: React.FC = function () {
         <Route
           path="profile"
           element={
-            <UnlockContext>
-              <Profile />
-            </UnlockContext>
+            // <UnlockContext>
+            <Profile />
+            // </UnlockContext>
           }
         />
         <Route

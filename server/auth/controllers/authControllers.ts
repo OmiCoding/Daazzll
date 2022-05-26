@@ -8,7 +8,7 @@ import "dotenv/config";
 
 const prismaClient = new PrismaClient();
 
-let { HOST } = process.env;
+const { HOST } = process.env;
 
 if(!HOST) {
   throw new Error("Host environment is undefined.")
@@ -99,7 +99,8 @@ export const login: RequestHandler = async function (
         [propName]: email_user,
       },
       select: {
-        [propName]: true,
+        email: true,
+        username: true,
         pass: true,
       },
     });
@@ -109,6 +110,8 @@ export const login: RequestHandler = async function (
         msg: `No account found with that ${propName}`,
       });
     }
+
+    const { username, email } = result;
 
     const verify = await compare(password, result.pass);
 
@@ -128,7 +131,7 @@ export const login: RequestHandler = async function (
         [propName]: email_user,
       },
       path.resolve("server/auth/keys/jwtRS256.key"),
-      "10m",
+      "3m",
       600
     );
 
@@ -139,29 +142,35 @@ export const login: RequestHandler = async function (
         [propName]: email_user,
       },
       path.resolve("server/auth/keys/jwtRS256.key"),
-      "30d",
+      "3m",
       1800
     );
 
-    res.cookie("access_token", JSON.stringify(accessToken), {
+    res.cookie("access_token", accessToken, {
       path: "/",
       sameSite: "strict",
       secure: true,
-      expires: new Date(new Date().getTime() + 10 * 60000),
+      expires: new Date(new Date().getTime() + 3 * 60000),
+      // maxAge: 60000,
     });
 
-    res.cookie("refresh_token", JSON.stringify(refreshToken), {
+    res.cookie("refresh_token", refreshToken, {
       path: "/",
       sameSite: "strict",
       secure: true,
-      expires: new Date(new Date().getTime() + 30 * 86400000),
+      expires: new Date(new Date().getTime() + 3 * 60000),
+      // maxAge: 60000,
     });
 
     req.user = {
       role: "user",
-      [propName]: email_user,
+      email: email,
+      username: username,
       userId: refreshId
     }
+
+    console.log(req);
+  
     return res.status(200).json({
       msg: "Ok"
     })
@@ -219,9 +228,12 @@ export const register: RequestHandler = async function (
     const accessId = uuidv4();
     const refreshId = uuidv4();
 
-    const foundAcc = await prismaClient.accounts.findFirst({
+    const foundAcc = await prismaClient.accounts.findUnique({
       where: {
-        email,
+        email_username: {
+          username: username,
+          email: email,
+        }
       },
     });
 
@@ -241,7 +253,7 @@ export const register: RequestHandler = async function (
         username,
         email,
         pass: hashedPass,
-      },
+      }
     });
 
 
@@ -274,21 +286,23 @@ export const register: RequestHandler = async function (
       path: "/",
       sameSite: "strict",
       secure: true,
-      expires: new Date(new Date().getTime() + 10 * 60000),
+      expires: new Date(new Date().getTime() + 3 * 60000),
     });
     res.cookie("refresh_token", refreshToken, {
       path: "/",
       sameSite: "strict",
       secure: true,
-      expires: new Date(new Date().getTime() + 30 * 86400000),
+      expires: new Date(new Date().getTime() + 3 * 60000),
     });
 
     req.user = {
       role: "user",
       username,
+      email,
       userId: accessId,
     };
 
+    console.log("hello?")
     return res.status(200).json({
       msg: "Ok"
     })
@@ -319,7 +333,7 @@ export const updateUser: RequestHandler = async function (
   try {
     const { fName, lName, username, email, password } = req.body;
 
-    let updateObj: any = {};
+    const updateObj: any = {};
 
     if (fName) {
       updateObj.fName = fName;

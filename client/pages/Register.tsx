@@ -1,10 +1,10 @@
 import React, { ChangeEvent, FormEvent, useState } from "react";
-import { Link, useLocation, useNavigate } from "react-router-dom";
+import { Link } from "react-router-dom";
 import RegisterForm from "../components/register/RegisterForm";
 import "../styles/register.css";
 import checkRegister from "../validation/checkRegister";
 import { RegisterState } from "../custom-types";
-import useAuth from "../hooks/useAuth";
+import useAuth from "../hooks/auth/useAuth";
 
 const Register = function () {
   const { register } = useAuth();
@@ -23,11 +23,6 @@ const Register = function () {
     warn_5: undefined,
   });
 
-  let navigate = useNavigate();
-  let location = useLocation();
-  console.log(location);
-
-  // @ts-ignore
   const {
     fName,
     lName,

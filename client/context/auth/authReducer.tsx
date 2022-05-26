@@ -5,6 +5,7 @@ import {
   LOGOUT_USER,
   ERROR_PAGE,
   CHECK_AUTH,
+  REMOVE_AUTH,
 } from "./cases";
 
 const authReducer: AuthReducer<AuthContextType, AuthAction> = function (
@@ -35,6 +36,11 @@ const authReducer: AuthReducer<AuthContextType, AuthAction> = function (
       return {
         ...prevState,
         auth: true,
+      };
+    case REMOVE_AUTH:
+      return {
+        ...prevState,
+        auth: false,
       };
     default:
       return {

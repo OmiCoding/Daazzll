@@ -5,6 +5,7 @@ const {
   createLoadableComponentsTransformer,
 } = require("typescript-loadable-components-plugin");
 const MiniCSSExtractPlugin = require("mini-css-extract-plugin");
+const ESLintWebpackPlugin = require("eslint-webpack-plugin");
 
 const buildPath = path.join(__dirname, "build");
 
@@ -32,6 +33,9 @@ module.exports = function ({ mode, entry, target, filename }) {
     plugins: [
       new LoadablePlugin({ filename: `${target}-loadable-stats.json` }),
       new MiniCSSExtractPlugin(),
+      new ESLintWebpackPlugin({
+        extensions: ["ts"],
+      }),
       ...item,
     ],
     module: {

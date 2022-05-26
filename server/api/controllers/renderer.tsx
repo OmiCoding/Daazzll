@@ -43,6 +43,7 @@ export const renderer: RequestHandler = function (
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&family=Poppins:wght@400;900&display=swap" rel="stylesheet">
     ${webExtractor.getLinkTags()}
     ${webExtractor.getStyleTags()}
+    <script src="https://kit.fontawesome.com/5a51695694.js" crossorigin="anonymous"></script>
   </head>
   <body>
   <script>;window.app=${serialize({ data: "hello" })}</script>

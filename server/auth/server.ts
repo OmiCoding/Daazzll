@@ -1,23 +1,21 @@
 import path from "path"
 import fs from "fs"
+import crypto from "crypto";
 import https from "https";
-import express, { NextFunction } from "express";
+import express from "express";
 import cors from "cors";
 import cookieParser from "cookie-parser";
+import sessions from "express-session";
+import connectRedis from "connect-redis";
+
 import dbClient from "./prismaClient";
 import auth from "./routes/auth";
+import profile from "./routes/profile";
 import errorHandler from "./controllers/errorHandler";
 import "dotenv/config"
+import { ReqUser } from "./custom-types";
 import redisClient from "./cacheServer"
-import { tokenExist } from "./middleware/auth/authChecks";
-import checkToken from "./middleware/auth/checkToken";
 
-interface ReqUser {
-  role?: string;
-  email?: string;
-  username?: string;
-  userId?: string;
-}
 
 declare global {
   namespace Express {
@@ -27,29 +25,30 @@ declare global {
   }
 }
 
+
+const RedisStore = connectRedis(sessions);
+const secretId = crypto.randomBytes(20).toString('hex');
 const keyPath = path.join(__dirname + "../../../certs/daazzll.local-key.pem");
 const certPath = path.join(__dirname + "../../../certs/daazzll.local.pem");
-
 const privKey = fs.readFileSync(keyPath, "utf-8");
 const cert = fs.readFileSync(certPath, "utf-8");
-
-let { AUTH_SERVER_PORT, REDIS_PORT, BUILD } = process.env;
-
+const { AUTH_SERVER_PORT, REDIS_PORT, SESSION_SECRET, BUILD} = process.env;
 const credentials = {
   key: privKey,
   cert: cert,
 }
 
 if (!AUTH_SERVER_PORT) {
-  AUTH_SERVER_PORT = "8433";
+  throw new Error("auth port is undefined.")
 }
-
 if (!REDIS_PORT) {
-  REDIS_PORT = "6379";
+  throw new Error("redis port is undefined.")
 }
-
 if(!BUILD) {
   throw new Error("Build environment is undefined.");
+}
+if(!SESSION_SECRET) {
+  throw new Error("Session secret is undefined.")
 }
 
 
@@ -73,8 +72,29 @@ app.use(cors({
   // when we go into production...
 }
 
+
 app.use(cookieParser());
+app.use(sessions({
+  secret: SESSION_SECRET,
+  store: new RedisStore({ client: redisClient }),
+  saveUninitialized: false,
+  resave: false,
+  cookie: {
+    path: "/",
+    httpOnly: true,
+    secure: true,
+    domain: "daazzll.local"
+  },
+}))
+app.use(function(req, res, next) {
+  console.log(req.session);
+  console.log(req.sessionID)
+  console.log(" ");
+  console.log(req.user);
+  return next();
+})
 app.use(auth);
+app.use("/profile", profile)
 app.use("*", errorHandler);
 
 

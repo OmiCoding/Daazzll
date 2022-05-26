@@ -18,9 +18,11 @@ loadableReady(() => {
     );
   } else {
     render(
-      <BrowserRouter>
-        <App />
-      </BrowserRouter>,
+      <AuthProvider>
+        <BrowserRouter>
+          <App />
+        </BrowserRouter>
+      </AuthProvider>,
       root
     );
   }

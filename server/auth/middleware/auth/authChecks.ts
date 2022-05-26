@@ -10,7 +10,7 @@ import {
 
 import "dotenv/config";
 
-let { HOST } = process.env;
+const { HOST } = process.env;
 
 if(!HOST) {
   throw new Error("Host is not defined.");

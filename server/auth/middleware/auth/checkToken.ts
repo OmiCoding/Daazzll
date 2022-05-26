@@ -9,7 +9,7 @@ import { RedisAuthToken } from "../../custom-types";
 import { regenToken } from "../../utils/functions/auth";
 import "dotenv/config";
 
-let { HOST } = process.env;
+const { HOST } = process.env;
 
 if(!HOST) {
   throw new Error("Host is not defined.");
@@ -24,6 +24,8 @@ const checkToken: RequestHandler = async function (
   next: NextFunction
 ) {
   try {
+    console.log(req.user)
+
     const publicKey = await readFile(
       path.resolve("server/auth/keys/jwtRS256.key.pub"),
       "binary"
@@ -40,6 +42,7 @@ const checkToken: RequestHandler = async function (
           async function (e, decoded) {
             const payload: any = decoded;
             if (e) {
+              // console.log(req.cookies.access_token);
               // This is the acess_token Error
               if (e.name === "TokenExpiredError") {
                 jwt.verify(
@@ -66,14 +69,18 @@ const checkToken: RequestHandler = async function (
 
                         req.user = undefined;
 
-                        return res.status(401).redirect(HOST + "/login");
-                      } else {
-                        return res.status(401).redirect(HOST + "/login");
+                        console.log("hello???")
+
+                        return res.status(401).json({ msg: "Unauthenticated." });
+                      } 
+                      else {
+                        return res.status(401).json({ msg: "Unauthenticated." });
                       }
                     }
 
+                    console.log("hello?")
                     if (!decoded) {
-                      return res.status(401).redirect(HOST + "/");
+                      return res.status(401).json({ msg: "Unauthenticated." })
                     }
 
                     let prop: string;
@@ -86,13 +93,13 @@ const checkToken: RequestHandler = async function (
                     const result: any = await redisClient.get(payload.userId);
 
                     if (!result) {
-                      return res.status(401).redirect(HOST + "/login");
+                      return res.status(401).json({ msg: "Unauthenticated." });
                     }
 
                     const tokenObj: RedisAuthToken = JSON.parse(result);
 
                     if (tokenObj.token !== req.cookies.refresh_token) {
-                      return res.status(401).redirect(HOST + "/login");
+                      return res.status(401).json({ msg: "Unauthenticated." });
                     } else {
                       const accessId = uuidv4();
                       const refreshId = uuidv4();
@@ -141,14 +148,16 @@ const checkToken: RequestHandler = async function (
                         path: "/",
                         sameSite: "strict",
                         secure: true,
-                        expires: new Date(new Date().getTime() + 30 * 86400000),
+                        expires: new Date(new Date().getTime() + 3 * 60000),
+                        // maxAge: 60000,
                       });
 
                       res.cookie("access_token", accessToken, {
                         path: "/",
                         sameSite: "strict",
                         secure: true,
-                        expires: new Date(new Date().getTime() + 10 * 60000),
+                        expires: new Date(new Date().getTime() + 3 * 60000),
+                        // maxAge: 60000,
                       });
 
                       req.user = undefined;
@@ -166,19 +175,20 @@ const checkToken: RequestHandler = async function (
                     }
                   }
                 );
-              } else {
-                return res.status(401).redirect(HOST + "/login");
+              } 
+              else {
+                return res.status(401).json({ msg: "Unauthenticated." });
               }
             } else {
               const result: any = await redisClient.get(payload.userId);
-
               if (!result) {
-                return res.status(401).redirect(HOST + "/login");
+                return res.status(401).json({ msg: "Unauthenticated." });
               }
 
+              const tokenObj = JSON.parse(result);
               // If 
-              if (result.token !== req.cookies.access_token) {
-                return res.status(401).redirect(HOST + "/login");
+              if (tokenObj.token !== req.cookies.access_token) {
+                return res.status(401).json({ msg: "Unauthenticated." })
               } else {
                 return next();
               }
@@ -211,13 +221,14 @@ const checkToken: RequestHandler = async function (
 
                   req.user = undefined;
 
-                  return res.status(401).redirect(HOST + "/login");
+                  return res.status(401).json({ msg: "Unauthenticated." })
+                } else {
+                  return res.status(401).json({ msg: "Unauthenticated." })
                 }
-                return res.status(401).redirect(HOST + "/login");
               }
 
               if (!decoded) {
-                return res.status(401).redirect(HOST + "/login");
+                return res.status(401).json({ msg: "Unauthenticated." })
               }
 
               let prop: string;
@@ -230,13 +241,13 @@ const checkToken: RequestHandler = async function (
               const result: any = await redisClient.get(payload.userId);
 
               if (!result) {
-                return res.status(401).redirect(HOST + "/login");
+                return res.status(401).json({ msg: "Unauthenticated." })
               }
 
               const tokenObj: RedisAuthToken = JSON.parse(result);
 
               if (tokenObj.token !== req.cookies.refresh_token) {
-                return res.status(401).redirect(HOST + "/login");
+                return res.status(401).json({ msg: "Unauthenticated." })
               } else {
                 const accessId = uuidv4();
                 const refreshId = uuidv4();
@@ -281,14 +292,16 @@ const checkToken: RequestHandler = async function (
                   path: "/",
                   sameSite: "strict",
                   secure: true,
-                  expires: new Date(new Date().getTime() + 30 * 86400000),
+                  expires: new Date(new Date().getTime() + 3 * 60000),
+                  // maxAge: 60000,
                 });
 
                 res.cookie("access_token", accessToken, {
                   path: "/",
                   sameSite: "strict",
                   secure: true,
-                  expires: new Date(new Date().getTime() + 10 * 60000),
+                  expires: new Date(new Date().getTime() + 3 * 60000),
+                  // maxAge: 60000,
                 });
 
                 req.user = undefined;
@@ -305,11 +318,11 @@ const checkToken: RequestHandler = async function (
             }
           );
         } else {
-          return res.status(401).redirect(HOST + "/login");
+          return res.status(401).json({ msg: "Unauthenticated." })
         }
       }
     } else {
-      return res.status(401).redirect(HOST + "/login");
+      return res.status(401).json({ msg: "Unauthenticated." });
     }
   } catch (e) {
     return next(e);
