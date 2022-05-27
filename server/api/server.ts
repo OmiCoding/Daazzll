@@ -5,9 +5,8 @@ import express from "express";
 import cors from "cors";
 import cookieParser from "cookie-parser";
 import sessions from "express-session";
-import connectRedis from "connect-redis";
 import prismaClient from "./prismaClient";
-import redisClient from "./cacheServer"
+import { RedisStore, redisClient } from "./storageInit"
 import { renderer, errorHandler } from "./controllers";
 import { ReqUser } from "./custome-types";
 import "dotenv/config";
@@ -20,7 +19,7 @@ declare global {
   }
 }
 
-const { API_SERVER_PORT, SESSION_SECRET } = process.env;
+const { API_SERVER_PORT, SESSION_SECRET, REDIS_PORT } = process.env;
 
 if (!API_SERVER_PORT) {
   throw new Error ("api port is undefined.")
@@ -29,7 +28,6 @@ if(!SESSION_SECRET) {
   throw new Error("Session secret is undefined.")
 }
 
-const RedisStore = connectRedis(sessions);
 const keyPath = path.join(__dirname + "../../../certs/daazzll.local-key.pem")
 const certPath = path.join(__dirname + "../../../certs/daazzll.local.pem");
 
@@ -68,20 +66,23 @@ const BUILD_PATH = path.resolve("build");
 app.use(cookieParser())
 app.use("/static", express.static(BUILD_PATH));
 app.use(sessions({
+  name: "session1",
   secret: SESSION_SECRET,
-  store: new RedisStore({ client: redisClient }),
+  store: new RedisStore({ client: redisClient, prefix: "sess1:" }),
   resave: false,
-  saveUninitialized: false,
+  saveUninitialized: true,
   cookie: {
+    path: "/",
     secure: true,
     httpOnly: true,
-    domain: "daazzll.local"
+    maxAge: 3 * 60000,
+    sameSite: true,
   }
 }));
 app.use(function(req, res, next) {
   console.log(req.session);
   console.log(req.sessionID)
-  console.log(" ");
+  console.log("server1");
   console.log(req.user);
   return next();
 });
@@ -92,8 +93,18 @@ const httpsServer = https.createServer(credentials, app);
 
 const startServer = function () {
   try {
+    redisClient.on("connect", function () {
+      console.log(`Redis server listening on port ${REDIS_PORT}...`);
+    });
+  
+    redisClient.on("error", function (err: any) {
+      console.error(err)
+      if (err) throw err;
+    });
+
     httpsServer.listen(API_SERVER_PORT, async function () {
       await prismaClient.$connect();
+      await redisClient.connect();
       console.log(`Now listening on port ${API_SERVER_PORT}...`);
     });
   } catch (e: any) {

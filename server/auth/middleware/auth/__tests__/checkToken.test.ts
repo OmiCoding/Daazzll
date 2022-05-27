@@ -5,7 +5,7 @@ import request from "supertest";
 import cookieParser from "cookie-parser";
 import jwt from "jsonwebtoken";
 import { v4 as uuidv4 } from "uuid";
-import redisClient from "../../../cacheServer";
+import { redisClient } from "../../../storageInit";
 
 import checkToken from "../checkToken";
 

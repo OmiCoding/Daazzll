@@ -3,8 +3,7 @@ import {
   Context,
   createMockContext,
 } from "../__mocks__/prismaContext";
-import redisClient from "../cacheServer";
-// @ts-ignore: Unreachable code error
+import { redisClient } from "../storageInit";
 import prismaClient from "../prismaClient";
 
 let mockCtx: MockContext = createMockContext();
@@ -22,7 +21,7 @@ beforeEach(() => {
 });
 
 afterAll(async () => {
-  await prismaClient.user.deleteMany({});
+  await prismaClient.accounts.deleteMany({});
   await prismaClient.$disconnect();
   await redisClient.disconnect();
 });

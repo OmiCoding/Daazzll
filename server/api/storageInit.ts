@@ -1,3 +1,5 @@
+import sessions from "express-session";
+import connectRedis from "connect-redis";
 import { createClient } from "redis";
 import { config } from "dotenv";
 
@@ -12,8 +14,10 @@ if (!REDIS_HOST) {
   REDIS_HOST = "127.0.0.1";
 }
 
-const client = createClient({
+export const redisClient = createClient({
   url: `redis://${REDIS_HOST}:${REDIS_PORT}`,
+  legacyMode: true,
 });
 
-export default client;
+
+export const RedisStore = connectRedis(sessions);

@@ -4,7 +4,7 @@ import { v4 as uuidv4 } from "uuid";
 import jwt from "jsonwebtoken";
 import bcrypt from "bcrypt";
 
-import redisClient from "../../cacheServer";
+import { redisClient } from "../../storageInit";
 
 import {
   Context,
@@ -34,7 +34,7 @@ interface CreateUser {
 }
 
 export async function createUser(user: CreateUser, ctx: Context) {
-  return await ctx.prisma.user.create({
+  return await ctx.prisma.accounts.create({
     data: user,
   });
 }
@@ -101,7 +101,7 @@ export const testRegister: RequestHandler = async function (
 
     const hashedPass = await bcrypt.hash(password, 10);
 
-    mockCtx.prisma.user.create.mockResolvedValue({
+    mockCtx.prisma.accounts.create.mockResolvedValue({
       id: 1,
       role: "user",
       fName,
@@ -171,7 +171,7 @@ export const registerFoundUser: RequestHandler = async function (
 
     const prisma = new PrismaClient();
 
-    const foundAcc = await prisma.user.findFirst({
+    const foundAcc = await prisma.accounts.findFirst({
       where: {
         email,
       },
@@ -207,7 +207,7 @@ export const testLogin: RequestHandler = async function (
       propName = "email";
     }
 
-    const result: any = await prisma.user.findFirst({
+    const result: any = await prisma.accounts.findFirst({
       where: {
         [propName]: propName === "username" ? username : email,
       },
@@ -357,14 +357,14 @@ export const testLogout: RequestHandler = async function (
   }
 };
 
-export const deleteUser: RequestHandler = async function (
-  req: Request,
-  res: Response,
-  next: NextFunction
-) {};
+// export const deleteUser: RequestHandler = async function (
+//   req: Request,
+//   res: Response,
+//   next: NextFunction
+// ) {};
 
-export const updateUser: RequestHandler = async function (
-  req: Request,
-  res: Response,
-  next: NextFunction
-) {};
+// export const updateUser: RequestHandler = async function (
+//   req: Request,
+//   res: Response,
+//   next: NextFunction
+// ) {};

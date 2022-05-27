@@ -4,9 +4,11 @@ import { PrismaClient } from "@prisma/client";
 import { v4 as uuidv4 } from "uuid";
 import { compare, hash } from "bcrypt";
 import { genToken } from "../utils/functions/auth";
+import { RedisStore, redisClient } from "../storageInit";
 import "dotenv/config";
 
 const prismaClient = new PrismaClient();
+const redisStore = new RedisStore({ client: redisClient, prefix: "sess1:" });
 
 const { HOST } = process.env;
 
@@ -92,8 +94,6 @@ export const login: RequestHandler = async function (
       propName = "username"
     }
 
-
-
     const result: any = await prismaClient.accounts.findFirst({
       where: {
         [propName]: email_user,
@@ -169,11 +169,36 @@ export const login: RequestHandler = async function (
       userId: refreshId
     }
 
-    console.log(req);
-  
-    return res.status(200).json({
-      msg: "Ok"
-    })
+    if(redisStore.all) {
+      redisStore.all(function(err, sessions: any) {
+        if(err) {
+          console.error(err);
+          return res.status(500).json({ msg: "Something has gone wrong..." });
+        }
+        if(sessions) {
+          const session = sessions[0];
+          redisStore.set(session.id, session, function(err) {
+            if(err){
+              console.error(err);
+              return res.status(500).json({ msg: "Something has gone wrong..." })
+            }
+            return res.status(200).json({
+              msg: "Ok",
+            })
+          })
+        } else {
+          console.error("No session was found...");
+          return res.status(500).json({
+            msg: "Something has gone wrong..."
+          })
+        }
+      })
+    } else {
+      console.error("The redis store all method is undefined...");
+      return res.status(500).json({
+        msg: "Something has gone wrong..."
+      })
+    }
   } catch (e) {
     return next(e);
   }
@@ -295,14 +320,36 @@ export const register: RequestHandler = async function (
       expires: new Date(new Date().getTime() + 3 * 60000),
     });
 
-    req.user = {
-      role: "user",
-      username,
-      email,
-      userId: accessId,
-    };
+    if(redisStore.all) {
+      // Implement the correct typing for this
+      redisStore.all(function(err, sessions: any) {
+        if(err){
+          console.error(err);
+          return res.status(500).json({ msg: "Something has gone wrong..." })
+        }
+        if(sessions) {
+          const session = sessions[0]
+          redisStore.set(session.id, session, function(err) {
+            if(err){
+              console.error(err);
+              return res.status(500).json({ msg: "Something has gone wrong..." })
+            }
+          })
+        } else {
+          console.error("No session was found...");
+          return res.status(500).json({
+            msg: "Something has gone wrong..."
+          })
+        }
+      })
+    } else {
+      console.error("The redis store all method is undefined...");
+      return res.status(500).json({
+        msg: "Something has gone wrong..."
+      })
+    }
 
-    console.log("hello?")
+
     return res.status(200).json({
       msg: "Ok"
     })

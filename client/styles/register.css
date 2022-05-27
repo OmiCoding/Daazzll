@@ -62,7 +62,7 @@
     margin: 1.5rem auto;
   }
 
-  .terms__text {
+.terms__text {
     font-size: var(--reg-size);
     width: auto;
   }

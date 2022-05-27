@@ -1,4 +1,4 @@
-import redisClient from "../cacheServer";
+import { redisClient } from "../storageInit";
 
 beforeAll(async () => {
   await redisClient.connect();

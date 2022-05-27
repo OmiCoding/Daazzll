@@ -5,8 +5,7 @@ import https from "https";
 import express from "express";
 import cors from "cors";
 import cookieParser from "cookie-parser";
-import sessions from "express-session";
-import connectRedis from "connect-redis";
+// import sessions from "express-session";
 
 import dbClient from "./prismaClient";
 import auth from "./routes/auth";
@@ -14,8 +13,7 @@ import profile from "./routes/profile";
 import errorHandler from "./controllers/errorHandler";
 import "dotenv/config"
 import { ReqUser } from "./custom-types";
-import redisClient from "./cacheServer"
-
+import { RedisStore, redisClient } from "./storageInit"
 
 declare global {
   namespace Express {
@@ -25,8 +23,6 @@ declare global {
   }
 }
 
-
-const RedisStore = connectRedis(sessions);
 const secretId = crypto.randomBytes(20).toString('hex');
 const keyPath = path.join(__dirname + "../../../certs/daazzll.local-key.pem");
 const certPath = path.join(__dirname + "../../../certs/daazzll.local.pem");
@@ -72,27 +68,32 @@ app.use(cors({
   // when we go into production...
 }
 
+const BUILD_PATH = path.resolve("build");
 
 app.use(cookieParser());
-app.use(sessions({
-  secret: SESSION_SECRET,
-  store: new RedisStore({ client: redisClient }),
-  saveUninitialized: false,
-  resave: false,
-  cookie: {
-    path: "/",
-    httpOnly: true,
-    secure: true,
-    domain: "daazzll.local"
-  },
-}))
-app.use(function(req, res, next) {
-  console.log(req.session);
-  console.log(req.sessionID)
-  console.log(" ");
-  console.log(req.user);
-  return next();
-})
+app.use("/static", express.static(BUILD_PATH));
+// app.use(sessions({
+//   name: "session2",
+//   secret: SESSION_SECRET,
+//   store: new RedisStore({ client: redisClient, prefix: "sess2:" }),
+//   resave: false,
+//   saveUninitialized: true,
+//   cookie: {
+//     path: "/",
+//     secure: true,
+//     httpOnly: true,
+//     domain: "daazzll.local",
+//     maxAge: 3 * 60000,
+//     sameSite: true,
+//   }
+// }))
+// app.use(function(req, res, next) {
+//   console.log(req.session);
+//   console.log(req.sessionID)
+//   console.log("server2");
+//   console.log(req.user);
+//   return next();
+// })
 app.use(auth);
 app.use("/profile", profile)
 app.use("*", errorHandler);
@@ -109,10 +110,11 @@ export const authServer = function () {
     console.error(err)
     if (err) throw err;
   });
+
+
   httpsServer.listen(AUTH_SERVER_PORT, async function () {
     await dbClient.$connect();
     await redisClient.connect();
-    
     console.log(`Now listening on port ${AUTH_SERVER_PORT}...`);
   });
 };

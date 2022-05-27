@@ -4,7 +4,7 @@ import path from "path";
 import { RequestHandler, Request, Response, NextFunction } from "express";
 import jwt from "jsonwebtoken";
 import { v4 as uuidv4 } from "uuid";
-import redisClient from "../../cacheServer";
+import { redisClient } from "../../storageInit";
 import { RedisAuthToken } from "../../custom-types";
 import { regenToken } from "../../utils/functions/auth";
 import "dotenv/config";

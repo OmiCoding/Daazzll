@@ -1,7 +1,7 @@
 import fs from "fs";
 import util from "util";
 import jwt from "jsonwebtoken";
-import redisClient from "../../cacheServer";
+import { redisClient } from "../../storageInit";
 // import { v4 as uuidv4 } from "uuid";
 
 const readFile = util.promisify(fs.readFile);

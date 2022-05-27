@@ -44,4 +44,4 @@ const CryptoJS = require("crypto-js");
 
 // console.log(data);
 
-console.log(new Date(new Date().getTime() + 1 * 60000));
+// console.log(new Date(date + 1 * 60000));

@@ -1,11 +1,12 @@
-class SetStorage {
-  
-  loadSessionStorage() {
-    
-  }
 
-  setSessionStorage(state: any, name: string) {
+import CryptoJS from "crypto-js";
+
+// const key = CryptoJS.enc.Utf8.
+
+function setSessionStorage(state: any, name: string) {
     try {
+
+
       const serializeState = JSON.stringify(state);
       // const encryptedData
     } catch(e) {
@@ -13,4 +14,12 @@ class SetStorage {
     }
   }
 
-}
+
+// class SetStorage {
+  
+//   loadSessionStorage() {
+    
+//   }
+
+
+// }
