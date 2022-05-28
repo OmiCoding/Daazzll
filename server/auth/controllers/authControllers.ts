@@ -179,26 +179,15 @@ export const login: RequestHandler = async function (
             userId: result.id,
           }
 
-          console.log(session);
-          console.log(session.id);
-          
-
+          // must make a variable to store the session id
           const sessionId = session.id;
-          console.log("sess1:" + session.id);
-          redisStore.set(session.id, session, function(err) {
+          redisStore.set(sessionId, session, function(err) {
             if(err){
               console.error(err);
               return res.status(500).json({ msg: "Something has gone wrong..." })
             }
-            redisStore.get(sessionId, function(err, sess) {
-              if(err) return res.status(500).json({ msg: "Something has gone wrong..." });
-              
-              console.log(sess)
-              console.log("jskf")
-              
-              return res.status(400).json({
-                msg: "Ok"
-              })
+            return res.status(200).json({
+              msg: "Ok",
             })
           })
 
@@ -356,14 +345,17 @@ export const register: RequestHandler = async function (
             userId: result.id, 
           }
 
-          redisStore.set(session.id, session, function(err) {
+          
+          const sessionId = session.id;
+
+          redisStore.set(sessionId, session, function(err) {
             if(err){
               console.error(err);
               return res.status(500).json({ msg: "Something has gone wrong..." })
             }
 
-            return res.status(400).json({
-              msg: "just checking"
+            return res.status(200).json({
+              msg: "Ok"
             })
           })
         } else {
