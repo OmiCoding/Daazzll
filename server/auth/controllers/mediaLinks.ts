@@ -3,7 +3,7 @@ import { RequestHandler, Request, Response, NextFunction } from "express";
 
 const prismaClient = new PrismaClient();
 
-const mediaLinks: RequestHandler = async function (req: Request, res: Response, next: NextFunction) {
+export const mediaLinks: RequestHandler = async function (req: Request, res: Response, next: NextFunction) {
   try {
 
     console.log(req.user);
@@ -55,8 +55,4 @@ const mediaLinks: RequestHandler = async function (req: Request, res: Response, 
     return next(e);
   }
 }
-
-export default mediaLinks;
-
-
 

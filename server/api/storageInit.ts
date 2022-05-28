@@ -20,4 +20,7 @@ export const redisClient = createClient({
 });
 
 
-export const RedisStore = connectRedis(sessions);
+const RedisStore = connectRedis(sessions);
+
+
+export const redisStore = new RedisStore({ client: redisClient, prefix: "sess1:" });

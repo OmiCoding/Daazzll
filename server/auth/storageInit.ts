@@ -19,4 +19,6 @@ export const redisClient = createClient({
   legacyMode: true,
 });
 
-export const RedisStore = connectRedis(sessions);
+const RedisStore = connectRedis(sessions);
+
+export const redisStore = new RedisStore({ client: redisClient, prefix: "sess2:" });

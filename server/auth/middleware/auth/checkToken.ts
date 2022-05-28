@@ -18,7 +18,7 @@ if(!HOST) {
 
 const readFile = util.promisify(fs.readFile);
 
-const checkToken: RequestHandler = async function (
+export const checkToken: RequestHandler = async function (
   req: Request,
   res: Response,
   next: NextFunction
@@ -328,5 +328,3 @@ const checkToken: RequestHandler = async function (
     return next(e);
   }
 };
-
-export default checkToken;

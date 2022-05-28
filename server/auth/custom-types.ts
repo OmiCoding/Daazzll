@@ -8,3 +8,5 @@ export interface ReqUser {
 export interface RedisAuthToken {
   token: string;
 }
+
+export type validCheck = (...args: any[]) => string | boolean;

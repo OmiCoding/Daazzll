@@ -6,7 +6,7 @@ import cors from "cors";
 import cookieParser from "cookie-parser";
 import sessions from "express-session";
 import prismaClient from "./prismaClient";
-import { RedisStore, redisClient } from "./storageInit"
+import { redisStore, redisClient } from "./storageInit"
 import { renderer, errorHandler } from "./controllers";
 import { ReqUser } from "./custome-types";
 import "dotenv/config";
@@ -68,7 +68,7 @@ app.use("/static", express.static(BUILD_PATH));
 app.use(sessions({
   name: "session1",
   secret: SESSION_SECRET,
-  store: new RedisStore({ client: redisClient, prefix: "sess1:" }),
+  store: redisStore,
   resave: false,
   saveUninitialized: true,
   cookie: {
@@ -79,12 +79,6 @@ app.use(sessions({
     sameSite: true,
   }
 }));
-app.use(function(req, res, next) {
-  console.log(req.session);
-  console.log(req.sessionID);
-  console.log("server1");
-  return next();
-});
 app.use(errorHandler);
 app.use("*", renderer);
 

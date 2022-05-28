@@ -5,15 +5,13 @@ import https from "https";
 import express from "express";
 import cors from "cors";
 import cookieParser from "cookie-parser";
-// import sessions from "express-session";
-
 import dbClient from "./prismaClient";
 import auth from "./routes/auth";
 import profile from "./routes/profile";
 import errorHandler from "./controllers/errorHandler";
 import "dotenv/config"
 import { ReqUser } from "./custom-types";
-import { RedisStore, redisClient } from "./storageInit"
+import { redisClient } from "./storageInit"
 
 declare global {
   namespace Express {
@@ -72,21 +70,6 @@ const BUILD_PATH = path.resolve("build");
 
 app.use(cookieParser());
 app.use("/static", express.static(BUILD_PATH));
-// app.use(sessions({
-//   name: "session2",
-//   secret: SESSION_SECRET,
-//   store: new RedisStore({ client: redisClient, prefix: "sess2:" }),
-//   resave: false,
-//   saveUninitialized: true,
-//   cookie: {
-//     path: "/",
-//     secure: true,
-//     httpOnly: true,
-//     domain: "daazzll.local",
-//     maxAge: 3 * 60000,
-//     sameSite: true,
-//   }
-// }))
 app.use(auth);
 app.use("/profile", profile)
 app.use("*", errorHandler);

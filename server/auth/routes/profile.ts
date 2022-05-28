@@ -1,5 +1,5 @@
 import { Router } from "express"
-import mediaLinks from "../controllers/mediaLinks";
+import { mediaLinks } from "../controllers";
 import { checkAccToken }  from "../middleware/auth"
 
 const router = Router();
