@@ -87,13 +87,6 @@ app.use("/static", express.static(BUILD_PATH));
 //     sameSite: true,
 //   }
 // }))
-// app.use(function(req, res, next) {
-//   console.log(req.session);
-//   console.log(req.sessionID)
-//   console.log("server2");
-//   console.log(req.user);
-//   return next();
-// })
 app.use(auth);
 app.use("/profile", profile)
 app.use("*", errorHandler);

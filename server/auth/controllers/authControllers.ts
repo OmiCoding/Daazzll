@@ -99,6 +99,7 @@ export const login: RequestHandler = async function (
         [propName]: email_user,
       },
       select: {
+        id: true,
         email: true,
         username: true,
         pass: true,
@@ -162,30 +163,45 @@ export const login: RequestHandler = async function (
       // maxAge: 60000,
     });
 
-    req.user = {
-      role: "user",
-      email: email,
-      username: username,
-      userId: refreshId
-    }
-
     if(redisStore.all) {
       redisStore.all(function(err, sessions: any) {
         if(err) {
           console.error(err);
           return res.status(500).json({ msg: "Something has gone wrong..." });
         }
+
         if(sessions) {
           const session = sessions[0];
+          session.user = {
+            role: "user",
+            email: email,
+            username: username,
+            userId: result.id,
+          }
+
+          console.log(session);
+          console.log(session.id);
+          
+
+          const sessionId = session.id;
+          console.log("sess1:" + session.id);
           redisStore.set(session.id, session, function(err) {
             if(err){
               console.error(err);
               return res.status(500).json({ msg: "Something has gone wrong..." })
             }
-            return res.status(200).json({
-              msg: "Ok",
+            redisStore.get(sessionId, function(err, sess) {
+              if(err) return res.status(500).json({ msg: "Something has gone wrong..." });
+              
+              console.log(sess)
+              console.log("jskf")
+              
+              return res.status(400).json({
+                msg: "Ok"
+              })
             })
           })
+
         } else {
           console.error("No session was found...");
           return res.status(500).json({
@@ -259,7 +275,7 @@ export const register: RequestHandler = async function (
           username: username,
           email: email,
         }
-      },
+      }
     });
 
     if (foundAcc) {
@@ -270,7 +286,7 @@ export const register: RequestHandler = async function (
 
     const hashedPass = await hash(password, 10);
 
-    await prismaClient.accounts.create({
+    const result = await prismaClient.accounts.create({
       data: {
         role: "user",
         fName,
@@ -278,6 +294,9 @@ export const register: RequestHandler = async function (
         username,
         email,
         pass: hashedPass,
+      }, 
+      select: {
+        id: true,
       }
     });
 
@@ -329,11 +348,23 @@ export const register: RequestHandler = async function (
         }
         if(sessions) {
           const session = sessions[0]
+
+          session.user = {
+            role: "user",
+            email: email,
+            username: username,
+            userId: result.id, 
+          }
+
           redisStore.set(session.id, session, function(err) {
             if(err){
               console.error(err);
               return res.status(500).json({ msg: "Something has gone wrong..." })
             }
+
+            return res.status(400).json({
+              msg: "just checking"
+            })
           })
         } else {
           console.error("No session was found...");
@@ -440,6 +471,7 @@ export const updateUser: RequestHandler = async function (
 
 export const checkAuth: RequestHandler = async function(req: Request, res: Response, next: NextFunction) {
   try {
+    if(redisStore)
     return res.status(200).json({
       msg: "Ok."
     })

@@ -81,9 +81,8 @@ app.use(sessions({
 }));
 app.use(function(req, res, next) {
   console.log(req.session);
-  console.log(req.sessionID)
+  console.log(req.sessionID);
   console.log("server1");
-  console.log(req.user);
   return next();
 });
 app.use(errorHandler);

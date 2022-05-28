@@ -48,6 +48,8 @@ export const joiLogin: RequestHandler = async function (
 
     let schema: Joi.ObjectSchema<any>;
 
+    console.log(req.body);
+
     if(/[@\.]/.test(req.body.email_user)) {
       schema = Joi.object({
         email_user: Joi.string().email().lowercase().required().messages({
