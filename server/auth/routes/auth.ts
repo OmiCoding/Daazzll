@@ -18,7 +18,8 @@ import {
   checkUser,
   checkedLoggedIn,
   tokenExist,
-  checkToken
+  checkToken,
+  checkToken2
 } from "../middleware/auth";
 
 import {
@@ -32,7 +33,7 @@ const router = Router();
 
 // GET Requests
 
-router.get("/logout", [checkGuest, checkUser, checkToken], logout);
+router.get("/logout", [checkGuest, checkUser, checkToken2], logout);
 
 router.get("/checkauth", [tokenExist, checkToken], checkAuth)
 

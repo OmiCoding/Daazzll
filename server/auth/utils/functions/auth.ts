@@ -41,7 +41,7 @@ export const regenToken = async function (
   exp: string,
   expRedis: number
 ): Promise<string> {
-  const result = await redisClient.get(payload.userId);
+  const result = await redisClient.get(payload.tokenId);
 
   if (result) throw new Error("Something has gone wrong...");
 
@@ -52,7 +52,7 @@ export const regenToken = async function (
     expiresIn: exp,
   });
   await redisClient.setEx(
-    payload.userId,
+    payload.tokenId,
     expRedis,
     JSON.stringify({ token: token })
   );

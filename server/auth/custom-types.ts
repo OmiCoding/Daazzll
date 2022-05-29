@@ -1,11 +1,13 @@
+import { JwtPayload } from "jsonwebtoken";
+
 export interface ReqUser {
   role: string; 
-  userId?: string;
+  userId?: number;
   email?: string;
   username?: string;
 }
 
-export interface Payload extends ReqUser {
+export interface Payload extends ReqUser, JwtPayload {
   tokenId: string;
 }
 

@@ -7,8 +7,8 @@ export * from "./checkUpdateUser";
 export * from "./checkedLoggedIn";
 export * from "./checkUser";
 export * from "./tokenExist";
-export * from "./checkToken"
-
+export * from "./checkToken";
+export * from "./checkToken2";
 
 // joi related
 export * from "./joiDeleteUser";

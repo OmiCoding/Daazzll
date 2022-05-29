@@ -6,12 +6,8 @@ const errorHandler: ErrorRequestHandler = function (
   res: Response,
   next: NextFunction
 ) {
-  if (err.stack) {
-    console.error(err.stack);
-  } else {
-    console.error(err);
-  }
-  return res.status(500).redirect("/");
+  console.error(err);
+  return res.status(500).json({ msg: "Something has gone wrong..." });
 };
 
 export default errorHandler;

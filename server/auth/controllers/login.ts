@@ -64,8 +64,8 @@ export const login: RequestHandler = async function (
         username: result.username,
       },
       path.resolve("server/auth/keys/jwtRS256.key"),
-      "3m",
-      600
+      "5m",
+      3000
     );
 
     const refreshToken = await genToken(
@@ -76,15 +76,15 @@ export const login: RequestHandler = async function (
         username: result.username,
       },
       path.resolve("server/auth/keys/jwtRS256.key"),
-      "3m",
-      1800
+      "5m",
+      3000
     );
 
     res.cookie("access_token", accessToken, {
       path: "/",
       sameSite: "strict",
       secure: true,
-      expires: new Date(new Date().getTime() + 3 * 60000),
+      expires: new Date(new Date().getTime() + 5 * 60000),
       // maxAge: 60000,
     });
 
@@ -92,7 +92,7 @@ export const login: RequestHandler = async function (
       path: "/",
       sameSite: "strict",
       secure: true,
-      expires: new Date(new Date().getTime() + 3 * 60000),
+      expires: new Date(new Date().getTime() + 5 * 60000),
       // maxAge: 60000,
     });
 

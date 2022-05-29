@@ -1,13 +1,17 @@
 import { RedisStore } from "connect-redis";
 import { ReqUser } from "../../custom-types";
 
-export const handleSession = function(method: string, store: RedisStore, payload?: ReqUser): Promise<void> {
+export const handleSession = function(method: string, store: RedisStore, payload?: ReqUser): Promise<boolean> {
   return new Promise((resolve, reject) => {
     if(!store) throw new Error("Store is not defined...");
     if(!store.all) throw new Error("The all method does not exist...");
     store.all(function(e: any, sessions: any) {
-      if(e) console.error(e);
-      if(!sessions) return;
+      if(e) {
+        console.error(e);
+        throw new Error("Something has gone wrong...");
+      }
+      
+        if(!sessions) return resolve(false);
       let session;
       for(let i=0; i < sessions.length; i++) {
         if(sessions[i].name === "sess1") {
@@ -15,6 +19,8 @@ export const handleSession = function(method: string, store: RedisStore, payload
           break;
         }
       }
+
+      if(!session) return resolve(false);
   
       switch(method) {
         case "ADD":
@@ -25,15 +31,18 @@ export const handleSession = function(method: string, store: RedisStore, payload
               console.error(e);
               throw new Error("Something has gone wrong...");
             }
-            resolve();
+            return resolve(true);
           });
         case "DELETE":
           store.destroy(session.id, function(e) {
-            if(e) new Error("Something has gone wrong...");
-            resolve();
+            if(e) {
+              console.error(e);
+              throw new Error("Something has gone wrong...");
+            }
+              return resolve(true);
           });
         default:
-          reject();
+          return resolve(false);
       }
     });
   });
