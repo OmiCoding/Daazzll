@@ -47,16 +47,16 @@ export const checkToken: RequestHandler = async function (
             const payload: any = decoded;
             if (e) {
               if (e.name === "TokenExpiredError") {
-                jwt.verify(
+                await jwt.verify(
                   req.cookies.refresh_token,
-                  publicKey,
+                  publicKey, 
                   {
                     algorithms: ["RS256"],
                   },
                   async function (e, decoded) {
                     const payload: any = decoded;
 
-                    if (e) {
+                    if (e) { 
                       if (e.name === "TokenExpiredError") {
                         res.clearCookie("refresh_token", {
                           path: "/",
@@ -69,7 +69,6 @@ export const checkToken: RequestHandler = async function (
                           secure: true,
                         });
 
-                        
                         await handleSession("DELETE", redisStore);
 
                         return res.status(401).json({ msg: "Unauthenticated." });
@@ -80,6 +79,8 @@ export const checkToken: RequestHandler = async function (
                     }
 
                     if (!decoded) {
+                      await handleSession("DELETE", redisStore);
+
                       return res.status(401).json({ msg: "Unauthenticated." })
                     }
 
@@ -93,12 +94,17 @@ export const checkToken: RequestHandler = async function (
                     const result: any = await redisClient.get(payload.tokenId);
 
                     if (!result) {
+                      await handleSession("DELETE", redisStore);
+
                       return res.status(401).json({ msg: "Unauthenticated." });
                     }
 
                     const tokenObj: RedisAuthToken = JSON.parse(result);
 
                     if (tokenObj.token !== req.cookies.refresh_token) {
+
+                      await handleSession("DELETE", redisStore);
+
                       return res.status(401).json({ msg: "Unauthenticated." });
                     } else {
                       const accessId = uuidv4();
@@ -182,12 +188,12 @@ export const checkToken: RequestHandler = async function (
       
                         await redisClient.del(payload.tokenId);
       
-                        handleSession("DELETE", redisStore)
+                        await handleSession("DELETE", redisStore);
       
                         return res.status(401).json({ msg: "Unauthenticated" })
                       }
 
-                      handleSession("ADD", redisStore, {
+                      await handleSession("ADD", redisStore, {
                         role: "user",
                         userId: ""+account.id,
                         email: account.email,
@@ -205,14 +211,22 @@ export const checkToken: RequestHandler = async function (
             } else {
               const result: any = await redisClient.get(payload.tokenId);
               if (!result) {
+
+                await handleSession("DELETE", redisStore);
+
                 return res.status(401).json({ msg: "Unauthenticated." });
               }
 
               const tokenObj = JSON.parse(result);
               // If 
               if (tokenObj.token !== req.cookies.access_token) {
+
+                await handleSession("DELETE", redisStore);
+
                 return res.status(401).json({ msg: "Unauthenticated." })
               } else {
+
+                // maybe put a handleSession here
                 return next();
               }
             }
@@ -242,7 +256,7 @@ export const checkToken: RequestHandler = async function (
                     secure: true,
                   });
 
-                  handleSession("DELETE", redisStore);
+                  await handleSession("DELETE", redisStore);
 
                   return res.status(401).json({ msg: "Unauthenticated." })
                 } else {
@@ -251,6 +265,9 @@ export const checkToken: RequestHandler = async function (
               }
 
               if (!decoded) {
+
+                await handleSession("DELETE", redisStore)
+
                 return res.status(401).json({ msg: "Unauthenticated." })
               }
 
@@ -264,12 +281,18 @@ export const checkToken: RequestHandler = async function (
               const result: any = await redisClient.get(payload.tokenId);
 
               if (!result) {
+
+                await handleSession("DELETE", redisStore)
+
                 return res.status(401).json({ msg: "Unauthenticated." })
               }
 
               const tokenObj: RedisAuthToken = JSON.parse(result);
 
               if (tokenObj.token !== req.cookies.refresh_token) {
+
+                await handleSession("DELETE", redisStore)
+
                 return res.status(401).json({ msg: "Unauthenticated." })
               } else {
                 const accessId = uuidv4();
@@ -353,12 +376,12 @@ export const checkToken: RequestHandler = async function (
 
                   await redisClient.del(payload.tokenId);
 
-                  handleSession("DELETE", redisStore)
+                  await handleSession("DELETE", redisStore)
 
                   return res.status(401).json({ msg: "Unauthenticated" })
                 }
 
-                handleSession("ADD", redisStore, {
+                await handleSession("ADD", redisStore, {
                   role: "user",
                   userId: ""+account.id,
                   email: account.email,
