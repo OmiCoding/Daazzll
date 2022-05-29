@@ -3,15 +3,9 @@ import util from "util";
 import jwt from "jsonwebtoken";
 import { redisClient } from "../../storageInit";
 // import { v4 as uuidv4 } from "uuid";
+import { Payload } from "../../custom-types";
 
 const readFile = util.promisify(fs.readFile);
-
-interface Payload {
-  role: string;
-  userId: string;
-  email?: string;
-  username?: string;
-}
 
 export const genToken = async function (
   payload: Payload,
@@ -21,7 +15,7 @@ export const genToken = async function (
 ): Promise<string | null> {
   
 
-  const result = await redisClient.get(payload.userId);
+  const result = await redisClient.get(payload.tokenId);
 
   if (result) return null;
 
@@ -33,7 +27,7 @@ export const genToken = async function (
   });
 
   await redisClient.setEx(
-    payload.userId,
+    payload.tokenId,
     expRedis,
     JSON.stringify({ token: token })
   );

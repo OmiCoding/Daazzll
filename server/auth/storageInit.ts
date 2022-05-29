@@ -21,4 +21,4 @@ export const redisClient = createClient({
 
 const RedisStore = connectRedis(sessions);
 
-export const redisStore = new RedisStore({ client: redisClient, prefix: "sess2:" });
+export const redisStore = new RedisStore({ client: redisClient, prefix: "sess1:" });

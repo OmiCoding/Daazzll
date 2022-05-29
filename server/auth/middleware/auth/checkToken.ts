@@ -8,6 +8,9 @@ import { redisClient } from "../../storageInit";
 import { RedisAuthToken } from "../../custom-types";
 import { regenToken } from "../../utils/functions/auth";
 import "dotenv/config";
+import { redisStore } from "../../../auth/storageInit";
+import { handleSession } from "../../utils/functions/handleSession";
+import prismaClient from "../../../api/prismaClient";
 
 const { HOST } = process.env;
 
@@ -18,13 +21,14 @@ if(!HOST) {
 
 const readFile = util.promisify(fs.readFile);
 
+
+
 export const checkToken: RequestHandler = async function (
   req: Request,
   res: Response,
   next: NextFunction
 ) {
   try {
-    console.log(req.user)
 
     const publicKey = await readFile(
       path.resolve("server/auth/keys/jwtRS256.key.pub"),
@@ -42,8 +46,6 @@ export const checkToken: RequestHandler = async function (
           async function (e, decoded) {
             const payload: any = decoded;
             if (e) {
-              // console.log(req.cookies.access_token);
-              // This is the acess_token Error
               if (e.name === "TokenExpiredError") {
                 jwt.verify(
                   req.cookies.refresh_token,
@@ -67,9 +69,8 @@ export const checkToken: RequestHandler = async function (
                           secure: true,
                         });
 
-                        req.user = undefined;
-
-                        console.log("hello???")
+                        
+                        await handleSession("DELETE", redisStore);
 
                         return res.status(401).json({ msg: "Unauthenticated." });
                       } 
@@ -78,7 +79,6 @@ export const checkToken: RequestHandler = async function (
                       }
                     }
 
-                    console.log("hello?")
                     if (!decoded) {
                       return res.status(401).json({ msg: "Unauthenticated." })
                     }
@@ -90,7 +90,7 @@ export const checkToken: RequestHandler = async function (
                       prop = "email";
                     }
 
-                    const result: any = await redisClient.get(payload.userId);
+                    const result: any = await redisClient.get(payload.tokenId);
 
                     if (!result) {
                       return res.status(401).json({ msg: "Unauthenticated." });
@@ -107,11 +107,9 @@ export const checkToken: RequestHandler = async function (
                       const accessToken = await regenToken(
                         {
                           role: "user",
-                          userId: accessId,
-                          [prop]:
-                            prop === "username"
-                              ? payload.username
-                              : payload.email,
+                          tokenId: accessId,
+                          email: payload.email,
+                          username: payload.username
                         },
                         path.resolve("server/auth/keys/jwtRS256.key"),
                         "10m",
@@ -121,11 +119,9 @@ export const checkToken: RequestHandler = async function (
                       const refreshToken = await regenToken(
                         {
                           role: "user",
-                          userId: refreshId,
-                          [prop]:
-                            prop === "username"
-                              ? payload.username
-                              : payload.email,
+                          tokenId: refreshId,
+                          email: payload.email,
+                          username: payload.username,
                         },
                         path.resolve("server/auth/keys/jwtRS256.key"),
                         "30m",
@@ -160,16 +156,43 @@ export const checkToken: RequestHandler = async function (
                         // maxAge: 60000,
                       });
 
-                      req.user = undefined;
+                      const account = await prismaClient.accounts.findFirst({
+                        where: {
+                          email: payload.email,
+                        },
+                        select: {
+                          id: true,
+                          email: true,
+                          username: true
+                        }
+                      })
+      
+                      if(!account) {
+                        res.clearCookie("accessToken", {
+                          path: "/",
+                          sameSite: "strict",
+                          secure: true,
+                        })
+      
+                        res.clearCookie("refreshToken", {
+                          path: "/",
+                          sameSite: "strict",
+                          secure: true,
+                        })
+      
+                        await redisClient.del(payload.tokenId);
+      
+                        handleSession("DELETE", redisStore)
+      
+                        return res.status(401).json({ msg: "Unauthenticated" })
+                      }
 
-                      req.user = {
+                      handleSession("ADD", redisStore, {
                         role: "user",
-                        userId: refreshId,
-                        [prop]:
-                          prop === "username"
-                            ? payload.username
-                            : payload.email,
-                      };
+                        userId: ""+account.id,
+                        email: account.email,
+                        username: account.username,
+                      })
 
                       return next();
                     }
@@ -180,7 +203,7 @@ export const checkToken: RequestHandler = async function (
                 return res.status(401).json({ msg: "Unauthenticated." });
               }
             } else {
-              const result: any = await redisClient.get(payload.userId);
+              const result: any = await redisClient.get(payload.tokenId);
               if (!result) {
                 return res.status(401).json({ msg: "Unauthenticated." });
               }
@@ -219,7 +242,7 @@ export const checkToken: RequestHandler = async function (
                     secure: true,
                   });
 
-                  req.user = undefined;
+                  handleSession("DELETE", redisStore);
 
                   return res.status(401).json({ msg: "Unauthenticated." })
                 } else {
@@ -238,7 +261,7 @@ export const checkToken: RequestHandler = async function (
                 prop = "email";
               }
 
-              const result: any = await redisClient.get(payload.userId);
+              const result: any = await redisClient.get(payload.tokenId);
 
               if (!result) {
                 return res.status(401).json({ msg: "Unauthenticated." })
@@ -255,9 +278,9 @@ export const checkToken: RequestHandler = async function (
                 const accessToken = await regenToken(
                   {
                     role: "user",
-                    userId: accessId,
-                    [prop]:
-                      prop === "username" ? payload.username : payload.email,
+                    tokenId: accessId,
+                    email: payload.email,
+                    username: payload.username,
                   },
                   path.resolve("server/auth/keys/jwtRS256.key"),
                   "10m",
@@ -267,9 +290,9 @@ export const checkToken: RequestHandler = async function (
                 const refreshToken = await regenToken(
                   {
                     role: "user",
-                    userId: refreshId,
-                    [prop]:
-                      prop === "username" ? payload.username : payload.email,
+                    tokenId: refreshId,
+                    email: payload.email,
+                    username: payload.username,
                   },
                   path.resolve("server/auth/keys/jwtRS256.key"),
                   "30m",
@@ -304,14 +327,43 @@ export const checkToken: RequestHandler = async function (
                   // maxAge: 60000,
                 });
 
-                req.user = undefined;
+                const account = await prismaClient.accounts.findFirst({
+                  where: {
+                    email: payload.email,
+                  },
+                  select: {
+                    id: true,
+                    email: true,
+                    username: true
+                  }
+                })
 
-                req.user = {
+                if(!account) {
+                  res.clearCookie("accessToken", {
+                    path: "/",
+                    sameSite: "strict",
+                    secure: true,
+                  })
+
+                  res.clearCookie("refreshToken", {
+                    path: "/",
+                    sameSite: "strict",
+                    secure: true,
+                  })
+
+                  await redisClient.del(payload.tokenId);
+
+                  handleSession("DELETE", redisStore)
+
+                  return res.status(401).json({ msg: "Unauthenticated" })
+                }
+
+                handleSession("ADD", redisStore, {
                   role: "user",
-                  userId: refreshId,
-                  [prop]:
-                    prop === "username" ? payload.username : payload.email,
-                };
+                  userId: ""+account.id,
+                  email: account.email,
+                  username: account.username,
+                })
 
                 return next();
               }

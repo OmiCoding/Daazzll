@@ -31,8 +31,6 @@ const AuthProvider: React.FC<ProviderProps> = function ({ children }) {
     auth: hpObj ? hpObj.pass : false,
   });
 
-  console.log(state.auth);
-
   const register = function (body: RegisterBody, cb: () => void) {
     fetch("https://daazzll.local:8433/register", {
       method: "POST",

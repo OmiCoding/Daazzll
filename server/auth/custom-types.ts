@@ -1,8 +1,12 @@
 export interface ReqUser {
-  role?: string;
+  role: string; 
+  userId?: string;
   email?: string;
   username?: string;
-  userId?: string;
+}
+
+export interface Payload extends ReqUser {
+  tokenId: string;
 }
 
 export interface RedisAuthToken {

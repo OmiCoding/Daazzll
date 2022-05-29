@@ -34,32 +34,32 @@ const router = Router();
 
 router.get("/logout", [checkGuest, checkUser, checkToken], logout);
 
-// router.get("/checkauth", [tokenExist, checkToken], checkAuth)
+router.get("/checkauth", [tokenExist, checkToken], checkAuth)
 
-// // POST Requests
+// POST Requests
 
-// router.post(
-//   "/register",
-//   [checkedLoggedIn, joiRegister, checkRegister],
-//   register
-// );
-// router.post(
-//   "/login",
-//   [checkedLoggedIn, joiLogin, checkLogin],
-//   login
-// );
+router.post(
+  "/register",
+  [checkedLoggedIn, joiRegister, checkRegister],
+  register
+);
+router.post(
+  "/login",
+  [checkedLoggedIn, joiLogin, checkLogin],
+  login
+);
 
 
-// router.post(
-//   "/update",
-//   [checkGuest, checkUser, checkToken, joiUpdateUser, checkUpdateUser],
-//   updateUser
-// );
+router.post(
+  "/update",
+  [checkGuest, checkUser, checkToken, joiUpdateUser, checkUpdateUser],
+  updateUser
+);
 
-// router.post(
-//   "/delete",
-//   [checkGuest, checkUser, checkToken, joiDeleteUser, checkDeleteUser],
-//   deleteUser
-// );
+router.post(
+  "/delete",
+  [checkGuest, checkUser, checkToken, joiDeleteUser, checkDeleteUser],
+  deleteUser
+);
 
 export default router;

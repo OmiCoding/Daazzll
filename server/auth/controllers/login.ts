@@ -6,6 +6,7 @@ import { genToken } from "../utils/functions/auth";
 
 import { redisStore } from "../storageInit";
 import prismaClient from "../prismaClient";
+import { handleSession } from "../utils/functions";
 
 
 
@@ -58,8 +59,9 @@ export const login: RequestHandler = async function (
     const accessToken = await genToken(
       {
         role: "user",
-        userId: accessId,
-        [propName]: email_user,
+        tokenId: accessId,
+        email: result.email,
+        username: result.username,
       },
       path.resolve("server/auth/keys/jwtRS256.key"),
       "3m",
@@ -69,8 +71,9 @@ export const login: RequestHandler = async function (
     const refreshToken = await genToken(
       {
         role: "user",
-        userId: refreshId,
-        [propName]: email_user,
+        tokenId: refreshId,
+        email: result.email,
+        username: result.username,
       },
       path.resolve("server/auth/keys/jwtRS256.key"),
       "3m",
@@ -93,47 +96,14 @@ export const login: RequestHandler = async function (
       // maxAge: 60000,
     });
 
-    if(redisStore.all) {
-      redisStore.all(function(err, sessions: any) {
-        if(err) {
-          console.error(err);
-          return res.status(500).json({ msg: "Something has gone wrong..." });
-        }
+    await handleSession("ADD", redisStore, {
+      role: "user",
+      userId: result.id,
+      email: result.email,
+      username: result.username, 
+    });
 
-        if(sessions) {
-          const session = sessions[0];
-          session.user = {
-            role: "user",
-            email: email,
-            username: username,
-            userId: result.id,
-          }
-
-          // must make a variable to store the session id
-          const sessionId = session.id;
-          redisStore.set(sessionId, session, function(err) {
-            if(err){
-              console.error(err);
-              return res.status(500).json({ msg: "Something has gone wrong..." })
-            }
-            return res.status(200).json({
-              msg: "Ok",
-            })
-          })
-
-        } else {
-          console.error("No session was found...");
-          return res.status(500).json({
-            msg: "Something has gone wrong..."
-          })
-        }
-      })
-    } else {
-      console.error("The redis store all method is undefined...");
-      return res.status(500).json({
-        msg: "Something has gone wrong..."
-      })
-    }
+    return res.status(200).json({ msg: "Ok" });
   } catch (e) {
     return next(e);
   }

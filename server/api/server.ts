@@ -8,16 +8,16 @@ import sessions from "express-session";
 import prismaClient from "./prismaClient";
 import { redisStore, redisClient } from "./storageInit"
 import { renderer, errorHandler } from "./controllers";
-import { ReqUser } from "./custome-types";
 import "dotenv/config";
 
-declare global {
-  namespace Express {
-    export interface Request {
-      user?: ReqUser;
-    }
+
+declare module "express-session"{
+  export interface SessionData {
+    name: string;
   }
 }
+
+
 
 const { API_SERVER_PORT, SESSION_SECRET, REDIS_PORT } = process.env;
 
@@ -75,10 +75,15 @@ app.use(sessions({
     path: "/",
     secure: true,
     httpOnly: true,
-    maxAge: 3 * 60000,
     sameSite: true,
   }
 }));
+app.use(function(req, res, next) {
+  if(req.session){
+    req.session.name = "sess1"
+  }
+  return next();
+});
 app.use(errorHandler);
 app.use("*", renderer);
 

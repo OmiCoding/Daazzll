@@ -9,9 +9,11 @@ import dbClient from "./prismaClient";
 import auth from "./routes/auth";
 import profile from "./routes/profile";
 import errorHandler from "./controllers/errorHandler";
-import "dotenv/config"
 import { ReqUser } from "./custom-types";
+import "dotenv/config"
 import { redisClient } from "./storageInit"
+
+
 
 declare global {
   namespace Express {
@@ -20,6 +22,7 @@ declare global {
     }
   }
 }
+
 
 const secretId = crypto.randomBytes(20).toString('hex');
 const keyPath = path.join(__dirname + "../../../certs/daazzll.local-key.pem");

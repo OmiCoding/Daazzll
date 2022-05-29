@@ -3,6 +3,9 @@ module.exports = {
   env: {
     node: true,
   },
+  rules: {
+    "@typescript-eslint/no-namespace": "off",
+  },
   parser: "@typescript-eslint/parser",
   extends: [
     "plugin:@typescript-eslint/recommended",
