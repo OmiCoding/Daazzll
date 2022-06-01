@@ -5,11 +5,6 @@ export const assignUser: RequestHandler = function (
   res: Response,
   next: NextFunction
 ) {
-  req.user = {
-    role: "user",
-    userId: "someId",
-    email: "johndoe123@gmail.com",
-  };
-
+  
   return next();
 };

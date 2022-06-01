@@ -5,13 +5,14 @@ type WarnObj = {
 }
 
 
-const checkLogin = function(email_user: string, pass:string): WarnObj | false {
-  let check = loginPass(pass);
+const checkLogin = function(email_user: string, password:string): WarnObj | false {
+  let check = loginPass(password);
   const warnObj: WarnObj = {}
   let propName: string;
 
+
   if(check) {
-    warnObj["pass"] = check;
+    warnObj["password"] = check;
   }
 
 

@@ -5,12 +5,9 @@ export const checkGuest: RequestHandler = function (
   res: Response,
   next: NextFunction
 ) {
-  if (
-    (req.cookies.access_token && req.cookies.refresh_token) ||
-    req.cookies.refresh_token
-  ) {
+  if (req.cookies.refresh_token) {
     return next();
   } else {
-    return res.status(401).json({ msg: "Not authorized." });
+    return res.status(401).json({ msg: "Unauthenticated." });
   }
 };

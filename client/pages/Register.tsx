@@ -63,7 +63,7 @@ const Register = function () {
         warn_2: check["lName"],
         warn_3: check["email"],
         warn_4: check["username"],
-        warn_5: check["pass"],
+        warn_5: check["password"],
       });
     }
 

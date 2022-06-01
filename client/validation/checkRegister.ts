@@ -4,16 +4,19 @@ type MsgObj = {
   [keyStr: string]: string;
 };
 
-const checkRegister = function (
+export const checkRegister = function (
   fName: string,
   lName: string,
   email: string,
   username: string,
-  pass: string,
+  password: string,
   confirmPass: string
 ): MsgObj | false {
+  
+
   let check: string | boolean = validName(fName);
   const warnings: MsgObj = {};
+
 
   if (check) {
     warnings["fName"] = check;
@@ -30,17 +33,15 @@ const checkRegister = function (
   if (check) {
     warnings["email"] = check;
   }
-
   check = validUser(username);
-
   if (check) {
     warnings["username"] = check;
   }
 
-  check = validPass(pass, confirmPass);
+  check = validPass(password, confirmPass);
 
   if (check) {
-    warnings["pass"] = check;
+    warnings["password"] = check;
   }
 
   if (Object.keys(warnings).length === 0) {
@@ -49,5 +50,3 @@ const checkRegister = function (
     return warnings;
   }
 };
-
-export default checkRegister;

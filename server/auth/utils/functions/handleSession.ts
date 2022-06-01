@@ -10,7 +10,7 @@ export const handleSession = function(method: string, store: RedisStore, payload
         console.error(e);
         throw new Error("Something has gone wrong...");
       }
-      
+      console.log(sessions)
         if(!sessions) return resolve(false);
       let session;
       for(let i=0; i < sessions.length; i++) {
@@ -20,6 +20,7 @@ export const handleSession = function(method: string, store: RedisStore, payload
         }
       }
 
+      console.log(session)
       if(!session) return resolve(false);
   
       switch(method) {

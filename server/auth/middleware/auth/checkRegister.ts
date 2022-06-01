@@ -11,6 +11,8 @@ export const checkRegister: RequestHandler = function (
 
   let check: string | boolean | undefined;
 
+
+
   check = validName(fName);
 
   if (check) {
@@ -18,6 +20,7 @@ export const checkRegister: RequestHandler = function (
       msg: check,
     });
   }
+  
 
   check = validName(lName);
 
@@ -26,6 +29,7 @@ export const checkRegister: RequestHandler = function (
       msg: check,
     });
   }
+  
 
   check = validEmail(email);
 
@@ -35,6 +39,7 @@ export const checkRegister: RequestHandler = function (
     });
   }
 
+
   check = validPass(password, confirmPass);
 
   if (check) {
@@ -42,6 +47,7 @@ export const checkRegister: RequestHandler = function (
       msg: check,
     });
   }
+
 
   check = validUser(username);
 

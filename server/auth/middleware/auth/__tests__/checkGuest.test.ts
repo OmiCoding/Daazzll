@@ -1,7 +1,7 @@
 import express from "express";
 import request from "supertest";
 import cookieParser from "cookie-parser";
-import { checkGuest } from "../authChecks";
+import { checkGuest } from "../checkGuest";
 
 const app = express();
 
@@ -24,24 +24,11 @@ test("Testing the middleware that it skips when there appears to be a refresh to
     });
 });
 
-test("Testing the middleware that it skips when there appears to be an access token and refresh token.", (done) => {
+test("Testing the middleware that it faisl to login when no tokens are present.", (done) => {
   request(app)
     .get("/somepath")
     .set("Accept", "application/json")
-    .set("Cookie", [`accept_token=dfgsdoghis;`, `refresh_token=hoiahfoiad;`])
-    .expect(404)
-    .end(function (err, res) {
-      if (err) return done(err);
-
-      return done();
-    });
-});
-
-test("Testing the middleware that it redirects to login when no tokens are present.", (done) => {
-  request(app)
-    .get("/somepath")
-    .set("Accept", "application/json")
-    .expect(302)
+    .expect(401)
     .end(function (err, res) {
       if (err) return done(err);
 

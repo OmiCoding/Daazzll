@@ -1,6 +1,6 @@
 import express from "express";
 import request from "supertest";
-import { checkDeleteUser } from "../authChecks";
+import { checkDeleteUser } from "../checkDeleteUser";
 
 const app = express();
 app.use(express.json());
@@ -75,7 +75,7 @@ test("Testing that the middleware fails when there is an invalid password.", (do
     });
 });
 
-test("Testing that the middleware fails when there is valid credentials.", (done) => {
+test("Testing that the middleware passes when there is valid credentials.", (done) => {
   request(app)
     .post("/delete")
     .set("Accept", "application/json")

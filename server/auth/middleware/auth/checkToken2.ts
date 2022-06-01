@@ -26,20 +26,26 @@ const readFile = util.promisify(fs.readFile);
 
 export const checkToken2: RequestHandler = async function(req: Request, res: Response, next: NextFunction) {
   try {
+
     const publicKey = await readFile( path.resolve("server/auth/keys/jwtRS256.key.pub"),
     "binary");
+
+
     const { access_token, refresh_token } = req.cookies;
+
     const expiredStr = "TokenExpiredError";
 
     // may need to add handleSession logic
-    if(!req.cookies) return res.status(401).json({ msg: "Unauthenticated." });
+    if(!req.cookies) return res.status(401).json({ msg: "Unauthenticated." });    
     if(!access_token) return res.status(401).json({ msg: "Unauthenticated." });
-    if(!refresh_token) return res.status(401).json({ msg: "Unauthenicated." });
+    if(!refresh_token) return res.status(401).json({ msg: "Unauthenticated." });
 
-   
+    console.log("hello?")
     try {
       // Needs proper typing
+
       const accPayload: any = await handleJWT(access_token, publicKey);
+
 
       if(!accPayload) {
         await handleSession("DELETE", redisStore);
@@ -139,6 +145,7 @@ export const checkToken2: RequestHandler = async function(req: Request, res: Res
 
     } catch(e: any) {
       if(e.name !== expiredStr) {
+        console.log(e.name)
         await handleSession("DELETE", redisStore);
         return res.status(401).json({ msg: "Unauthenticated." });
       }

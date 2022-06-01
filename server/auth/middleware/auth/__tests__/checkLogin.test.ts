@@ -1,6 +1,6 @@
 import express from "express";
 import request from "supertest";
-import { checkLogin } from "../authChecks";
+import { checkLogin } from "../checkLogin";
 
 const app = express();
 
@@ -14,7 +14,7 @@ test("Testing the middleware checkLogin that it passes with correct credentials.
     .post("/login")
     .set("Accept", "application/json")
     .send({
-      email: "johndoe123@gmail.com",
+      email_user: "johndoe123@gmail.com",
       password: "johndoe123!",
     })
     .expect(404)
@@ -30,7 +30,7 @@ test("Testing the middleware checkLogin that it fails with invalid email.", (don
     .post("/login")
     .set("Accept", "application/json")
     .send({
-      email: "john doe123@gmail.com",
+      email_user: "john doe123@gmail.com",
       password: "johndoe123!",
     })
     .expect(400)
@@ -46,7 +46,7 @@ test("Testing the middleware checkLogin that it fails with invalid password", (d
     .post("/login")
     .set("Accept", "application/json")
     .send({
-      email: "johndoe123@gmail.com",
+      email_user: "johndoe123@gmail.com",
       password: "johndoe",
     })
     .expect(400)

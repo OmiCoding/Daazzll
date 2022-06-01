@@ -34,7 +34,7 @@ const Login = function () {
       return setState({
         ...state,
         warn_1: check["acc"],
-        warn_2: check["pass"],
+        warn_2: check["password"],
       });
     }
 

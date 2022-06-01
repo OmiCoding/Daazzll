@@ -3,7 +3,8 @@ import { validCheck } from "../../custom-types";
 
 
 export const validUser: validCheck = function (user: string) {
-  if (whiteSpace(user)) {
+
+if (whiteSpace(user)) {
     return "No whitespace characters allowed.";
   }
 

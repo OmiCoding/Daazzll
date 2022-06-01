@@ -19,30 +19,30 @@ module.exports = {
     "^(\\.{1,2}/.*)\\.js$": "$1",
   },
   projects: [
-    {
-      displayName: "controllers",
-      testEnvironment: "node",
-      clearMocks: true,
-      verbose: true,
-      preset: "ts-jest",
-      transform: {
-        "^.+\\.tsx?$": "ts-jest",
-      },
-      extensionsToTreatAsEsm: [".ts"],
-      globals: {
-        "ts-jest": {
-          useESM: true,
-        },
-      },
-      moduleNameMapper: {
-        "^(\\.{1,2}/.*)\\.js$": "$1",
-      },
-      testMatch: ["<rootDir>/server/auth/controllers/**/__tests__/*.test.ts"],
-      testPathIgnorePatterns: ["<rootDir>/server/auth/middleware/"],
-      setupFilesAfterEnv: [
-        "<rootDir>/server/auth/setups-for-tests/crudTestEnv.ts",
-      ],
-    },
+    // {
+    //   displayName: "controllers",
+    //   testEnvironment: "node",
+    //   clearMocks: true,
+    //   verbose: true,
+    //   preset: "ts-jest",
+    //   transform: {
+    //     "^.+\\.tsx?$": "ts-jest",
+    //   },
+    //   extensionsToTreatAsEsm: [".ts"],
+    //   globals: {
+    //     "ts-jest": {
+    //       useESM: true,
+    //     },
+    //   },
+    //   moduleNameMapper: {
+    //     "^(\\.{1,2}/.*)\\.js$": "$1",
+    //   },
+    //   testMatch: ["<rootDir>/server/auth/controllers/**/__tests__/*.test.ts"],
+    //   testPathIgnorePatterns: ["<rootDir>/server/auth/middleware/"],
+    //   setupFilesAfterEnv: [
+    //     "<rootDir>/server/auth/setups-for-tests/crudTestEnv.ts",
+    //   ],
+    // },
     {
       displayName: "middleware",
       testEnvironment: "node",
@@ -60,7 +60,9 @@ module.exports = {
       moduleNameMapper: {
         "^(\\.{1,2}/.*)\\.js$": "$1",
       },
-      testMatch: ["<rootDir>/server/auth/middleware/**/__tests__/*.test.ts"],
+      testMatch: [
+        "<rootDir>/server/auth/middleware/**/__tests__/checkToken.test.ts",
+      ],
       testPathIgnorePatterns: [
         "<rootDir>/server/auth/__mocks__/",
         "<rootDir>/server/auth/__tests__/",
