@@ -1,5 +1,6 @@
 import fs from "fs";
 import path from "path";
+import { Session, SessionData }from "express-session";
 import { Request, Response, NextFunction } from "express";
 import { checkToken2 } from "../checkToken2";
 import "dotenv/config"
@@ -15,6 +16,7 @@ describe("Testing the middleware checkToken that passes against these tests.", (
   
   let mockRequest: Partial<Request>;
   let mockResponse: Partial<Response>;
+  let mockSession: Session & Partial<SessionData>;
   const nextFunction: NextFunction = jest.fn(); 
 
   // const mockCheck = jest.fn(checkToken2);
@@ -27,19 +29,7 @@ describe("Testing the middleware checkToken that passes against these tests.", (
   beforeEach(() => {
     mockRequest = {
       cookies: {},
-      session: {
-        id: "sess1:230975287334",
-        cookie: {
-          path: "/",
-          httpOnly: false,
-          secure: false,
-          originalMaxAge: 1800000,
-          maxAge: 1800000,
-        },
-        destroy: jest.fn().mockImplementation()
-      },
-      sessionID: "sess1:230975287334",
-      
+      session: mockSession
     };
     mockResponse = {
       status: jest.fn().mockReturnThis(),
