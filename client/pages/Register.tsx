@@ -2,7 +2,7 @@ import React, { ChangeEvent, FormEvent, useState } from "react";
 import { Link } from "react-router-dom";
 import RegisterForm from "../components/register/RegisterForm";
 import "../styles/register.css";
-import checkRegister from "../validation/checkRegister";
+import { checkRegister } from "../validation/checkRegister";
 import { RegisterState } from "../custom-types";
 import useAuth from "../hooks/auth/useAuth";
 

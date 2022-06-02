@@ -83,7 +83,7 @@
   color: var(--invTxt-color);
   background-color: var(--prime-btn-color);
   border-radius: 5px;
-  box-shadow: 0px 5px 10px hsl(0deg 0% 0% / 0.08);
+  box-shadow: 0px 5px 10px var(--shadow-color);
   transition: all 400ms cubic-bezier(0.31, 0.06, 0.27, 1);
 }
 
@@ -125,7 +125,6 @@
   padding: 1.2rem;
 }
 
-
 .hamburger-nav {
   position: relative;
   width: 100%;
@@ -149,14 +148,16 @@
   margin-left: 1.5rem;
 }
 
-
 /* Make a hover for the svg, and also activate the svg animation. */
 
 .hb-nav__list__item:hover > a.hb-nav__item__link {
   color: var(--btn-hover-2);
 }
 
-.hb-nav__list__item:hover > div.hb-nav__item__svg-wrapper > svg.hb-nav__item__svg > rect.hb-nav__item__svg__rect  {
+.hb-nav__list__item:hover
+  > div.hb-nav__item__svg-wrapper
+  > svg.hb-nav__item__svg
+  > rect.hb-nav__item__svg__rect {
   fill: red;
 }
 
@@ -166,13 +167,12 @@
 }
 
 .hb-nav__item__svg {
-
 }
 
 .hb-nav__item__svg__rect {
-  fill:#000000;
-  fill-rule:evenodd;
-  stroke-width:0.259492;
+  fill: #000000;
+  fill-rule: evenodd;
+  stroke-width: 0.259492;
 }
 
 .hb-nav__item__svg__path {
@@ -185,9 +185,6 @@
   margin-left: 1rem;
   transition: color 400ms cubic-bezier(0.4, 0, 0.2, 1);
 }
-
-
-
 
 @media screen and (min-width: 320px) {
   .header-wrapper {
@@ -292,7 +289,6 @@
     overflow-y: scroll;
   }
 }
-
 
 @media screen and (min-width: 768px) {
   .hb-nav__list__item {

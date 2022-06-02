@@ -10,8 +10,13 @@
   --danger-color: #d93025;
   --disabled-color: #495057;
   --prime-btn-color: #000000;
+  --border-color: #e5e8eb;
+  --shadow-color: hsl(0deg 0% 0% / 0.1);
+  --grey-text: #707a83;
   --btn-hover-1: #2158c4;
   --btn-hover-2: #5f8de8;
+  --transition-1: cubic-bezier(0.4, 0.4, 0.2, 1);
+  /* text related */
   --main-font: "Inter", sans-serif;
   --head-font: "Inter", sans-serif;
   --title-font: "Poppins", sans-serif;

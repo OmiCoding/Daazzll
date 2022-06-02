@@ -132,7 +132,7 @@
   height: 1rem;
   font-size: var(--heading-4);
   background-color: #fefefe;
-  box-shadow: 0px 5px 10px hsl(0deg 0% 0% / 0.08);
+  box-shadow: 0px 5px 10px var(--shadow-color);
 }
 
 .page__input-1 {
@@ -209,7 +209,7 @@
 .logo-wrapper {
   position: relative;
 }
- 
+
 .logo-title {
   font-size: var(--heading-3);
   font-family: var(--title-font);

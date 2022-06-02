@@ -15,6 +15,11 @@ const ProfileMediaContainer: React.FC = function () {
           <i className="fa-solid fa-plus" />
           Add to watchlist
         </button>
+        <div className="ellipsi-wrapper">
+          <button className="ellipsi-button">
+            <i className="fa-solid fa-ellipsis-vertical" />
+          </button>
+        </div>
         {/* <ProfileMediaList auth={auth} /> */}
       </div>
     </div>

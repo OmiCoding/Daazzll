@@ -34,10 +34,12 @@ describe("Testing the middleware checkToken that passes against these tests.", (
           httpOnly: false,
           secure: false,
           originalMaxAge: 1800000,
-          maxAge: 1800000
-        }
+          maxAge: 1800000,
+        },
+        destroy: jest.fn().mockImplementation()
       },
-      sessionID: "sess1:230975287334"
+      sessionID: "sess1:230975287334",
+      
     };
     mockResponse = {
       status: jest.fn().mockReturnThis(),
