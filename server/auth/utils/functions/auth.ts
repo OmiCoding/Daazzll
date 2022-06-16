@@ -3,11 +3,7 @@ import util from "util";
 import jwt from "jsonwebtoken";
 import { redisClient } from "../../storageInit";
 // import { v4 as uuidv4 } from "uuid";
-<<<<<<< HEAD
-import { Payload } from "../../custom-types";
-=======
 import { Payload, ReqUser, UserProp } from "../../custom-types";
->>>>>>> main
 
 const readFile = util.promisify(fs.readFile);
 
@@ -17,11 +13,6 @@ export const genToken = async function (
   exp: string,
   expRedis: number // seconds
 ): Promise<string | null> {
-<<<<<<< HEAD
-  
-
-=======
->>>>>>> main
   const result = await redisClient.get(payload.tokenId);
 
   if (result) return null;
@@ -48,11 +39,7 @@ export const regenToken = async function (
   exp: string,
   expRedis: number
 ): Promise<string> {
-<<<<<<< HEAD
-  const result = await redisClient.get(payload.tokenId);
-=======
   const result = await redisClient.GET(payload.tokenId);
->>>>>>> main
 
   if (result) throw new Error("Something has gone wrong...");
 
@@ -70,8 +57,6 @@ export const regenToken = async function (
 
   return token;
 };
-<<<<<<< HEAD
-=======
 
 export const signedToken = async function (
   payload: UserProp,
@@ -97,4 +82,3 @@ export const signedToken = async function (
 //   const result = await redisClient.GET()
 
 // }
->>>>>>> main

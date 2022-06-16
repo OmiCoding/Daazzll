@@ -8,11 +8,7 @@ module.exports = function (env, argV) {
       mode: argV.mode,
       entry: "./client/main-web.tsx",
       target: "web",
-<<<<<<< HEAD
-      filename: "[name].js",
-=======
       filename: "[name].bundle.js",
->>>>>>> main
     }),
     {
       optimization: {

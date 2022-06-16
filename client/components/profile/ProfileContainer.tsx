@@ -46,10 +46,6 @@ const ProfileContainer: React.FC = function () {
       <section className="profile-page">
         <ProfileHeader active={active} handleClick={handleClick} />
         <BannerContainer />
-<<<<<<< HEAD
-        <ProfilePitch />
-=======
->>>>>>> main
       </section>
     </div>
   );

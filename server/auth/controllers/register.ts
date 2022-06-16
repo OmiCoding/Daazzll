@@ -7,7 +7,6 @@ import prismaClient from "../prismaClient";
 import { redisStore } from "../storageInit";
 import { genToken } from "../utils/functions/auth";
 
-
 export const register: RequestHandler = async function (
   req: Request,
   res: Response,
@@ -24,8 +23,8 @@ export const register: RequestHandler = async function (
         email_username: {
           username: username,
           email: email,
-        }
-      }
+        },
+      },
     });
 
     if (foundAcc) {
@@ -44,29 +43,20 @@ export const register: RequestHandler = async function (
         username,
         email,
         pass: hashedPass,
-      }, 
+      },
       select: {
         id: true,
-<<<<<<< HEAD
-=======
         email: true,
         username: true,
->>>>>>> main
-      }
+      },
     });
-
 
     const accessToken = await genToken(
       {
         role: "user",
-<<<<<<< HEAD
-        userId: accessId,
-        email: email,
-=======
         tokenId: accessId,
         email: result.email,
         username: result.username,
->>>>>>> main
       },
       path.resolve("server/auth/keys/jwtRS256.key"),
       "10m",
@@ -76,14 +66,9 @@ export const register: RequestHandler = async function (
     const refreshToken = await genToken(
       {
         role: "user",
-<<<<<<< HEAD
-        userId: refreshId,
-        email: email,
-=======
         tokenId: refreshId,
         email: result.email,
         username: result.username,
->>>>>>> main
       },
       path.resolve("server/auth/keys/jwtRS256.key"),
       "30d",
@@ -106,51 +91,6 @@ export const register: RequestHandler = async function (
       expires: new Date(new Date().getTime() + 3 * 60000),
     });
 
-<<<<<<< HEAD
-    if(redisStore.all) {
-      // Implement the correct typing for this
-      redisStore.all(function(err, sessions: any) {
-        if(err){
-          console.error(err);
-          return res.status(500).json({ msg: "Something has gone wrong..." })
-        }
-        if(sessions) {
-          const session = sessions[0]
-
-          session.user = {
-            role: "user",
-            email: email,
-            username: username,
-            userId: result.id, 
-          }
-
-          
-          const sessionId = session.id;
-
-          redisStore.set(sessionId, session, function(err) {
-            if(err){
-              console.error(err);
-              return res.status(500).json({ msg: "Something has gone wrong..." })
-            }
-
-            return res.status(200).json({
-              msg: "Ok"
-            })
-          })
-        } else {
-          console.error("No session was found...");
-          return res.status(500).json({
-            msg: "Something has gone wrong..."
-          })
-        }
-      })
-    } else {
-      console.error("The redis store all method is undefined...");
-      return res.status(500).json({
-        msg: "Something has gone wrong..."
-      })
-    }
-=======
     // if(redisStore.all) {
     //   // Implement the correct typing for this
     //   redisStore.all(function(err, sessions: any) {
@@ -165,10 +105,9 @@ export const register: RequestHandler = async function (
     //         role: "user",
     //         email: email,
     //         username: username,
-    //         userId: result.id, 
+    //         userId: result.id,
     //       }
 
-          
     //       const sessionId = session.id;
 
     //       redisStore.set(sessionId, session, function(err) {
@@ -194,12 +133,10 @@ export const register: RequestHandler = async function (
     //     msg: "Something has gone wrong..."
     //   })
     // }
->>>>>>> main
-
 
     return res.status(200).json({
-      msg: "Ok"
-    })
+      msg: "Ok",
+    });
   } catch (e) {
     return next(e);
   }

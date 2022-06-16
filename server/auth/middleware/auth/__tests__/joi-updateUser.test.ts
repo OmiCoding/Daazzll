@@ -1,6 +1,6 @@
 import express from "express";
 import request from "supertest";
-import { joiUpdateUser } from "../joiChecks";
+import { joiUpdateUser } from "../";
 
 const app = express();
 app.use(express.json());

@@ -9,26 +9,6 @@
   "scripts": {
     "db:clean": "sudo rm -rf ./.docker/postgres-data ./.docker/redis-data && mkdir ./.docker/postgres-data ./.docker/redis-data",
     "db:test:clean": "sudo rm -rf ./.docker/postgres-test ./.docker/redis-test && mkdir ./.docker/redis-test ./.docker/postgres-test",
-<<<<<<< HEAD
-    "build:client:dev": "TYPE=web webpack build --config webpack.client.js --mode=development",
-    "build:client:test": "TYPE=web npx dotenv -e .env.test -- webpack build --config webpack.client.js --mode=production",
-    "build:client:prod": "TYPE=web npx dotenv -e .env.production -- webpack build --config webpack.client.js --mode=production",
-    "build:ssr:dev": "TYPE=ssr webpack build --config webpack.server.js --mode=development",
-    "build:ssr:test": "TYPE=ssr npx dotenv -e .env.test -- webpack build --config webpack.server.js --mode=production",
-    "build:ssr:prod": "TYPE=ssr npx dotenv -e .env.production -- webpack build --config webpack.server.js --mode=production",
-    "build:test": "concurrently \"yarn run build:client:test\" \"yarn run build:ssr:test\"",
-    "watch:client:dev": "TYPE=web npx dotenv -e .env.test -- webpack build --config webpack.client.js --mode=development",
-    "watch:ssr:dev": "TYPE=ssr npx dotenv -e .env.test -- webpack build --config webpack.server.js --mode=development",
-    "watch:build:dev": "concurrently \"yarn watch:client:dev\" \"yarn watch:ssr:dev\"",
-    "babel:api:server": "TYPE=node npx dotenv -e .env.test -- babel --extensions .ts,.tsx --config-file ./babel.config.js ./server/api -d lib/api",
-    "babel:auth:server": "TYPE=auth npx dotenv -e .env.test -- babel --extensions .ts,.tsx --config-file ./babel.config.js ./server/auth -d lib/auth",
-    "babel:server": "concurrently \"yarn babel:api:server\" \"yarn babel:auth:server\"",
-    "build:clean": "rm -rf ./build && mkdir ./build",
-    "lib:clean": "rm -rf ./lib && mkdir ./lib",
-    "start:api:server": "TYPE=node npx dotenv -e .env.test -- nodemon ./lib/api/index.js",
-    "start:auth:server": "TYPE=auth npx dotenv -e .env.test -- nodemon ./lib/auth/index.js",
-    "start:servers": "concurrently \"yarn start:api:server\" \"yarn start:auth:server\"",
-=======
     "build:clean": "rm -rf ./build && mkdir ./build",
     "lib:clean": "rm -rf ./lib && mkdir ./lib",
     "build:client:dev": "TYPE=web webpack build --config webpack.client.js --mode=development",
@@ -52,7 +32,6 @@
     "docker:auth": "TYPE=node npx dotenv -e .env.test -- node ./lib/auth/index.js",
     "docker:start:api": "npm run migrate:dev && npm run docker:api",
     "docker:start:auth": "npm run migrate:dev && npm run docker:auth",
->>>>>>> main
     "test": "npx dotenv -e .env.test -- jest -i",
     "check": "node getCookies.js"
   },
