@@ -22,6 +22,7 @@ export const handleSession = function(method: string, store: RedisStore, payload
 
       console.log(session)
       if(!session) return resolve(false);
+<<<<<<< HEAD
   
       switch(method) {
         case "ADD":
@@ -44,6 +45,27 @@ export const handleSession = function(method: string, store: RedisStore, payload
           });
         default:
           return resolve(false);
+=======
+      if(method === "ADD" || method === "UPDATE") {
+        session.user = {...payload}
+        store.set(session.id, session, function(e) {
+          if(e) {
+            console.error(e);
+            throw new Error("Something has gone wrong...");
+          }
+          return resolve(true);
+        });        
+      } else if (method === "DELETE") {
+        store.destroy(session.id, function(e) {
+          if(e) {
+            console.error(e);
+            throw new Error("Something has gone wrong...");
+          }
+            return resolve(true);
+        });
+      } else {
+        return resolve(false);
+>>>>>>> main
       }
     });
   });

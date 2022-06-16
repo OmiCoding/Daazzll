@@ -19,6 +19,13 @@ module.exports = function ({ mode, entry, target, filename }) {
         ]
       : [];
 
+<<<<<<< HEAD
+=======
+  console.log(mode);
+  console.log(target);
+  console.log(filename);
+  console.log(buildPath);
+>>>>>>> main
   return {
     mode,
     target,

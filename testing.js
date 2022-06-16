@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 // const fs = require("fs");
 const CryptoJS = require("crypto-js");
 // const path = require("path");
@@ -45,3 +46,18 @@ const CryptoJS = require("crypto-js");
 // console.log(data);
 
 // console.log(new Date(date + 1 * 60000));
+=======
+const { createClient } = require("redis");
+
+redisClient = createClient({
+  url: `redis://daazzll.local:6379`,
+});
+
+(async () => {
+  await redisClient.connect();
+
+  await redisClient.setEx("apple", 120, JSON.stringify({ msg: "hello" }));
+
+  console.log(await redisClient.get("apple"));
+})();
+>>>>>>> main

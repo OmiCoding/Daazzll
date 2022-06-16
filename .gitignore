@@ -6,6 +6,10 @@
 **/build/**
 **/lib/**
 **/certs/**
+<<<<<<< HEAD
+=======
+**/nginx/**
+>>>>>>> main
 
 
 node_modules
@@ -22,6 +26,10 @@ docker.env
 docker-compose.dev.yml
 docker-compose.test.yml
 docker-compose.yml
+<<<<<<< HEAD
+=======
+Dockerfile.*
+>>>>>>> main
 .env
 .env.*
 

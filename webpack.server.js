@@ -3,6 +3,10 @@ const { merge } = require("webpack-merge");
 const nodeExternals = require("webpack-node-externals");
 
 module.exports = function (env, argV) {
+<<<<<<< HEAD
+=======
+  console.log(argV.mode);
+>>>>>>> main
   return merge(
     baseConfig({
       mode: argV.mode,

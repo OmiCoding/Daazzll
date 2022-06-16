@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 import fs from "fs";
 import path from "path";
 import { Session, SessionData }from "express-session";
@@ -8,10 +9,26 @@ import "dotenv/config"
 let { SESSION_SECRET } = process.env;
 
 
+=======
+import express, { Request, Response, NextFunction } from "express";
+import cookieParser from "cookie-parser";
+import supertest from "supertest";
+import session from "express-session";
+import { redisStore } from "../../../storageInit";
+import {  handleCookies } from "../../../setups-for-tests/functions/checkTokenTestFuncs";
+import deleteSession from "../../../setups-for-tests/functions/deleteSession";
+import { checkToken2 } from "../checkToken2";
+
+import "dotenv/config"
+
+
+let { SESSION_SECRET } = process.env;
+>>>>>>> main
 if(!SESSION_SECRET) {
   SESSION_SECRET = "mysecret"
 }
 
+<<<<<<< HEAD
 describe("Testing the middleware checkToken that passes against these tests.", () => {
   
   let mockRequest: Partial<Request>;
@@ -68,6 +85,181 @@ describe("Testing the middleware checkToken that passes against these tests.", (
     expect(mockResponse.status).toBeCalledTimes(1);
     expect(mockResponse.json).toBeCalledWith(expectedJson);
   });
+=======
+const app = express();
+app.use(express.json());
+app.use(express.urlencoded({ extended: true }))
+app.use(cookieParser())
+app.use(session({
+  secret: "mysecret",
+  store: redisStore,
+  resave: false,
+  saveUninitialized: true,
+  cookie : {
+    path: "/",
+    secure: false,  
+    httpOnly: false,
+  }
+}));
+app.post("/pass" , handleCookies, checkToken2);
+app.post("/deleteSess", deleteSession);
+// app.get("/checkSessions", checkSession)
+
+let access_token: any, refresh_token: any, access_id: any, refresh_id: any;
+
+// beforeAll(async () => {
+//   const { accessToken, refreshToken, accessId, refreshId } = await setTokens("johndoe@gmail.com", "Johndoe123!");
+
+// access_token = accessToken;
+//   refresh_token = refreshToken;
+//   access_id = accessId;
+//   refresh_id = refreshId;
+// })
+
+// afterEach(async () => {
+//   await supertest(app)
+//   .post("/deleteSess")
+//   .set("Accept", "application/json")
+// })
+
+describe("Testing the middleware checkToken that passes against the first three conditions", () => {
+  
+  let mockRequest: Partial<Request>;
+  let mockResponse: Partial<Response>;
+  const nextFunction: NextFunction = jest.fn(); 
+
+  // beforeEach(() => {
+  //   mockRequest = {
+  //     cookies: {},
+  //   };
+  //   mockResponse = {
+  //     status: jest.fn().mockReturnThis(),
+  //     json: jest.fn()
+  //   };
+  // })
+
+  // test("Testing the middleware checkToken to see it working properly", async () => {
+  //   const expectedJson = {
+  //     "msg": "Unauthenticated."
+  //   };
+  //   await checkToken2(mockRequest as Request, mockResponse as Response, nextFunction as NextFunction);
+  //   expect(mockResponse.status).toBeCalledTimes(1);
+  //   expect(mockResponse.json).toBeCalledWith(expectedJson);
+  // })
+
+  // test("Testing the middleware that it responds with a status of 401 with no refresh_token", async () => {
+  //   mockRequest.cookies.access_token = "some invalidValue"
+  //   const expectedJson = {
+  //     "msg": "Unauthenticated."
+  //   };
+
+  //   await checkToken2(mockRequest as Request, mockResponse as Response, nextFunction as NextFunction);
+  //   expect(mockResponse.status).toBeCalledTimes(1);
+  //   expect(mockResponse.json).toBeCalledWith(expectedJson);
+  // })
+
+  test("Testing the middleware that it responds with a status of 200 correct credentials, and populates req.session with a user prop.", (done) => {  
+   
+    //@ts-ignore
+    // await supertest(app)
+    // .get("/setSessions")
+
+    supertest(app)
+    .post("/pass")
+    .end(function(err) {
+      if(err) return done(err);
+
+      return done()
+    })
+    // .send({
+    //   access_token: access_token,
+    //   refresh_token: refresh_token
+    // })
+    // .set("Accept", "application/json")
+    // await supertest(app)
+    // .post("/pass")
+    // .send({
+    //   access_token: accessToken,
+    //   refresh_token: refreshToken
+    // })
+
+    // const accessId = uuidv4();
+    // const refreshId = uuidv4();
+    
+
+    // const privKey = await fileRead(privPath, { encoding: "binary" });
+
+    // const data = await prismaClient.accounts.findFirst({
+    //   where: {
+    //     email: "johndoe@gmail.com",
+    //   },
+    //   select: {
+    //     id: true,
+    //     email: true,
+    //     username: true,
+    //   }
+    // })
+
+    // const payload = { 
+    //   role: "user",
+    //   tokenId: accessId,
+    //   email: data?.email,
+    //   username: data?.username,
+    //  }
+
+    // const setAccess = await redisClient.setEx(accessId, 600, JSON.stringify({ token: accessToken }));
+    // const setRefresh = await redisClient.setEx(refreshId, 600, JSON.stringify({ token: refreshToken }));
+
+    // await redisClient.setEx( accessId,
+    //   600,
+    //   JSON.stringify({ token: ace })
+    // );
+
+    // .end(function(err){
+    //   supertest(app)
+    //   .post("/pass")
+    //   .set("Accept", "application/json")
+    //   .end(function(err) {
+    //     return done();
+    //   }) 
+    // })
+  })
+})
+
+// describe("Testing the middleware checkToken related to scenarios with the access toekn", () => {
+//   const app = express();
+//   app.use(express.json());
+//   app.use(express.urlencoded({ extended: true }))
+//   app.use(cookieParser())
+//   app.use(session({
+//     secret: "mysecret",
+//     store: redisStore,
+//     resave: false,
+//     saveUninitialized: true,
+//     cookie : {
+//       path: "/",
+//       secure: false,  
+//       httpOnly: true,
+//     }
+//   }));
+//   app.post("/somepath", checkToken2);
+//   app.post("/deleteSess", deleteSession)
+
+
+// })
+
+  // test("Testing the middleware that it responds 401 with an invalid access token value.", async () => {
+  //   mockRequest.cookies.access_token = "someinvalidValue"
+  //   mockRequest.cookies.refresh_token = "someinvalidValue"
+  //   const expectedJson = {
+  //     "msg": "Unauthenticated."
+  //   }
+
+  //   await checkToken2(mockRequest as Request, mockResponse as Response, nextFunction as NextFunction);
+  //   expect(mockResponse.status).toBeCalledTimes(1);
+  //   expect(mockResponse.json).toBeCalledWith(expectedJson);
+  // });
+>>>>>>> main
 
   // test("Testing the middleware that it redirects with both expired access token and refresh token", async () => {
   //   try {
@@ -610,4 +802,8 @@ describe("Testing the middleware checkToken that passes against these tests.", (
   //     console.error(e);
   //   }
   // });
+<<<<<<< HEAD
 });
+=======
+// });
+>>>>>>> main

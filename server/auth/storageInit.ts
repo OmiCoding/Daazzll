@@ -16,9 +16,19 @@ if (!REDIS_HOST) {
 
 export const redisClient = createClient({
   url: `redis://${REDIS_HOST}:${REDIS_PORT}`,
+<<<<<<< HEAD
   legacyMode: true,
+=======
+>>>>>>> main
 });
 
 const RedisStore = connectRedis(sessions);
 
+<<<<<<< HEAD
 export const redisStore = new RedisStore({ client: redisClient, prefix: "sess1:" });
+=======
+export const redisStore = new RedisStore({
+  client: redisClient,
+  prefix: "sess1:",
+});
+>>>>>>> main

@@ -61,7 +61,11 @@ module.exports = {
         "^(\\.{1,2}/.*)\\.js$": "$1",
       },
       testMatch: [
+<<<<<<< HEAD
         "<rootDir>/server/auth/middleware/**/__tests__/checkToken.test.ts",
+=======
+        "<rootDir>/server/auth/middleware/**/__tests__/checkToken3.test.ts",
+>>>>>>> main
       ],
       testPathIgnorePatterns: [
         "<rootDir>/server/auth/__mocks__/",
