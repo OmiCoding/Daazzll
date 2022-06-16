@@ -1,0 +1,23 @@
+
+<svg
+   width="100%"
+   height="100%"
+   viewBox="0 0 26.458333 26.458334"
+   version="1.1"
+   classname="warning__svg"
+   >
+   <circle
+      style="fill:none;stroke:#d93025;stroke-width:1.32291667;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:4;stroke-dasharray:none"
+      cx="13.229167"
+      cy="13.229167"
+      r="11.900856" />
+   <circle
+      style="fill:#d93025;stroke:#d93025;stroke-width:0.661458;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:4;stroke-dasharray:none"
+      cx="13.229167"
+      cy="19.84375"
+      r="1.3229148" />
+   <path
+      style="fill:#d93025;stroke:#d93025;stroke-width:0.661458;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
+      d="m 10.583333,7.9374999 1.5875,6.8791671 c 0.264584,1.322917 1.852084,1.322917 2.116667,0 L 15.875,7.9375 c 0,-3.96875 -5.291667,-3.96875 -5.291667,-1e-7 z"
+      />
+</svg>

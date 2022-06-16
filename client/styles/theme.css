@@ -1,0 +1,64 @@
+:root {
+  /* default theme */
+  --bg-color: #f8f9fa;
+  --invBg-color: #001d4a;
+  --secondary-color: #27476e;
+  --tertiary-color: #eaeaea;
+  --quaternary-color: #000000;
+  --text-color: #000000;
+  --invTxt-color: #ffffff;
+  --danger-color: #d93025;
+  --disabled-color: #495057;
+  --prime-btn-color: #000000;
+  --border-color: #e5e8eb;
+  --shadow-color: hsl(0deg 0% 0% / 0.1);
+  --grey-text: #707a83;
+  --btn-hover-1: #2158c4;
+  --btn-hover-2: #5f8de8;
+  --transition-1: cubic-bezier(0.4, 0.4, 0.2, 1);
+  /* text related */
+  --main-font: "Inter", sans-serif;
+  --head-font: "Inter", sans-serif;
+  --title-font: "Poppins", sans-serif;
+  --fnt-weight-1: 400;
+  --fnt-weight-2: 600;
+  --fnt-weight-3: 900;
+  --heading-1: 2.5rem;
+  --heading-2: 2rem;
+  --heading-3: 1.5rem;
+  --heading-4: 1.2rem;
+  --reg-size: 1rem;
+  --caption: 0.75rem;
+  --btn-size: 0.85rem;
+
+  /* media query sizes */
+  --iphoneSE: 320px;
+  --galaxyNote: 360px;
+  --pixel2: 414px;
+  --iPad: 768px;
+  --iPadPro: 1024px;
+  --laptopSM: 1280px;
+  --desktopSM: 1366px;
+  --laptopMed: 1440px;
+  --desktopMed: 1680px;
+  --desktopLg: 1920px;
+  --desktopXLg: 2560px;
+
+  /* padding sizes */
+  --padding-half: 0.5rem;
+  --padding-1: 1rem;
+  --padding-2: 2rem;
+  --padding-3: 3rem;
+  --padding-4: 4rem;
+  --padding-5: 5rem;
+  -ms-overflow-style: none; /* IE and Edge */
+  scrollbar-width: none; /* Firefox */
+}
+
+:root::-webkit-scrollbar {
+  display: none;
+}
+
+[data-theme="dark"] {
+  /* Define dark theme here. */
+}

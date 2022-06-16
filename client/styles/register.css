@@ -1,0 +1,74 @@
+@import "./theme.css";
+
+.terms-wrapper {
+  display: flex;
+  width: 100%;
+  max-width: 375px;
+}
+
+.terms__checkbox {
+  width: 20px;
+  height: 20px;
+  background-color: #000000;
+  margin-right: 0.5rem;
+}
+
+.terms__text {
+  font-size: var(--btn-size);
+}
+
+.terms__link {
+  font-weight: var(--fnt-weight-2);
+  color: var(--prime-btn-color);
+}
+
+.terms__link:hover {
+  color: var(--btn-hover-1);
+}
+
+.register-login__text {
+  text-align: center;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.register-login__link {
+  color: var(--prime-btn-color);
+  font-weight: var(--fnt-weight-2);
+}
+
+.register-login__link:hover {
+  color: var(--btn-hover-1);
+}
+
+@media screen and (min-width: 320px) {
+  .terms-wrapper {
+    margin: 1.5rem auto;
+  }
+
+  .terms__text {
+    font-size: var(--btn-size);
+    width: 89%;
+  }
+
+  .register-login__text {
+    font-size: var(--btn-size);
+    margin-top: 2.5rem;
+  }
+}
+
+@media screen and (min-width: 1280px) {
+  .terms-wrapper {
+    margin: 1.5rem auto;
+  }
+
+.terms__text {
+    font-size: var(--reg-size);
+    width: auto;
+  }
+
+  .register-login__text {
+    font-size: var(--reg-size);
+    margin-top: 2.5rem;
+  }
+}

@@ -1,0 +1,337 @@
+@import "./theme.css";
+
+.header-wrapper {
+  position: fixed;
+  top: -80px;
+  left: 0;
+  width: 100%;
+  z-index: 1;
+  background-color: var(--bg-color);
+  box-shadow: 0px 10px 13px hsl(0deg 0% 0% / 0.05);
+  transition: top 300ms cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.header-hb-flex-wrapper {
+  display: flex;
+  justify-content: flex-start;
+  flex-direction: column;
+  width: 100%;
+}
+
+.header-flex-wrapper {
+  position: relative;
+  display: flex;
+  align-items: center;
+  width: 100%;
+}
+
+.logo-wrapper {
+  position: relative;
+}
+
+.logo-title {
+  font-size: var(--heading-3);
+  font-family: var(--title-font);
+  color: var(--text-color);
+}
+
+.header-nav-acc-wrapper {
+  align-items: center;
+}
+
+.nav {
+  color: var(--text-color);
+}
+
+.nav__list {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 100%;
+}
+
+.nav__list__items {
+  color: var(--text-color);
+  font-size: var(--reg-size);
+}
+
+.items__link {
+  color: var(--text-color);
+  transition: color 400ms cubic-bezier(0.31, 0.06, 0.27, 1);
+}
+
+.items__link:hover {
+  color: var(--btn-hover-2);
+}
+
+.nav-btn-wrapper {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.btn-wrapper {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.sign-in-btn {
+  margin: 0 1rem;
+  padding: 0.6rem 2rem;
+  font-size: var(--btn-size);
+  color: var(--invTxt-color);
+  background-color: var(--prime-btn-color);
+  border-radius: 5px;
+  box-shadow: 0px 5px 10px var(--shadow-color);
+  transition: all 400ms cubic-bezier(0.31, 0.06, 0.27, 1);
+}
+
+.sign-in-btn:hover {
+  background-color: var(--btn-hover-1);
+  box-shadow: none;
+}
+
+.login-btn {
+  margin: 0 1rem;
+  padding: 0.6rem 1rem;
+  font-weight: var(--fnt-weight-1);
+  font-size: var(--reg-size);
+  color: var(--text-color);
+  border: none;
+  transition: all 300ms cubic-bezier(0.31, 0.06, 0.27, 1);
+}
+
+.login-btn:hover {
+  color: var(--btn-hover-2);
+}
+
+.header-wrapper--down {
+  top: 0px;
+}
+
+.hamburger-nav-wrapper {
+  position: relative;
+  width: 100%;
+  height: 100vh;
+  background-color: var(--main-bg-color);
+  transform: scaleY(0);
+  transform-origin: top center;
+  transition: transform 300ms cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.sign-log-wrapper {
+  display: flex;
+  padding: 1.2rem;
+}
+
+.hamburger-nav {
+  position: relative;
+  width: 100%;
+  height: 100%;
+}
+
+.hamburger-nav-wrapper--appear {
+  transform: scaleY(1);
+}
+
+.hamburger-nav-list {
+  width: 100%;
+  height: 100%;
+}
+
+.hb-nav__list__item {
+  display: flex;
+  align-items: center;
+  width: 100%;
+  padding: 1.5rem 0.5rem;
+  margin-left: 1.5rem;
+}
+
+/* Make a hover for the svg, and also activate the svg animation. */
+
+.hb-nav__list__item:hover > a.hb-nav__item__link {
+  color: var(--btn-hover-2);
+}
+
+.hb-nav__list__item:hover
+  > div.hb-nav__item__svg-wrapper
+  > svg.hb-nav__item__svg
+  > rect.hb-nav__item__svg__rect {
+  fill: red;
+}
+
+.hb-nav__item__svg-wrapper {
+  width: 30px;
+  height: 30px;
+}
+
+.hb-nav__item__svg {
+}
+
+.hb-nav__item__svg__rect {
+  fill: #000000;
+  fill-rule: evenodd;
+  stroke-width: 0.259492;
+}
+
+.hb-nav__item__svg__path {
+  fill: #000000;
+}
+
+.hb-nav__item__link {
+  display: inline-block;
+  color: var(--text-color);
+  margin-left: 1rem;
+  transition: color 400ms cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+@media screen and (min-width: 320px) {
+  .header-wrapper {
+    font-size: var(--reg-size);
+    height: 68px;
+  }
+
+  .header-flex-wrapper {
+    position: relative;
+    justify-content: space-between;
+    padding: 0 0.5rem;
+  }
+
+  .header-nav-acc-wrapper {
+    display: none;
+  }
+
+  .logo-title {
+    padding: var(--padding-1) 0;
+  }
+
+  .nav {
+    display: none;
+  }
+
+  .btn-wrapper {
+    display: none;
+  }
+
+  .hm__path-1 {
+    fill: none;
+    stroke: var(--text-color);
+    stroke-width: 1.0793;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+    stroke-miterlimit: 4;
+    stroke-dasharray: 7 25;
+    stroke-dashoffset: 0;
+    stroke-opacity: 1;
+    transition: stroke-dasharray 600ms cubic-bezier(0.4, 0, 0.2, 1),
+      stroke-dashoffset 600ms cubic-bezier(0.4, 0, 0.2, 1);
+  }
+  .hm__path-2 {
+    fill: none;
+    stroke: var(--text-color);
+    stroke-width: 1.07929;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+    stroke-miterlimit: 4;
+    stroke-dasharray: 6 6;
+    stroke-dashoffset: 0;
+    stroke-opacity: 1;
+    transition: stroke-dasharray 600ms cubic-bezier(0.4, 0, 0.2, 1),
+      stroke-dashoffset 600ms cubic-bezier(0.4, 0, 0.2, 1);
+  }
+  .hm__path-3 {
+    fill: none;
+    stroke: var(--text-color);
+    stroke-width: 1.0793;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+    stroke-miterlimit: 4;
+    stroke-dasharray: 7 25;
+    stroke-dashoffset: 0;
+    stroke-opacity: 1;
+    transition: stroke-dasharray 600ms cubic-bezier(0.4, 0, 0.2, 1),
+      stroke-dashoffset 600ms cubic-bezier(0.4, 0, 0.2, 1);
+  }
+
+  .hm__path-1--animate {
+    stroke-dasharray: 9 25;
+    stroke-dashoffset: -16;
+  }
+
+  .hm__path-2--animate {
+    stroke-dashoffset: -6;
+  }
+
+  .hm__path-3--animate {
+    stroke-dasharray: 9 25;
+    stroke-dashoffset: -15;
+  }
+
+  .header-hb-flex-wrapper {
+    /* overflow-y: visible */
+    height: 100%;
+  }
+
+  .header-wrapper-hb--open {
+    height: 100%;
+  }
+
+  .header-wrapper--ls {
+    height: 100%;
+  }
+
+  .header-hb-flex-wrapper--ls {
+    height: 100%;
+  }
+
+  .hamburger-nav-wrapper--ls {
+    overflow-y: scroll;
+  }
+}
+
+@media screen and (min-width: 768px) {
+  .hb-nav__list__item {
+    padding: 2rem 0.5rem;
+  }
+}
+
+@media screen and (min-width: 1280px) {
+  .header-wrapper {
+    padding: 0 2rem;
+    height: 68px;
+  }
+
+  .header-flex-wrapper {
+    justify-content: space-between;
+    padding: 0;
+  }
+
+  .header-nav-acc-wrapper {
+    display: flex;
+  }
+
+  .logo-title {
+    padding: 0;
+  }
+
+  .nav {
+    display: block;
+  }
+
+  .nav__list__items {
+    padding: 1.5rem 1rem;
+  }
+
+  .btn-wrapper {
+    display: block;
+  }
+
+  .hamburger-nav-wrapper {
+    display: none;
+  }
+
+  .hamburger-nav {
+    display: none;
+  }
+}

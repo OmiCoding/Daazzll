@@ -1,0 +1,239 @@
+@import url("./theme.css");
+
+.profile-page {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  min-height: 100vh;
+  background-color: var(--bg-color);
+}
+
+.profile-header {
+  position: relative;
+  width: 100%;
+  height: 68px;
+}
+
+.profile-hb-wrapper {
+  position: relative;
+  width: 36px;
+  height: 36px;
+  z-index: 0;
+}
+
+.profile-hb-button {
+  position: absolute;
+}
+
+.profile-hb-flex-wrapper {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 100%;
+  height: 100%;
+}
+
+.banner-wrapper {
+  position: relative;
+  width: 100%;
+  height: 220px;
+  z-index: 0;
+  background-color: var(--tertiary-color);
+  margin-bottom: 60px;
+}
+
+.bg-img-wrapper {
+  position: absolute;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  top: calc(40% + 65px);
+  left: 50%;
+  right: 50%;
+  transform: translateX(-50%);
+  width: 130px;
+  height: 130px;
+  border-radius: 50%;
+  background-color: var(--bg-color);
+  z-index: 1;
+}
+
+.img-wrapper {
+  position: relative;
+  width: 94%;
+  height: 94%;
+  background-color: var(--tertiary-color);
+  border-radius: 50%;
+  z-index: 1;
+}
+
+.add-img-btn-wrapper {
+  position: absolute;
+  bottom: 10px;
+  right: -5px;
+  width: 32px;
+  height: 32px;
+}
+
+.add-img__btn {
+  width: 100%;
+  height: 100%;
+  font-size: var(--reg-size);
+  border-radius: 50%;
+  color: var(--shadow-color);
+  border: 1px solid var(--border-color);
+  background-color: var(--bg-color);
+  transition: all var(--transition-1) 300ms;
+}
+
+.add-img__btn:hover {
+  color: var(--btn-hover-1);
+  box-shadow: 0px 10px 13px var(--shadow-color);
+}
+
+.profile-pitch {
+  display: flex;
+  position: relative;
+  justify-content: center;
+  align-items: flex-start;
+  flex-direction: column;
+  width: 100%;
+  z-index: 0;
+}
+
+.profile-media-wrapper {
+  display: flex;
+  position: relative;
+  justify-content: flex-end;
+  align-items: center;
+  width: 100%;
+  height: 50px;
+  z-index: 0;
+}
+
+.flex-media-wrapper {
+  display: flex;
+  align-items: center;
+  height: 100%;
+}
+
+.profile-media__btn {
+  padding: 1rem;
+  font-size: var(--btn-size);
+  font-weight: var(--fnt-weight-2);
+  color: var(--grey-text);
+  border: 1px solid var(--border-color);
+  border-radius: 7px;
+  transition: all cubic-bezier(0.4, 0.4, 0.2, 1) 300ms;
+}
+
+.profile-media__btn:hover {
+  color: var(--text-color);
+  box-shadow: 0px 10px 13px var(--shadow-color);
+}
+
+.profile-media__btn > .fa-plus {
+  padding-right: 0.3rem;
+  margin-right: 0.3rem;
+}
+
+.profile-media__list {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border: 1px solid var(--border-color);
+  transition: all var(--transition-1) 300ms;
+  border-radius: 7px;
+  transform-origin: top right;
+}
+
+.profile__list__item {
+  font-size: var(--btn-size);
+  width: 100%;
+  padding: 1rem 1.8rem;
+  color: var(--grey-text);
+  transition: all var(--transition-1) 300ms;
+}
+
+.profile__list__item > .fa-flag {
+  margin-right: 0.8rem;
+}
+
+.profile__list__item:hover {
+  color: var(--text-color);
+  box-shadow: 0px 10px 13px var(--shadow-color);
+}
+
+.ellipsi-wrapper {
+  position: relative;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 50px;
+  height: 50px;
+}
+
+.ellipsi-button {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  font-size: 1.5rem;
+  color: var(--grey-text);
+  border: 1px solid var(--border-color);
+  border-radius: 7px;
+  transition: all var(--transition-1) 300ms;
+}
+
+.ellipsi-button:hover {
+  color: var(--text-color);
+  box-shadow: 0px 10px 13px var(--shadow-color);
+}
+
+@media screen and (min-width: 320px) {
+  .profile-hb-flex-wrapper {
+    padding: 0 1rem;
+  }
+
+  .profile-media__btn {
+    display: none;
+  }
+
+  .flex-media-wrapper {
+    justify-content: flex-end;
+    width: 100%;
+    padding: 0 1rem;
+  }
+
+  .profile-media__list {
+    position: absolute;
+    bottom: -120%;
+    right: 1rem;
+    background-color: var(--bg-color);
+    border-radius: 7px;
+    flex-direction: column;
+  }
+}
+
+@media screen and (min-width: 1280px) {
+  .profile-header {
+    padding: 0 2rem;
+  }
+
+  .profile-media__btn {
+    display: block;
+    margin-right: 1.5rem;
+  }
+
+  .flex-media-wrapper {
+    width: auto;
+    justify-content: space-between;
+  }
+
+  .profile-media__list {
+    position: relative;
+    flex-direction: row;
+    z-index: 2;
+  }
+}
