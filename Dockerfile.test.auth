@@ -1,6 +1,5 @@
 FROM node:16-bullseye-slim AS builder
 
-# Adding system group named node, and then adding user named node to that system group
 RUN adduser node node
 
 RUN mkdir /home/node/src
