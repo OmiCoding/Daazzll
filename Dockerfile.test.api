@@ -1,0 +1,57 @@
+# Specifying the image that we will use within the DockerFile
+FROM node:16-bullseye-slim AS builder
+
+# Adding system group named node, and then adding user named node to that system group
+
+# Specifying the user for the image itself (note: may need sudo permissions)
+# In this case the image comes with a default user node
+# Specify the directory of the built babel server this is needed to prevent the root user from making a directory by default
+RUN adduser node node
+
+RUN mkdir /home/node/src
+
+WORKDIR /home/node/src
+
+# Specifying the directory that will contain the code
+
+COPY --chown=node:node package-lock.json package.json ./
+
+COPY --chown=node:node .env.test babel.config.js postcss.config.js tsconfig.json ./
+
+COPY --chown=node:node ./server/api/ ./server/api/
+
+COPY --chown=node:node ./certs/daazzll.dev* ./
+
+COPY --chown=node:node ./prisma ./prisma/
+# npm ci is meant for automated enviornments it acts similar to npm install
+RUN npm ci && npm run babel:api:server
+
+RUN npm prune --production
+
+##### - Stage 2 - run server #######
+
+FROM node:16-bullseye-slim
+
+RUN adduser node node
+
+RUN mkdir /home/node/src
+
+WORKDIR /home/node/src
+
+COPY --chown=node:node package-lock.json package.json ./
+
+COPY --chown=node:node .env.test babel.config.js postcss.config.js tsconfig.json ./
+
+COPY --chown=node:node ./server/api/ ./server/api/
+
+COPY --chown=node:node ./certs/daazzll.dev* ./
+
+COPY --chown=node:node ./prisma ./prisma
+
+COPY --from=builder /home/node/src/lib ./lib
+
+COPY --from=builder /home/node/src/node_modules ./node_modules
+
+EXPOSE 8080
+
+CMD ["npm", "run", "docker:start:api"]

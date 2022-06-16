@@ -1,0 +1,65 @@
+version: "3.9"
+
+services:
+  api:
+    restart: unless-stopped
+    container_name: api
+    build:
+      dockerfile: Dockerfile.test.api
+    depends_on:
+      - db
+      - cache
+    ports:
+      - "8080:8080"
+  auth:
+    restart: unless-stopped
+    container_name: auth
+    build:
+      dockerfile: Dockerfile.test.auth
+    depends_on:
+      - db
+      - cache
+    ports:
+      - "8433:8433"
+  db:
+    image: postgres:13-alpine
+    restart: unless-stopped
+    container_name: postgres
+    environment:
+      POSTGRES_USER: $TEST_POSTGRES_USER
+      POSTGRES_PASSWORD: $TEST_POSTGRES_PASSWORD
+      POSTGRES_DB: $TEST_POSTGRES_DB
+    volumes:
+      - type: volume
+        source: postgres_data
+        target: /var/lib/postgresql/data
+    expose:
+      - "5432"
+  cache:
+    image: redis:6.2.6-alpine
+    restart: unless-stopped
+    container_name: cache
+    command: redis-server --appendonly yes
+    volumes:
+      - type: volume
+        source: postgres_data
+        target: /var/lib/redis/data
+      - type: bind
+        source: ./.docker/redis.conf
+        target: /usr/local/etc/redis/redis.conf
+    expose:
+      - "6379"
+  # webserver:
+  #   image: ngnix:1.22.0-alpine,
+  #   restart: unless-stopped,
+  #   ports:
+  #     - "80:80"
+  #     - "443:443"
+  #   volumes:
+  #     - ./nginx/ssl-dev:/etc/nginx/conf.d
+  #   depends_on:
+  #     - api
+  #     - auth
+
+volumes:
+  postgres_data:

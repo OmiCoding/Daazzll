@@ -1,0 +1,34 @@
+version: '3.8'
+
+services:
+    db:
+        image: postgres:13-alpine
+        restart: unless-stopped
+        container_name: db-container
+        ports:
+            - '5050:5432'
+        environment:
+            - POSTGRES_USER=${DEV_POSTGRES_USER}
+            - POSTGRES_PASSWORD=${DEV_POSTGRES_PASSWORD}
+            - POSTGRES_DB=${DEV_POSTGRES_DB}
+        volumes:
+            - ./.docker/postgres-data:/var/lib/postgresql/data
+        networks:
+            - db
+    cache:
+        image: redis:6.2.6-alpine
+        restart: unless-stopped
+        container_name: cache-container
+        command: redis-server --appendonly yes
+        ports:
+            - '6379:6379'
+        volumes:
+            - ./.docker/redis-data:/data
+            - ./.docker/redis.conf/:/usr/local/etc/redis/redis.conf
+        networks:
+            - cache
+networks:
+    db:
+        driver: bridge
+    cache:
+        driver: bridge

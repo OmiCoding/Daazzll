@@ -1,0 +1,11 @@
+**/node_modules/**
+**/__mocks__/**
+**/__tests__/**
+**/postgres-test/**
+
+node_modules
+node_modules/**
+node_modules/*
+
+server/auth/setups-for-tests
+server/auth/keys
