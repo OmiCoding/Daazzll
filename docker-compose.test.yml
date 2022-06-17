@@ -9,8 +9,8 @@ services:
     depends_on:
       - db
       - cache
-    ports:
-      - "8080:8080"
+    expose:
+      - "8080"
   auth:
     restart: unless-stopped
     container_name: auth
@@ -19,8 +19,8 @@ services:
     depends_on:
       - db
       - cache
-    ports:
-      - "8433:8433"
+    expose:
+      - "8433"
   db:
     image: postgres:13-alpine
     restart: unless-stopped
@@ -49,17 +49,17 @@ services:
         target: /usr/local/etc/redis/redis.conf
     expose:
       - "6379"
-  # webserver:
-  #   image: ngnix:1.22.0-alpine,
-  #   restart: unless-stopped,
-  #   ports:
-  #     - "80:80"
-  #     - "443:443"
-  #   volumes:
-  #     - ./nginx/ssl-dev:/etc/nginx/conf.d
-  #   depends_on:
-  #     - api
-  #     - auth
+  webserver:
+    image: ngnix:1.22.0-alpine
+    restart: unless-stopped
+    ports:
+      - "80:80"
+      - "443:443"
+    volumes:
+      - ./nginx/ssl-dev:/etc/nginx/conf.d
+    depends_on:
+      - api
+      - auth
 
 volumes:
   postgres_data:

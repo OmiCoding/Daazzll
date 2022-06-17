@@ -19,7 +19,7 @@
     "build:ssr:prod": "TYPE=ssr npx dotenv -e .env.production -- webpack build --config webpack.server.js --mode=production",
     "build:test": "concurrently \"npm run build:client:test\" \"npm run build:ssr:test\"",
     "watch:client:dev": "TYPE=web npx dotenv -e ./.env.test -- webpack build --config webpack.client.js --mode=development",
-    "watch:ssr:dev": "TYPE=ssr npx dotenv -e ./.env.test -- webpack build --config webpack.server.js --mode=production",
+    "watch:ssr:dev": "TYPE=ssr npx dotenv -e ./.env.test -- webpack build --config webpack.server.js --mode=development",
     "watch:build:dev": "concurrently \"npm run watch:client:dev\" \"npm run watch:ssr:dev\"",
     "babel:api:server": "TYPE=node npx dotenv -e .env.test -- babel --extensions .ts,.tsx --config-file ./babel.config.js ./server/api -d ./lib/api",
     "babel:auth:server": "TYPE=auth npx dotenv -e .env.test -- babel --extensions .ts,.tsx --config-file ./babel.config.js ./server/auth -d ./lib/auth",
