@@ -17,12 +17,7 @@ const LoginForm: React.FC<LoginFormProps> = function ({
   warn_2,
 }) {
   return (
-    <form
-      className="page__form-1"
-      onSubmit={handleSubmit}
-      action="http://localhost:8080/login"
-      method="POST"
-    >
+    <form className="page__form-1" onSubmit={handleSubmit} method="POST">
       <div className="page-input-wrapper-1">
         <input
           onChange={handleChange}

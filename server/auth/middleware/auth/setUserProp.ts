@@ -3,6 +3,7 @@ import { redisClient } from "../../storageInit";
 
 export const setUserProp: RequestHandler = async function (req, res, next) {
   try {
+    console.log(req.originalUrl);
     console.log("tf");
     console.log(req.cookies);
     console.log(req.signedCookies["sid"]);

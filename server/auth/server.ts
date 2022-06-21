@@ -39,11 +39,11 @@ if (!SESSION_SECRET) {
 let keyPath;
 let certPath;
 if (BUILD === "dev") {
-  keyPath = path.join(__dirname + "../../../certs/daazzll.dev+3-key.pem");
-  certPath = path.join(__dirname + "../../../certs/daazzll.dev+3.pem");
+  keyPath = path.join(__dirname + "/../../certs/daazzll.dev+3-key.pem");
+  certPath = path.join(__dirname + "/../../certs/daazzll.dev+3.pem");
 } else {
-  keyPath = path.join(__dirname + "../../../daazzll.dev+3-key.pem");
-  certPath = path.join(__dirname + "../../../daazzll.dev+3.pem");
+  keyPath = path.join(__dirname + "/../../daazzll.dev+3-key.pem");
+  certPath = path.join(__dirname + "/../../daazzll.dev+3.pem");
 }
 const privKey = fs.readFileSync(keyPath, "utf-8");
 const cert = fs.readFileSync(certPath, "utf-8");
@@ -58,10 +58,12 @@ app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
 
 // include helmet
-if (BUILD === "development" || BUILD === "test") {
+if (BUILD === "dev" || BUILD === "test") {
   app.use(
     cors({
       origin: [
+        "https://daazzll.dev",
+        "https://daazzll.dev/",
         "https://daazzll.dev:8080",
         "https://daazzll.dev:8433",
         "https://daazzll.dev:8080/",
@@ -79,7 +81,7 @@ if (BUILD === "development" || BUILD === "test") {
 
 app.use(cookieParser(USER_SECRET));
 app.use(setUserProp);
-app.use(auth);
+app.use("/auth", auth);
 app.use("/profile", profile);
 app.use("*", errorHandler);
 

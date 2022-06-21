@@ -31,8 +31,17 @@ const AuthProvider: React.FC<ProviderProps> = function ({ children }) {
     auth: hpObj ? hpObj.pass : false,
   });
 
+  // let BUILD_HOST: string;
+  // if (!process.env.BUILD_HOST) {
+  //   if (process.env.BUILD === "test") {
+  //     BUILD_HOST = "https://daazzll.dev/";
+  //   } else {
+  //     BUILD_HOST = "https://daazzll.dev:8433/";
+  //   }
+  // }
+
   const register = function (body: RegisterBody, cb: () => void) {
-    fetch("https://daazzll.local:8433/register", {
+    fetch("/auth/register", {
       method: "POST",
       mode: "cors",
       credentials: "include",
@@ -60,7 +69,7 @@ const AuthProvider: React.FC<ProviderProps> = function ({ children }) {
   };
 
   const login = function (body: LoginBody) {
-    fetch("https://daazzll.local:8433/login", {
+    fetch("/auth/login", {
       method: "POST",
       mode: "cors",
       credentials: "include",
@@ -85,7 +94,7 @@ const AuthProvider: React.FC<ProviderProps> = function ({ children }) {
   };
 
   const logout = function () {
-    fetch("https://daazzll.local:8433/logout", {
+    fetch("/auth/logout", {
       method: "GET",
       mode: "cors",
       credentials: "include",

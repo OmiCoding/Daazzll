@@ -4,8 +4,9 @@ import { v4 as uuidv4 } from "uuid";
 import { hash } from "bcrypt";
 
 import prismaClient from "../prismaClient";
-import { redisStore } from "../storageInit";
+// import { redisStore } from "../storageInit";
 import { genToken } from "../utils/functions/auth";
+import { PRIV_KEY_PATH } from "../serverConfig";
 
 export const register: RequestHandler = async function (
   req: Request,
@@ -58,7 +59,7 @@ export const register: RequestHandler = async function (
         email: result.email,
         username: result.username,
       },
-      path.resolve("server/auth/keys/jwtRS256.key"),
+      PRIV_KEY_PATH,
       "10m",
       600
     );
@@ -70,7 +71,7 @@ export const register: RequestHandler = async function (
         email: result.email,
         username: result.username,
       },
-      path.resolve("server/auth/keys/jwtRS256.key"),
+      PRIV_KEY_PATH,
       "30d",
       1800
     );

@@ -6,8 +6,9 @@ export const checkedLoggedIn: RequestHandler = function (
   next: NextFunction
 ) {
   if (req.cookies.access_token) {
-     
     return res.status(403).json({ msg: "Bad request." });
   }
+
+  console.log("hello");
   return next();
 };

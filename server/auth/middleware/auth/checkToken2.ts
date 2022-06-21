@@ -8,16 +8,9 @@ import { redisClient } from "../../storageInit";
 import { RedisAuthToken } from "../../custom-types";
 import { regenToken, signedToken } from "../../utils/functions/auth";
 import "dotenv/config";
-import { redisStore } from "../../../auth/storageInit";
-import { handleSession } from "../../utils/functions/handleSession";
 import prismaClient from "../../prismaClient";
 import { handleJWT } from "../../utils/functions";
-
-const { HOST } = process.env;
-
-if (!HOST) {
-  throw new Error("Host is not defined.");
-}
+import { PUB_KEY_PATH, PRIV_KEY_PATH } from "../../serverConfig";
 
 const readFile = util.promisify(fs.readFile);
 
@@ -27,10 +20,9 @@ export const checkToken2: RequestHandler = async function (
   next: NextFunction
 ) {
   try {
-    const publicKey = await readFile(
-      path.resolve("server/auth/keys/jwtRS256.key.pub"),
-      "binary"
-    );
+    const publicKey = await readFile(PUB_KEY_PATH, "binary");
+
+    console.log(publicKey);
 
     const { access_token, refresh_token } = req.cookies;
     const { sid } = req.signedCookies;
@@ -205,7 +197,7 @@ export const checkToken2: RequestHandler = async function (
             email: refPayload.email,
             username: refPayload.username,
           },
-          path.resolve("server/auth/keys/jwtRS256.key"),
+          PRIV_KEY_PATH,
           "5m",
           3000
         );
@@ -217,7 +209,7 @@ export const checkToken2: RequestHandler = async function (
             email: refPayload.email,
             username: refPayload.username,
           },
-          path.resolve("server/auth/keys/jwtRS256.key"),
+          PRIV_KEY_PATH,
           "5m",
           3000
         );

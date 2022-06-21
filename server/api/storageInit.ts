@@ -20,8 +20,6 @@ export const redisClient = createClient({
 
 const RedisStore = connectRedis(sessions);
 
-console.log(REDIS_HOST, REDIS_PORT);
-
 export const redisStore = new RedisStore({
   client: redisClient,
   prefix: "sess1:",

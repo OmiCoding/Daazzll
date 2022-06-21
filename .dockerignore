@@ -9,4 +9,3 @@ node_modules/*
 
 
 server/auth/setups-for-tests
-server/auth/keys

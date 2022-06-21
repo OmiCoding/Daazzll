@@ -6,6 +6,7 @@ const {
 } = require("typescript-loadable-components-plugin");
 const MiniCSSExtractPlugin = require("mini-css-extract-plugin");
 const ESLintWebpackPlugin = require("eslint-webpack-plugin");
+const { EnvironmentPlugin } = require("webpack");
 
 const buildPath = path.join(__dirname, "build");
 
@@ -15,6 +16,9 @@ module.exports = function ({ mode, entry, target, filename }) {
       ? [
           new CopyWebpackPlugin({
             patterns: [{ from: "./prisma/schema.prisma" }],
+          }),
+          new EnvironmentPlugin({
+            BUILD_HOST: process.env.BUILD_HOST,
           }),
         ]
       : [];

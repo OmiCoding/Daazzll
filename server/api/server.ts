@@ -52,10 +52,12 @@ app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
 
 // include helmet
-if (process.env.BUILD === "development" || process.env.BUILD === "test") {
+if (process.env.BUILD === "dev" || process.env.BUILD === "test") {
   app.use(
     cors({
       origin: [
+        "https://daazzll.dev",
+        "https://daazzll.dev/",
         "https://daazzl.dev:8080",
         "https://daazzl.dev:8433",
         "https://daazzl.dev:8080/",

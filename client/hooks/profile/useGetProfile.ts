@@ -5,7 +5,7 @@ const useGetProfile = function () {
   useEffect(() => {
     const accessToken = Cookies.get("access_token");
     if (accessToken) {
-      fetch("https://daazzll.local:8433/profile/setup", {
+      fetch("https://daazzll.dev/profile/setup", {
         method: "GET",
         mode: "cors",
         credentials: "include",

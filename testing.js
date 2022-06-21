@@ -1,63 +1,16 @@
-<<<<<<< HEAD
-// const fs = require("fs");
-const CryptoJS = require("crypto-js");
-// const path = require("path");
-// const uuid = require("uuid");
-// // const keyFile = require("./server/auth/keys/jwtRS256.key");
+// const { createClient } = require("redis");
 
-// const { v4 } = uuid;
-// const privKey = fs.readFileSync("./server/auth/keys/jwtRS256.key", "binary");
-// const key = CryptoJS.enc.Utf8.parse(privKey);
-// const iv = CryptoJS.enc.Utf8.parse(v4());
-// const serializedState = JSON.stringify({
-//   someitem: "jsdkfs",
+const path = require("path");
+
+// redisClient = createClient({
+//   url: `redis://daazzll.local:6379`,
 // });
 
-// const encrypted = CryptoJS.AES.encrypt(serializedState, key, { iv: iv });
-// const decrypted = CryptoJS.AES.decrypt(encrypted, key, { iv: iv }).toString(
-//   CryptoJS.enc.Utf8
-// );
+// (async () => {
+//   await redisClient.connect();
 
-// // console.log(encrypted);
-// console.log(decrypted);
+//   await redisClient.setEx("apple", 120, JSON.stringify({ msg: "hello" }));
 
-// function generateKey(p){
-//   var salt = CryptoJS.lib.WordArray.random(128/8);
-//   return CryptoJS.PBKDF2(p, salt, { keySize: 512/32, iterations: 1000 });
-// }
-
-// var message = "some_secret_message";
-
-// var key = "6Le0DgMTAAAAANokdEEial"; //length=22
-// var iv = "mHGFxENnZLbienLyANoi.e"; //length=22
-
-// key = CryptoJS.enc.Base64.parse(generateKey(message));
-// //key is now e8b7b40e031300000000da247441226a, length=32
-// iv = CryptoJS.enc.Base64.parse(iv);
-// //iv is now 987185c4436764b6e27a72f2fffffffd, length=32
-
-// var cipherData = CryptoJS.AES.encrypt(message, key, { iv: iv });
-
-// var data = CryptoJS.AES.decrypt(cipherData, key, { iv: iv }).toString(
-//   CryptoJS.enc.Utf8
-// );
-// //data contains "some_secret_message"
-
-// console.log(data);
-
-// console.log(new Date(date + 1 * 60000));
-=======
-const { createClient } = require("redis");
-
-redisClient = createClient({
-  url: `redis://daazzll.local:6379`,
-});
-
-(async () => {
-  await redisClient.connect();
-
-  await redisClient.setEx("apple", 120, JSON.stringify({ msg: "hello" }));
-
-  console.log(await redisClient.get("apple"));
-})();
->>>>>>> main
+//   console.log(await redisClient.get("apple"));
+// })();
+console.log(path.join(__dirname + "/.."));

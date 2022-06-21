@@ -6,6 +6,8 @@ RUN mkdir /home/node/src
 
 WORKDIR /home/node/src
 
+COPY ./keys ./keys/
+
 COPY --chown=node:node package-lock.json package.json ./
 
 COPY --chown=node:node .env.test babel.config.js postcss.config.js tsconfig.json ./
@@ -30,11 +32,11 @@ RUN mkdir /home/node/src
 
 WORKDIR /home/node/src
 
+COPY ./keys ./keys/
+
 COPY --chown=node:node package-lock.json package.json ./
 
 COPY --chown=node:node .env.test babel.config.js postcss.config.js tsconfig.json ./
-
-COPY --chown=node:node ./server/auth/ ./server/auth/
 
 COPY --chown=node:node ./certs/daazzll.dev* ./
 

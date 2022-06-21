@@ -9,6 +9,7 @@ import { genToken, signedToken } from "../utils/functions/auth";
 import { redisStore } from "../storageInit";
 import prismaClient from "../prismaClient";
 import { handleSession } from "../utils/functions";
+import { PRIV_KEY_PATH } from "../serverConfig";
 
 export const login: RequestHandler = async function (
   req: Request,
@@ -63,7 +64,7 @@ export const login: RequestHandler = async function (
         email: result.email,
         username: result.username,
       },
-      path.resolve("server/auth/keys/jwtRS256.key"),
+      PRIV_KEY_PATH,
       "10m",
       600
     );
@@ -75,7 +76,7 @@ export const login: RequestHandler = async function (
         email: result.email,
         username: result.username,
       },
-      path.resolve("server/auth/keys/jwtRS256.key"),
+      PRIV_KEY_PATH,
       "30m",
       1800
     );
