@@ -37,10 +37,10 @@ module.exports = {
     //   moduleNameMapper: {
     //     "^(\\.{1,2}/.*)\\.js$": "$1",
     //   },
-    //   testMatch: ["<rootDir>/server/auth/controllers/**/__tests__/*.test.ts"],
-    //   testPathIgnorePatterns: ["<rootDir>/server/auth/middleware/"],
+    //   testMatch: ["<rootDir>/server/controllers/**/__tests__/*.test.ts"],
+    //   testPathIgnorePatterns: ["<rootDir>/server/middleware/"],
     //   setupFilesAfterEnv: [
-    //     "<rootDir>/server/auth/setups-for-tests/crudTestEnv.ts",
+    //     "<rootDir>/server/setups-for-tests/crudTestEnv.ts",
     //   ],
     // },
     {
@@ -61,19 +61,15 @@ module.exports = {
         "^(\\.{1,2}/.*)\\.js$": "$1",
       },
       testMatch: [
-<<<<<<< HEAD
-        "<rootDir>/server/auth/middleware/**/__tests__/checkToken.test.ts",
-=======
-        "<rootDir>/server/auth/middleware/**/__tests__/checkToken3.test.ts",
->>>>>>> main
+        "<rootDir>/server/middleware/**/__tests__/checkToken3.test.ts",
       ],
       testPathIgnorePatterns: [
-        "<rootDir>/server/auth/__mocks__/",
-        "<rootDir>/server/auth/__tests__/",
+        "<rootDir>/server/__mocks__/",
+        "<rootDir>/server/__tests__/",
         "<rootDir>/node_modules/",
       ],
       setupFilesAfterEnv: [
-        "<rootDir>/server/auth/setups-for-tests/middlewareEnv.ts",
+        "<rootDir>/server/setups-for-tests/middlewareEnv.ts",
       ],
     },
   ],

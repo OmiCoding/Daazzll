@@ -5,8 +5,6 @@ import { BrowserRouter } from "react-router-dom";
 import AuthProvider from "./context/auth/AuthProvider";
 import App from "./app-web";
 
-// const renderMethod = module.hot?
-
 loadableReady(() => {
   const root = document.getElementById("root");
 

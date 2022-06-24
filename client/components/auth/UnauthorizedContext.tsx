@@ -11,8 +11,6 @@ const UnauthorizedContext: React.FC<ProviderProps> = function ({ children }) {
   const location = useLocation();
   const { auth } = useAuth();
 
-  console.log(auth);
-
   useAuthCheck();
 
   if (auth) {

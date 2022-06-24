@@ -1,15 +1,7 @@
-import React, { SyntheticEvent } from "react";
+import React from "react";
 import HamburgerHeader from "../general/HamburgerHeader";
 
-interface ProfileProps {
-  active: boolean;
-  handleClick: (e: SyntheticEvent) => void;
-}
-
-const ProfileHeader: React.FC<ProfileProps> = function ({
-  active,
-  handleClick,
-}) {
+const ProfileHeader: React.FC = function () {
   return (
     <header className="profile-header">
       <div className="max-wrapper">
@@ -18,11 +10,7 @@ const ProfileHeader: React.FC<ProfileProps> = function ({
             <h1 className="logo-title">Daazzll</h1>
           </div>
           <div className="hamburger-wrapper">
-            <HamburgerHeader
-              active={active}
-              handleClick={handleClick}
-              id="profile-hamburger-btn"
-            />
+            <HamburgerHeader id="profile-hamburger-btn" />
           </div>
         </div>
       </div>

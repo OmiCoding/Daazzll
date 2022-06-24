@@ -5,6 +5,7 @@
     "jsx": "react",
     "moduleResolution": "node",
     "outDir": "lib",
+    "lib": ["es2015", "dom"],
     "rootDir": "./",
     "types": ["jest"],
     "typeRoots": ["./@types", "./node_modules/@types"],
@@ -23,6 +24,6 @@
     "webpack.production.js",
     ".babelrc.js",
     "docker-compose.*",
-    ".docker/**",
+    ".docker/**"
   ]
 }

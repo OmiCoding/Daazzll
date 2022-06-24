@@ -6,9 +6,8 @@ const useAuthCheck = function () {
   const { dispatch, auth } = useAuth();
   const check = useCallback(() => {
     const accessToken = Cookies.get("access_token");
-    // if (!process.env.BUILD_HOST) return;
 
-    fetch("/auth/checkauth", {
+    fetch("/checkauth", {
       method: "GET",
       mode: "cors",
       credentials: "include",
@@ -19,7 +18,7 @@ const useAuthCheck = function () {
     })
       .then((data) => data.status)
       .then((res) => {
-        console.log(res);
+        // This is not a good check
         if (res === 200) {
           if (dispatch && !auth) {
             dispatch({

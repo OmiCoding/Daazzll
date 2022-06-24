@@ -1,11 +1,15 @@
 import Cookies from "js-cookie";
-import { useEffect } from "react";
+import { useEffect, Dispatch, SetStateAction } from "react";
+import { ProfileState } from "../../custom-types";
 
-const useGetProfile = function () {
+const useGetProfile = function (
+  init: boolean,
+  setState: Dispatch<SetStateAction<ProfileState>>
+) {
   useEffect(() => {
     const accessToken = Cookies.get("access_token");
-    if (accessToken) {
-      fetch("https://daazzll.dev/profile/setup", {
+    if (init) {
+      fetch("/medialinks", {
         method: "GET",
         mode: "cors",
         credentials: "include",
@@ -15,11 +19,23 @@ const useGetProfile = function () {
       })
         .then((data) => data.json())
         .then((res) => {
-          console.log(res);
+          setState((prevState) => {
+            return {
+              ...prevState,
+              init: false,
+            };
+          });
+        })
+        .catch((err) => {
+          setState((prevState) => {
+            return {
+              ...prevState,
+              init: false,
+            };
+          });
         });
     }
-    // development path, change in production
-  }, []);
+  }, [init, setState]);
 };
 
 export default useGetProfile;

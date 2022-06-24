@@ -41,7 +41,7 @@ const AuthProvider: React.FC<ProviderProps> = function ({ children }) {
   // }
 
   const register = function (body: RegisterBody, cb: () => void) {
-    fetch("/auth/register", {
+    fetch("/register", {
       method: "POST",
       mode: "cors",
       credentials: "include",
@@ -69,7 +69,7 @@ const AuthProvider: React.FC<ProviderProps> = function ({ children }) {
   };
 
   const login = function (body: LoginBody) {
-    fetch("/auth/login", {
+    fetch("/login", {
       method: "POST",
       mode: "cors",
       credentials: "include",

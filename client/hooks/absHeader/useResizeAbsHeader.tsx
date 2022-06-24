@@ -6,7 +6,7 @@ function useResizeAbsHeader(
   headerElem: MutableRefObject<HTMLDivElement | null>,
   headWrapElem: MutableRefObject<HTMLDivElement | null>,
   hbWrapElem: MutableRefObject<HTMLDivElement | null>,
-  debounceMemo: DebouncedFunc<() => void>,
+  debounceMemo: any,
   setActive: Dispatch<SetStateAction<boolean>>
 ) {
   useEffect(() => {

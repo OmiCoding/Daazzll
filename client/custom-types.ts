@@ -1,4 +1,9 @@
-import { Dispatch } from "react"
+import { Dispatch } from "react";
+
+export interface HeaderState {
+  active: boolean;
+}
+
 export interface RegisterState {
   fName: string;
   lName: string;
@@ -31,7 +36,7 @@ export interface AuthContextType {
   login?: LoginFunc;
   logout?: LogoutFunc;
   checkAuth?: checkAuthFunc;
-  dispatch?:  Dispatch<AuthAction>;
+  dispatch?: Dispatch<AuthAction>;
 }
 
 export interface AuthAction {
@@ -53,4 +58,11 @@ export interface RegisterBody {
   username: string;
   password: string;
   confirmPass: string;
+}
+
+export interface ProfileState {
+  init: boolean;
+  username: string;
+  pitch: string;
+  userId: null | number;
 }

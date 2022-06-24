@@ -119,11 +119,7 @@ const AbsHeader: React.FC = function () {
                 <button className="sign-in-btn">Sign In</button>
               </div>
             </div>
-            <HamburgerHeader
-              active={active}
-              handleClick={handleClick}
-              id={"abs-header-hamburger-btn"}
-            />
+            <HamburgerHeader id={"abs-header-hamburger-btn"} />
           </div>
           <HamburgerList ref={hbWrapElem} active={active} />
         </div>

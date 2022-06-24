@@ -3,6 +3,7 @@ import PageLayout from "./components/PageLayout";
 import { Routes, Route } from "react-router-dom";
 import Home from "./pages/Home";
 import Profile from "./pages/Profile";
+import Profiles from "./pages/Profiles";
 import Login from "./pages/Login";
 import Register from "./pages/Register";
 import Watch from "./pages/Watch";
@@ -42,6 +43,7 @@ const App: React.FC = function () {
         />
         <Route path="watch" element={<Watch />} />
         <Route path="wallet" element={<Wallet />} />
+        <Route path="/profile:id" element={<Profiles />} />
       </Route>
     </Routes>
   );
