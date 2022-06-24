@@ -31,21 +31,19 @@ export const mediaLinks: RequestHandler = async function (
         },
       },
       select: {
+        username: true,
         profile: {
           select: {
             website: true,
             discord: true,
             instagram: true,
             twitter: true,
-            user: true,
           },
         },
       },
     });
 
-    return res.status(200).json({
-      msg: "Ok.",
-    });
+    return res.status(200).json(result);
   } catch (e) {
     return next(e);
   }

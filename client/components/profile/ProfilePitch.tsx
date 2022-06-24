@@ -9,8 +9,13 @@ interface PitchProps {
 const ProfilePitch: React.FC<PitchProps> = function ({ username, pitch }) {
   return (
     <section className="profile-pitch">
-      <ProfileMediaContainer />
-      <h2 className="">{username}</h2>
+      <div className="flex-wrapper--split">
+        <ProfileMediaContainer />
+        <h2 className="profile__title">
+          {username}
+          <i className="fa-solid fa-circle-check" />
+        </h2>
+      </div>
     </section>
   );
 };

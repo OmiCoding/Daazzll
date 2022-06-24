@@ -10,7 +10,6 @@ const ProfileContainer: React.FC = function () {
     init: true,
     username: "",
     pitch: "",
-    userId: null,
   });
 
   const { init, username, pitch } = state;

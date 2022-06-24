@@ -64,5 +64,4 @@ export interface ProfileState {
   init: boolean;
   username: string;
   pitch: string;
-  userId: null | number;
 }

@@ -20,9 +20,9 @@ const App: React.FC = function () {
         <Route
           path="profile"
           element={
-            // <UnlockContext>
-            <Profile />
-            // </UnlockContext>
+            <UnlockContext>
+              <Profile />
+            </UnlockContext>
           }
         />
         <Route

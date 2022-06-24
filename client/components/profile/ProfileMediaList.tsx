@@ -33,7 +33,7 @@ const ProfileMediaList: React.FC<MediaProps> = function ({ auth, show }) {
         <i className="fa-solid fa-plus" />
         Set media links
       </li>
-      <li className="profile__list__item">
+      <li className="profile__list__item hide--mobile">
         <button onClick={(e) => openSideMenu(e)} className="abs-list__btn" />
         <i className="fa-solid fa-wand-magic-sparkles" />
         Add to watchlist

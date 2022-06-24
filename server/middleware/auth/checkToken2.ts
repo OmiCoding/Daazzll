@@ -1,7 +1,6 @@
 import crypto from "crypto";
 import fs from "fs";
 import util from "util";
-import path from "path";
 import { RequestHandler, Request, Response, NextFunction } from "express";
 import { v4 as uuidv4 } from "uuid";
 import { redisClient } from "../../storageInit";
@@ -24,10 +23,9 @@ export const checkToken2: RequestHandler = async function (
 
     const { access_token, refresh_token } = req.cookies;
     const { sid } = req.signedCookies;
-    const expiredStr = "TokenExpiredError";
-    if (!req.cookies || !access_token || !refresh_token || !sid) {
-      return res.status(401).json({ msg: "Unauthenticated." });
-    }
+    // if (!req.cookies || !access_token || !refresh_token || !sid) {
+    //   return res.status(401).json({ msg: "Unauthenticated." });
+    // }
 
     try {
       // Needs proper typing
@@ -36,7 +34,9 @@ export const checkToken2: RequestHandler = async function (
 
       if (!accPayload) {
         console.log(1);
-        await redisClient.del(sid);
+        if (sid) {
+          await redisClient.del(sid);
+        }
         req.user = undefined;
         return res.status(401).json({ msg: "Unauthenticated." });
       }
@@ -45,7 +45,9 @@ export const checkToken2: RequestHandler = async function (
 
       if (!redisData) {
         console.log(2);
-        await redisClient.del(sid);
+        if (sid) {
+          await redisClient.del(sid);
+        }
         req.user = undefined;
         return res.status(401).json({ msg: "Unauthenticated." });
       }
@@ -54,7 +56,9 @@ export const checkToken2: RequestHandler = async function (
 
       if (tokenObj.token !== access_token) {
         console.log(3);
-        await redisClient.del(sid);
+        if (sid) {
+          await redisClient.del(sid);
+        }
         req.user = undefined;
         return res.status(401).json({ msg: "Unauthenticated." });
       }
@@ -136,17 +140,15 @@ export const checkToken2: RequestHandler = async function (
 
       // return res.status(200).json({ msg: "Ok" });
     } catch (e: any) {
-      if (e.name !== expiredStr) {
-        await redisClient.del(sid);
-        req.user = undefined;
-        return res.status(401).json({ msg: "Unauthenticated." });
-      }
       try {
         // Needs proper typing
         const refPayload: any = await handleJWT(refresh_token, publicKey);
 
         if (!refPayload) {
-          await redisClient.del(sid);
+          console.log("refresh 2");
+          if (sid) {
+            await redisClient.del(sid);
+          }
           req.user = undefined;
           return res.status(401).json({ msg: "Unauthenticated." });
         }
@@ -154,7 +156,10 @@ export const checkToken2: RequestHandler = async function (
         const redisData = await redisClient.get(refPayload.tokenId);
 
         if (!redisData) {
-          await redisClient.del(sid);
+          console.log("refresh 3");
+          if (sid) {
+            await redisClient.del(sid);
+          }
           req.user = undefined;
           return res.status(401).json({ msg: "Unauthenticated." });
         }
@@ -162,7 +167,10 @@ export const checkToken2: RequestHandler = async function (
         const tokenObj: RedisAuthToken = JSON.parse(redisData);
 
         if (tokenObj.token !== refresh_token) {
-          await redisClient.del(sid);
+          console.log("refresh 4");
+          if (sid) {
+            await redisClient.del(sid);
+          }
           req.user = undefined;
           return res.status(401).json({ msg: "Unauthenticated." });
         }
@@ -183,7 +191,10 @@ export const checkToken2: RequestHandler = async function (
         });
 
         if (!account) {
-          await redisClient.del(sid);
+          console.log("refresh 5");
+          if (sid) {
+            await redisClient.del(sid);
+          }
           req.user = undefined;
           return res.status(401).json({ msg: "Unauthenticated." });
         }
@@ -267,12 +278,6 @@ export const checkToken2: RequestHandler = async function (
 
         return res.status(200).json({ msg: "Ok" });
       } catch (e: any) {
-        if (e.name !== expiredStr) {
-          await redisClient.del(sid);
-          req.user = undefined;
-          return res.status(401).json({ msg: "Unauthenticated." });
-        }
-
         res.clearCookie("access_token", {
           path: "/",
           sameSite: "strict",
@@ -295,7 +300,9 @@ export const checkToken2: RequestHandler = async function (
           signed: true,
         });
 
-        await redisClient.del(sid);
+        if (sid) {
+          await redisClient.del(sid);
+        }
         req.user = undefined;
 
         return res.status(401).json({ msg: "Unauthenticated." });

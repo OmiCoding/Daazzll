@@ -16,15 +16,16 @@ const useAuthCheck = function () {
         Authorization: `Bearer ${accessToken}`,
       },
     })
-      .then((data) => data.status)
+      .then((data) => data.json())
       .then((res) => {
+        console.log(res);
         // This is not a good check
-        if (res === 200) {
+        if (res.msg === "Ok.") {
           if (dispatch && !auth) {
+            sessionStorage.setItem("hallpass", JSON.stringify({ pass: true }));
             dispatch({
               type: "CHECK_AUTH",
             });
-            sessionStorage.setItem("hallpass", JSON.stringify({ pass: true }));
           }
         } else {
           sessionStorage.removeItem("hallpass");

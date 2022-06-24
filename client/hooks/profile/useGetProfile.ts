@@ -19,20 +19,19 @@ const useGetProfile = function (
       })
         .then((data) => data.json())
         .then((res) => {
+          console.log(res);
+          if (res.msg === "Unauthenticated") return;
+
           setState((prevState) => {
             return {
               ...prevState,
+              username: res.username,
               init: false,
             };
           });
         })
         .catch((err) => {
-          setState((prevState) => {
-            return {
-              ...prevState,
-              init: false,
-            };
-          });
+          console.error(err);
         });
     }
   }, [init, setState]);
