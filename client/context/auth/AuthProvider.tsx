@@ -29,6 +29,7 @@ const AuthProvider: React.FC<ProviderProps> = function ({ children }) {
     AuthReducer<AuthContextType, AuthAction>
   >(authReducer, {
     auth: hpObj ? hpObj.pass : false,
+    username: "",
   });
 
   // let BUILD_HOST: string;
@@ -78,11 +79,14 @@ const AuthProvider: React.FC<ProviderProps> = function ({ children }) {
       },
       body: JSON.stringify(body),
     })
-      .then((data) => data.status)
+      .then((data) => data.json())
       .then((res) => {
-        if (res === 200) {
+        if (res.username) {
           dispatch({
             type: LOGIN_USER,
+            data: {
+              username: res.username,
+            },
           });
         }
       })

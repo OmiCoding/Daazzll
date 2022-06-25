@@ -4,11 +4,13 @@ import ProfileMediaContainer from "./ProfileMediaContainer";
 interface PitchProps {
   username: string;
   pitch: string;
+  user: boolean;
   descActive: boolean;
   handleDesc: (e: MouseEvent<HTMLButtonElement>) => void;
 }
 
 const ProfilePitch: React.FC<PitchProps> = function ({
+  user,
   username,
   pitch,
   descActive,
@@ -16,17 +18,22 @@ const ProfilePitch: React.FC<PitchProps> = function ({
 }) {
   return (
     <section className="profile-pitch">
-      <div className="flex-wrapper--split">
-        <ProfileMediaContainer />
-        <h2 className="profile__title">
-          {username}
-          <i className="fa-solid fa-circle-check" />
-        </h2>
+      <div className="z-idx-wrapper-1">
+        <div className="flex-wrapper--split">
+          <ProfileMediaContainer user={user} />
+          <h2 className="profile__title">
+            {username}
+            <i className="fa-solid fa-circle-check" />
+          </h2>
+        </div>
       </div>
       <div
-        className={`profile-desc-wrapper ${
-          descActive ? "pitch__desc--more" : "pitch__desc--less"
-        }`}
+        /* css class still being applied */
+        className={
+          descActive
+            ? "profile-desc-wrapper--more"
+            : "profile-desc-wrapper--less"
+        }
       >
         <p className="pitch__desc">
           {pitch.length !== 0

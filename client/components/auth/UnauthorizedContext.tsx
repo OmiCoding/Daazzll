@@ -9,12 +9,18 @@ interface ProviderProps {
 
 const UnauthorizedContext: React.FC<ProviderProps> = function ({ children }) {
   const location = useLocation();
-  const { auth } = useAuth();
+  const { auth, username } = useAuth();
 
   useAuthCheck();
 
   if (auth) {
-    return <Navigate to="/profile" state={{ from: location }} replace />;
+    return (
+      <Navigate
+        to={`/profile/${username}`}
+        state={{ from: location }}
+        replace
+      />
+    );
   }
 
   return children;

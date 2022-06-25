@@ -10,6 +10,7 @@ import Watch from "./pages/Watch";
 import Wallet from "./pages/Wallet";
 import UnlockContext from "./components/auth/UnlockContext";
 import UnauthorizedContext from "./components/auth/UnauthorizedContext";
+import ProfilesContext from "./components/profile/ProfilesContext";
 
 const App: React.FC = function () {
   // Protected Routes on the frontend are defined here
@@ -18,11 +19,19 @@ const App: React.FC = function () {
       <Route path="/" element={<PageLayout />}>
         <Route index element={<Home />} />
         <Route
-          path="profile"
+          path="profile/:username"
           element={
             <UnlockContext>
               <Profile />
             </UnlockContext>
+          }
+        />
+        <Route
+          path="profiles/:username"
+          element={
+            <ProfilesContext>
+              <Profile />
+            </ProfilesContext>
           }
         />
         <Route
@@ -43,7 +52,6 @@ const App: React.FC = function () {
         />
         <Route path="watch" element={<Watch />} />
         <Route path="wallet" element={<Wallet />} />
-        <Route path="/profile:id" element={<Profiles />} />
       </Route>
     </Routes>
   );

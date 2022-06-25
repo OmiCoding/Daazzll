@@ -242,6 +242,12 @@
   z-index: 0;
 }
 
+.z-idx-wrapper-1 {
+  position: relative;
+  width: 100%;
+  z-index: 1;
+}
+
 @media screen and (min-height: 910px) {
   .page-wrapper,
   .art-wrapper-1,

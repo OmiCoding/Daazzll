@@ -3,7 +3,7 @@ import { RequestHandler, Request, Response, NextFunction } from "express";
 
 const prismaClient = new PrismaClient();
 
-export const mediaLinks: RequestHandler = async function (
+export const profileData: RequestHandler = async function (
   req: Request,
   res: Response,
   next: NextFunction
@@ -43,7 +43,10 @@ export const mediaLinks: RequestHandler = async function (
       },
     });
 
-    return res.status(200).json(result);
+    return res.status(200).json({
+      username: result?.username,
+      user: true,
+    });
   } catch (e) {
     return next(e);
   }

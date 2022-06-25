@@ -32,6 +32,7 @@ type LogoutFunc = () => void;
 
 export interface AuthContextType {
   auth: boolean;
+  username: string;
   register?: RegisterFunc;
   login?: LoginFunc;
   logout?: LogoutFunc;
@@ -62,6 +63,7 @@ export interface RegisterBody {
 
 export interface ProfileState {
   init: boolean;
+  user: boolean;
   username: string;
   pitch: string;
   descActive: boolean;

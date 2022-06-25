@@ -8,12 +8,13 @@ import { ProfileState } from "../../custom-types";
 const ProfileContainer: React.FC = function () {
   const [state, setState] = useState<ProfileState>({
     init: true,
+    user: false,
+    descActive: false,
     username: "",
     pitch: "",
-    descActive: false,
   });
 
-  const { init, username, pitch, descActive } = state;
+  const { init, user, username, pitch, descActive } = state;
 
   const handleDesc = function (e: MouseEvent<HTMLButtonElement>) {
     return setState({
@@ -28,8 +29,9 @@ const ProfileContainer: React.FC = function () {
     <div className="page-wrapper">
       <section className="profile-page">
         <ProfileHeader />
-        <BannerContainer />
+        <BannerContainer user={user} />
         <ProfilePitch
+          user={user}
           username={username}
           pitch={pitch}
           descActive={descActive}

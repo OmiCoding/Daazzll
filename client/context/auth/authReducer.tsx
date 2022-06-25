@@ -22,6 +22,7 @@ const authReducer: AuthReducer<AuthContextType, AuthAction> = function (
       return {
         ...prevState,
         auth: true,
+        username: action.data.username,
       };
     case LOGOUT_USER:
       return {

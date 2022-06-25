@@ -3,9 +3,10 @@ import React, { MouseEvent } from "react";
 interface MediaProps {
   auth: boolean;
   show: boolean;
+  user: boolean;
 }
 
-const ProfileMediaList: React.FC<MediaProps> = function ({ auth, show }) {
+const ProfileMediaList: React.FC<MediaProps> = function ({ auth, show, user }) {
   const setMediaLinks = async function (e: MouseEvent<HTMLButtonElement>) {
     // trigger modal
   };
@@ -28,11 +29,13 @@ const ProfileMediaList: React.FC<MediaProps> = function ({ auth, show }) {
         <i className="fa-solid fa-flag" />
         Report
       </li>
-      <li className="profile__list__item">
-        <button onClick={(e) => setMediaLinks(e)} className="abs-list__btn" />
-        <i className="fa-solid fa-plus" />
-        Set media links
-      </li>
+      {user ? (
+        <li className="profile__list__item">
+          <button onClick={(e) => setMediaLinks(e)} className="abs-list__btn" />
+          <i className="fa-solid fa-plus" />
+          Set media links
+        </li>
+      ) : null}
       <li className="profile__list__item hide--mobile">
         <button onClick={(e) => openSideMenu(e)} className="abs-list__btn" />
         <i className="fa-solid fa-wand-magic-sparkles" />

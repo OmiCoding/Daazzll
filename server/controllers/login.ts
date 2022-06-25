@@ -110,8 +110,7 @@ export const login: RequestHandler = async function (
       signed: true,
       maxAge: 10 * 60 * 1000, // 10min
     });
-
-    return res.status(200).json({ msg: "Ok" });
+    return res.status(200).json({ username });
   } catch (e) {
     return next(e);
   }
