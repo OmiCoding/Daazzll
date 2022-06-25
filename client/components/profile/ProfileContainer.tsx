@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { MouseEvent, useState } from "react";
 import BannerContainer from "./BannerContainer";
 import ProfileHeader from "./ProfileHeader";
 import ProfilePitch from "./ProfilePitch";
@@ -10,9 +10,17 @@ const ProfileContainer: React.FC = function () {
     init: true,
     username: "",
     pitch: "",
+    descActive: false,
   });
 
-  const { init, username, pitch } = state;
+  const { init, username, pitch, descActive } = state;
+
+  const handleDesc = function (e: MouseEvent<HTMLButtonElement>) {
+    return setState({
+      ...state,
+      descActive: !descActive,
+    });
+  };
 
   useGetProfile(init, setState);
 
@@ -21,7 +29,12 @@ const ProfileContainer: React.FC = function () {
       <section className="profile-page">
         <ProfileHeader />
         <BannerContainer />
-        <ProfilePitch username={username} pitch={pitch} />
+        <ProfilePitch
+          username={username}
+          pitch={pitch}
+          descActive={descActive}
+          handleDesc={handleDesc}
+        />
       </section>
     </div>
   );

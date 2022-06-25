@@ -9,7 +9,7 @@ const useGetProfile = function (
   useEffect(() => {
     const accessToken = Cookies.get("access_token");
     if (init) {
-      fetch("/medialinks", {
+      fetch("/profile_data", {
         method: "GET",
         mode: "cors",
         credentials: "include",
@@ -19,13 +19,12 @@ const useGetProfile = function (
       })
         .then((data) => data.json())
         .then((res) => {
-          console.log(res);
-          if (res.msg === "Unauthenticated") return;
+          if (res.msg === "Unauthorized.") return;
 
           setState((prevState) => {
             return {
               ...prevState,
-              username: res.username,
+              ...res,
               init: false,
             };
           });

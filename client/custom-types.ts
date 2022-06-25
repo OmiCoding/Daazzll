@@ -64,4 +64,19 @@ export interface ProfileState {
   init: boolean;
   username: string;
   pitch: string;
+  descActive: boolean;
+}
+
+export interface ProfileData {
+  username: string;
+  pitch?: string;
+  discord?: string;
+  website?: string;
+  facebook?: string;
+  instagram?: string;
+  twitter?: string;
+}
+
+export interface MsgRes {
+  msg: string;
 }

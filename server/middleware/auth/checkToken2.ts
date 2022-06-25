@@ -23,9 +23,6 @@ export const checkToken2: RequestHandler = async function (
 
     const { access_token, refresh_token } = req.cookies;
     const { sid } = req.signedCookies;
-    // if (!req.cookies || !access_token || !refresh_token || !sid) {
-    //   return res.status(401).json({ msg: "Unauthenticated." });
-    // }
 
     try {
       // Needs proper typing
@@ -258,26 +255,31 @@ export const checkToken2: RequestHandler = async function (
           path: "/",
           sameSite: "strict",
           secure: true,
-          expires: new Date(new Date().getTime() + 5 * 60000),
+          maxAge: 10 * 60 * 1000,
         });
 
         res.cookie("refresh_token", newRefToken, {
           path: "/",
           sameSite: "strict",
           secure: true,
-          expires: new Date(new Date().getTime() + 5 * 60000),
+          maxAge: 30 * 60 * 1000,
         });
 
         res.cookie("sid", uid, {
           path: "/",
           sameSite: true,
+          httpOnly: true,
           secure: true,
           signed: true,
-          maxAge: 600,
+          maxAge: 10 * 60 * 1000,
         });
+
+        console.log("passed.");
 
         return res.status(200).json({ msg: "Ok" });
       } catch (e: any) {
+        console.log(e);
+        console.log(req.cookies);
         res.clearCookie("access_token", {
           path: "/",
           sameSite: "strict",
@@ -304,6 +306,8 @@ export const checkToken2: RequestHandler = async function (
           await redisClient.del(sid);
         }
         req.user = undefined;
+
+        console.log("failed.");
 
         return res.status(401).json({ msg: "Unauthenticated." });
       }

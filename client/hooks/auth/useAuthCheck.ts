@@ -18,8 +18,6 @@ const useAuthCheck = function () {
     })
       .then((data) => data.json())
       .then((res) => {
-        console.log(res);
-        // This is not a good check
         if (res.msg === "Ok.") {
           if (dispatch && !auth) {
             sessionStorage.setItem("hallpass", JSON.stringify({ pass: true }));

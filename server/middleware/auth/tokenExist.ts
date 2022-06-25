@@ -9,7 +9,7 @@ export const tokenExist: RequestHandler = function (
     const Token = req.headers.authorization;
     if (Token === "undefined") {
       return res.status(401).json({
-        msg: "Unauthenticated request",
+        msg: "Unauthenticated.",
       });
     }
     return next();

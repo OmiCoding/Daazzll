@@ -42,6 +42,7 @@ model acc_settings {
 
 model acc_profiles {
   userId    Int      @id
+  pitch     String?
   website   String?
   discord   String?
   facebook  String?
