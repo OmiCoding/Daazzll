@@ -1,4 +1,4 @@
-import { AuthAction, AuthContextType, AuthReducer } from "../../custom-types";
+import { Action, AuthContextType, AuthReducer } from "../../custom-types";
 import {
   REGISTER_USER,
   LOGIN_USER,
@@ -8,9 +8,9 @@ import {
   REMOVE_AUTH,
 } from "./cases";
 
-const authReducer: AuthReducer<AuthContextType, AuthAction> = function (
+const authReducer: AuthReducer<AuthContextType, Action> = function (
   prevState: AuthContextType,
-  action: AuthAction
+  action: Action
 ) {
   switch (action.type) {
     case REGISTER_USER:

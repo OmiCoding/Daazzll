@@ -37,10 +37,10 @@ export interface AuthContextType {
   login?: LoginFunc;
   logout?: LogoutFunc;
   checkAuth?: checkAuthFunc;
-  dispatch?: Dispatch<AuthAction>;
+  dispatch?: Dispatch<Action>;
 }
 
-export interface AuthAction {
+export interface Action {
   type: string;
   data?: any;
 }
@@ -61,13 +61,23 @@ export interface RegisterBody {
   confirmPass: string;
 }
 
-export interface ProfileState {
+export type GetProfileData = () => void;
+
+export interface ProfileContextInit {
   init: boolean;
   user: boolean;
   username: string;
   pitch: string;
   descActive: boolean;
+  getProfileData?: () => void;
+  getProfile?: () => void;
+  dispatch?: Dispatch<Action>;
 }
+
+export type ProfileReducer<S, A> = (
+  prevState: S,
+  action: A
+) => ProfileContextInit;
 
 export interface ProfileData {
   username: string;

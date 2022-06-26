@@ -1,6 +1,5 @@
 import Cookies from "js-cookie";
 import { useEffect, Dispatch, SetStateAction } from "react";
-import { ProfileState } from "../../custom-types";
 
 const useGetProfile = function (
   init: boolean,

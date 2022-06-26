@@ -1,5 +1,6 @@
 import React, { ReactNode, useReducer } from "react";
 import {
+  Action,
   AuthAction,
   AuthContextType,
   AuthReducer,
@@ -25,12 +26,13 @@ const AuthProvider: React.FC<ProviderProps> = function ({ children }) {
 
   hpObj = JSON.parse(hp) || null;
 
-  const [state, dispatch] = useReducer<
-    AuthReducer<AuthContextType, AuthAction>
-  >(authReducer, {
-    auth: hpObj ? hpObj.pass : false,
-    username: "",
-  });
+  const [state, dispatch] = useReducer<AuthReducer<AuthContextType, Action>>(
+    authReducer,
+    {
+      auth: hpObj ? hpObj.pass : false,
+      username: "",
+    }
+  );
 
   // let BUILD_HOST: string;
   // if (!process.env.BUILD_HOST) {
