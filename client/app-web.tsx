@@ -11,6 +11,7 @@ import Wallet from "./pages/Wallet";
 import UnlockContext from "./components/auth/UnlockContext";
 import UnauthorizedContext from "./components/auth/UnauthorizedContext";
 import ProfileProvider from "./context/profile/ProfileProvider";
+import ProfileSetup from "./context/profile/ProfileSetup";
 
 const App: React.FC = function () {
   // Protected Routes on the frontend are defined here
@@ -23,7 +24,9 @@ const App: React.FC = function () {
           element={
             <UnlockContext>
               <ProfileProvider>
-                <Profile />
+                <ProfileSetup>
+                  <Profile />
+                </ProfileSetup>
               </ProfileProvider>
             </UnlockContext>
           }

@@ -1,4 +1,8 @@
-import { Dispatch } from "react";
+import React, { Dispatch } from "react";
+
+export interface ContextChildren {
+  children: React.ReactElement<any, any>;
+}
 
 export interface HeaderState {
   active: boolean;

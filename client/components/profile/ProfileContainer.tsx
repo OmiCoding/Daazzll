@@ -1,29 +1,13 @@
-import React, { MouseEvent, useState } from "react";
+import React, { useContext, useState } from "react";
+import ProfileContext from "../../context/profile/ProfileContext";
 import BannerContainer from "./BannerContainer";
 import ProfileHeader from "./ProfileHeader";
 import ProfilePitch from "./ProfilePitch";
-import useGetProfile from "../../hooks/profile/useGetProfile";
-import { ProfileState } from "../../custom-types";
 
 const ProfileContainer: React.FC = function () {
-  const [state, setState] = useState<ProfileState>({
-    init: true,
-    user: false,
-    descActive: false,
-    username: "",
-    pitch: "",
-  });
+  const [active, setActive] = useState(false);
 
-  const { init, user, username, pitch, descActive } = state;
-
-  const handleDesc = function (e: MouseEvent<HTMLButtonElement>) {
-    return setState({
-      ...state,
-      descActive: !descActive,
-    });
-  };
-
-  useGetProfile(init, setState);
+  const { user, username, pitch } = useContext(ProfileContext);
 
   return (
     <div className="page-wrapper">
@@ -34,8 +18,8 @@ const ProfileContainer: React.FC = function () {
           user={user}
           username={username}
           pitch={pitch}
-          descActive={descActive}
-          handleDesc={handleDesc}
+          setActive={setActive}
+          active={active}
         />
       </section>
     </div>

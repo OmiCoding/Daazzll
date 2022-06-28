@@ -1,20 +1,20 @@
-import React, { MouseEvent } from "react";
+import React, { Dispatch, SetStateAction } from "react";
 import ProfileMediaContainer from "./ProfileMediaContainer";
 
 interface PitchProps {
   username: string;
   pitch: string;
   user: boolean;
-  descActive: boolean;
-  handleDesc: (e: MouseEvent<HTMLButtonElement>) => void;
+  active: boolean;
+  setActive: Dispatch<SetStateAction<boolean>>;
 }
 
 const ProfilePitch: React.FC<PitchProps> = function ({
   user,
   username,
   pitch,
-  descActive,
-  handleDesc,
+  active,
+  setActive,
 }) {
   return (
     <section className="profile-pitch">
@@ -30,9 +30,7 @@ const ProfilePitch: React.FC<PitchProps> = function ({
       <div
         /* css class still being applied */
         className={
-          descActive
-            ? "profile-desc-wrapper--more"
-            : "profile-desc-wrapper--less"
+          active ? "profile-desc-wrapper--more" : "profile-desc-wrapper--less"
         }
       >
         <p className="pitch__desc">
@@ -46,9 +44,9 @@ const ProfilePitch: React.FC<PitchProps> = function ({
           `}
         </p>
       </div>
-      <button onClick={(e) => handleDesc(e)} className="desc-btn">
-        {descActive ? "See less" : "See more"}
-        <i className={`fa-solid fa-angle-${descActive ? "up" : "down"}`} />
+      <button onClick={() => setActive(!active)} className="desc-btn">
+        {active ? "See less" : "See more"}
+        <i className={`fa-solid fa-angle-${active ? "up" : "down"}`} />
       </button>
     </section>
   );

@@ -1,4 +1,4 @@
-import React, { ReactNode, useReducer } from "react";
+import React, { ReactNode, useReducer, useCallback } from "react";
 import Cookies from "js-cookie";
 
 import { Action, ProfileContextInit, ProfileReducer } from "../../custom-types";
@@ -22,7 +22,7 @@ const ProfileProvider: React.FC<ProviderProps> = function ({ children }) {
     pitch: "",
   });
 
-  function getProfileData() {
+  const getProfileData = useCallback(() => {
     const accessToken = Cookies.get("access_token");
     fetch("/profile_data", {
       method: "GET",
@@ -34,6 +34,7 @@ const ProfileProvider: React.FC<ProviderProps> = function ({ children }) {
     })
       .then((data) => data.json())
       .then((res) => {
+        console.log(res);
         dispatch({
           type: PROFILE_DATA,
           data: res,
@@ -42,9 +43,9 @@ const ProfileProvider: React.FC<ProviderProps> = function ({ children }) {
       .catch((err) => {
         console.error(err);
       });
-  }
+  }, []);
 
-  function getProfile() {
+  const getProfile = useCallback(() => {
     const accessToken = Cookies.get("access_token");
     fetch("/profiles/:username", {
       method: "GET",
@@ -62,7 +63,7 @@ const ProfileProvider: React.FC<ProviderProps> = function ({ children }) {
         });
       })
       .catch((err) => console.error(err));
-  }
+  }, []);
 
   return (
     <ProfileContext.Provider

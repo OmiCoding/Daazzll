@@ -26,6 +26,7 @@ const useAuthCheck = function () {
             });
           }
         } else {
+          sessionStorage.removeItem("username");
           sessionStorage.removeItem("hallpass");
           if (dispatch && auth) {
             dispatch({

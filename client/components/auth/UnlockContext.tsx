@@ -2,12 +2,9 @@ import React, { ReactElement } from "react";
 import { Navigate, useLocation } from "react-router-dom";
 import useAuth from "../../hooks/auth/useAuth";
 import useAuthCheck from "../../hooks/auth/useAuthCheck";
+import { ContextChildren } from "../../custom-types";
 
-interface ProviderProps {
-  children: ReactElement<any, any>;
-}
-
-const UnlockContext: React.FC<ProviderProps> = function ({ children }) {
+const UnlockContext: React.FC<ContextChildren> = function ({ children }) {
   const location = useLocation();
   const { auth } = useAuth();
 

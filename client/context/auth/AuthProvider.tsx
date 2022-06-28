@@ -1,14 +1,14 @@
 import React, { ReactNode, useReducer } from "react";
+import Cookies from "js-cookie";
+import AuthContext from "./AuthContext";
+import authReducer from "./authReducer";
 import {
   Action,
-  AuthAction,
   AuthContextType,
   AuthReducer,
   LoginBody,
   RegisterBody,
 } from "../../custom-types";
-import AuthContext from "./AuthContext";
-import authReducer from "./authReducer";
 import { REGISTER_USER, LOGIN_USER, ERROR_PAGE } from "./cases";
 
 interface ProviderProps {
@@ -22,6 +22,7 @@ interface sessionObj {
 
 const AuthProvider: React.FC<ProviderProps> = function ({ children }) {
   const hp: any = sessionStorage.getItem("hallpass");
+  const user: any = sessionStorage.getItem("username");
   let hpObj: sessionObj | null;
 
   hpObj = JSON.parse(hp) || null;
@@ -30,7 +31,7 @@ const AuthProvider: React.FC<ProviderProps> = function ({ children }) {
     authReducer,
     {
       auth: hpObj ? hpObj.pass : false,
-      username: "",
+      username: user ? user : "",
     }
   );
 
@@ -84,6 +85,8 @@ const AuthProvider: React.FC<ProviderProps> = function ({ children }) {
       .then((data) => data.json())
       .then((res) => {
         if (res.username) {
+          // probably want to use some sort of encryption
+          sessionStorage.setItem("username", res.username);
           dispatch({
             type: LOGIN_USER,
             data: {
