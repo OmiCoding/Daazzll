@@ -74,7 +74,7 @@ export interface ProfileContextInit {
   pitch: string;
   descActive: boolean;
   getProfileData?: () => void;
-  getProfile?: () => void;
+  getProfile?: (username: string) => void;
   dispatch?: Dispatch<Action>;
 }
 

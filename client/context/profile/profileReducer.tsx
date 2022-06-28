@@ -5,20 +5,21 @@ const profileReducer: ProfileReducer<ProfileContextInit, Action> = function (
   prevState,
   action
 ) {
+  const { data } = action;
   switch (action.type) {
     case PROFILE_DATA:
-      const { username } = action.data;
       return {
         ...prevState,
         init: false,
-        username: username,
         user: true,
+        username: data.username,
       };
     case GET_PROFILE:
       return {
         ...prevState,
         init: false,
         user: false,
+        username: data.username,
       };
     default:
       return {

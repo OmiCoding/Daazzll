@@ -9,6 +9,8 @@ export const profile: RequestHandler = async function (
   try {
     const { username } = req.params;
 
+    console.log(username);
+
     const data = await prismaClient.accounts.findFirst({
       where: {
         username: username,

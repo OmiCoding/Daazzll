@@ -37,7 +37,7 @@ const ProfileProvider: React.FC<ProviderProps> = function ({ children }) {
         console.log(res);
         dispatch({
           type: PROFILE_DATA,
-          data: res,
+          data: res.username,
         });
       })
       .catch((err) => {
@@ -45,9 +45,9 @@ const ProfileProvider: React.FC<ProviderProps> = function ({ children }) {
       });
   }, []);
 
-  const getProfile = useCallback(() => {
+  const getProfile = useCallback((username: string) => {
     const accessToken = Cookies.get("access_token");
-    fetch("/profiles/:username", {
+    fetch(`/profile/${username}`, {
       method: "GET",
       mode: "cors",
       credentials: "include",
@@ -57,6 +57,7 @@ const ProfileProvider: React.FC<ProviderProps> = function ({ children }) {
     })
       .then((data) => data.json())
       .then((res) => {
+        console.log(res);
         dispatch({
           type: GET_PROFILE,
           data: res,
