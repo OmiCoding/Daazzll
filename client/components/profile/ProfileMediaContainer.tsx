@@ -12,7 +12,6 @@ const ProfileMediaContainer: React.FC<MediaProps> = function ({ user }) {
   });
 
   const { show } = state;
-  const { auth } = useAuth();
 
   const handleEllipsis = function (e: MouseEvent<HTMLButtonElement>) {
     return setState({
@@ -28,7 +27,7 @@ const ProfileMediaContainer: React.FC<MediaProps> = function ({ user }) {
           <i className="fa-solid fa-wand-magic-sparkles" />
           Add to watchlist
         </button>
-        <ProfileMediaList auth={auth} show={show} user={user} />
+        <ProfileMediaList show={show} user={user} />
         <div className="ellipsi-wrapper">
           <button className="ellipsi-button" onClick={(e) => handleEllipsis(e)}>
             <i className="fa-solid fa-ellipsis-vertical" />

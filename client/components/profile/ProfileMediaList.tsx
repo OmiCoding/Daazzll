@@ -1,12 +1,11 @@
 import React, { MouseEvent } from "react";
 
 interface MediaProps {
-  auth: boolean;
   show: boolean;
   user: boolean;
 }
 
-const ProfileMediaList: React.FC<MediaProps> = function ({ auth, show, user }) {
+const ProfileMediaList: React.FC<MediaProps> = function ({ show, user }) {
   const setMediaLinks = async function (e: MouseEvent<HTMLButtonElement>) {
     // trigger modal
   };
