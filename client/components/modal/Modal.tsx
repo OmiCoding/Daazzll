@@ -11,6 +11,7 @@ const Modal: React.FC<ModalContext> = function ({ children }) {
     const current = el.current;
     const modalRoot = document.getElementById("modal-root");
 
+    console.log("yo");
     current.classList.add("modal-wrapper");
 
     if (modalRoot) {
