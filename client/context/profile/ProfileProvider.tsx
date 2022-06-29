@@ -24,7 +24,7 @@ const ProfileProvider: React.FC<ProviderProps> = function ({ children }) {
 
   const getProfileData = useCallback(() => {
     const accessToken = Cookies.get("access_token");
-    fetch("/profile_data", {
+    fetch("/profileData", {
       method: "GET",
       mode: "cors",
       credentials: "include",
@@ -34,10 +34,9 @@ const ProfileProvider: React.FC<ProviderProps> = function ({ children }) {
     })
       .then((data) => data.json())
       .then((res) => {
-        console.log(res);
         dispatch({
           type: PROFILE_DATA,
-          data: res.username,
+          data: res,
         });
       })
       .catch((err) => {

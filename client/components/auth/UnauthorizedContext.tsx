@@ -11,13 +11,7 @@ const UnauthorizedContext: React.FC<ContextChildren> = function ({ children }) {
   useAuthCheck();
 
   if (auth) {
-    return (
-      <Navigate
-        to={`/profile/${username}`}
-        state={{ from: location }}
-        replace
-      />
-    );
+    return <Navigate to={`/${username}`} state={{ from: location }} replace />;
   }
 
   return children;

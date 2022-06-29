@@ -20,7 +20,7 @@ const App: React.FC = function () {
       <Route path="/" element={<PageLayout />}>
         <Route index element={<Home />} />
         <Route
-          path="profile/:username"
+          path=":username"
           element={
             <UnlockContext>
               <ProfileProvider>

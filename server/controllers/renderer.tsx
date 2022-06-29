@@ -48,6 +48,7 @@ export const renderer: RequestHandler = function (
   <body>
   <script>;window.app=${serialize({ data: "hello" })}</script>
     <div id="root">${html}</div>
+    <div id="modal-root"></div>
     ${webExtractor.getScriptTags()}
   </body>
 </html>`;

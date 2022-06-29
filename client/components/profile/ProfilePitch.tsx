@@ -16,8 +16,6 @@ const ProfilePitch: React.FC<PitchProps> = function ({
   active,
   setActive,
 }) {
-  console.log(username);
-
   return (
     <section className="profile-pitch">
       <div className="z-idx-wrapper-1">
