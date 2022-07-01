@@ -9,7 +9,7 @@ export const checkAccToken: RequestHandler = function (
     return next();
   } else {
     return res.status(401).json({
-      msg: "Unauthorized.",
+      msg: "Unauthenticated.",
     });
   }
 };

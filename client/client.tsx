@@ -1,5 +1,5 @@
 import React from "react";
-import { createPortal, hydrate, render } from "react-dom";
+import { hydrate, render } from "react-dom";
 import { loadableReady } from "@loadable/component";
 import { BrowserRouter } from "react-router-dom";
 import AuthProvider from "./context/auth/AuthProvider";

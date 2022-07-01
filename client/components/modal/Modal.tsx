@@ -11,7 +11,6 @@ const Modal: React.FC<ModalContext> = function ({ children }) {
     const current = el.current;
     const modalRoot = document.getElementById("modal-root");
 
-    console.log("yo");
     current.classList.add("modal-wrapper");
 
     if (modalRoot) {
@@ -22,7 +21,6 @@ const Modal: React.FC<ModalContext> = function ({ children }) {
         modalRoot.removeChild(current);
       }
     };
-    // Appropriately add the dependency
   }, []);
 
   return createPortal(children, el.current);

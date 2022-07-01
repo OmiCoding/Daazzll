@@ -1,5 +1,9 @@
 @import "./theme.css";
 
+.display--none {
+  display: none;
+}
+
 .btn-wrapper-1 {
   margin: 0 auto;
 }
@@ -246,6 +250,17 @@
   position: relative;
   width: 100%;
   z-index: 1;
+}
+
+.modal-wrapper {
+  width: 100%;
+  min-height: 100vh;
+}
+
+.bg-modal-1 {
+  width: 100%;
+  min-height: 100vh;
+  background-color: rgba(0, 0, 0, 0.6);
 }
 
 @media screen and (min-height: 910px) {

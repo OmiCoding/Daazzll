@@ -1,10 +1,9 @@
 import React, { ReactNode, useReducer } from "react";
-import Cookies from "js-cookie";
 import AuthContext from "./AuthContext";
 import authReducer from "./authReducer";
 import {
   Action,
-  AuthContextType,
+  AuthContextInit,
   AuthReducer,
   LoginBody,
   RegisterBody,
@@ -27,7 +26,7 @@ const AuthProvider: React.FC<ProviderProps> = function ({ children }) {
 
   hpObj = JSON.parse(hp) || null;
 
-  const [state, dispatch] = useReducer<AuthReducer<AuthContextType, Action>>(
+  const [state, dispatch] = useReducer<AuthReducer<AuthContextInit, Action>>(
     authReducer,
     {
       auth: hpObj ? hpObj.pass : false,

@@ -60,83 +60,11 @@ export const checkToken2: RequestHandler = async function (
         return res.status(401).json({ msg: "Unauthenticated." });
       }
       return next();
-
-      // const accessId = uuidv4();
-      // const refreshId = uuidv4();
-
-      // const newAccToken = await regenToken({
-      //   role: "user",
-      //   tokenId: accessId,
-      //   email: accPayload.email,
-      //   username: accPayload.username,
-      // },
-      // path.resolve("server/auth/keys/jwtRS256.key"),
-      // "5m",
-      // 3000
-      // )
-
-      // const newRefToken = await regenToken({
-      //   role: "user",
-      //   tokenId: refreshId,
-      //   email: accPayload.email,
-      //   username: accPayload.username,
-      // },
-      // path.resolve("server/auth/keys/jwtRS256.key"),
-      // "5m",
-      // 3000
-      // )
-
-      // res.clearCookie("access_token", {
-      //   path: "/",
-      //   sameSite: true,
-      //   secure: true,
-      // })
-
-      // res.clearCookie("refresh_token", {
-      //   path: "/",
-      //   sameSite: true,
-      //   secure: true,
-      // })
-
-      // const account = await prismaClient.accounts.findFirst({
-      //   where: {
-      //     email: accPayload.email,
-      //   },
-      //   select: {
-      //     id: true,
-      //     email: true,
-      //     username: true,
-      //   }
-      // })
-
-      // if(!account) {
-      //   await handleSession("DELETE", redisStore);
-      //   return res.status(401).json({ msg: "Unauthenticated." });
-      // }
-
-      // await handleSession("ADD", redisStore, {
-      //   role: "user",
-      //   userId: account.id,
-      //   email: accPayload.email,
-      //   username: accPayload.username,
-      // });
-
-      // res.cookie("access_token", newAccToken, {
-      //   path: "/",
-      //   sameSite: "strict",
-      //   secure: true,
-      //   expires: new Date(new Date().getTime() + 5 * 60000),
-      // })
-
-      // res.cookie("refresh_token", newRefToken, {
-      //   path: "/",
-      //   sameSite: "strict",
-      //   secure: true,
-      //   expires: new Date(new Date().getTime() + 5 * 60000),
-      // })
-
-      // return res.status(200).json({ msg: "Ok" });
     } catch (e: any) {
+      /* 
+        Handling Refresh Tokens 
+      
+      */
       try {
         // Needs proper typing
         const refPayload: any = await handleJWT(refresh_token, publicKey);

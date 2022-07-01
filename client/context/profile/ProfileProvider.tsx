@@ -34,6 +34,7 @@ const ProfileProvider: React.FC<ProviderProps> = function ({ children }) {
     })
       .then((data) => data.json())
       .then((res) => {
+        if (res.msg === "Unauthenticated.") return;
         dispatch({
           type: PROFILE_DATA,
           data: res,

@@ -1,7 +1,7 @@
 import { createContext } from "react";
-import { AuthContextType } from "../../custom-types";
+import { AuthContextInit } from "../../custom-types";
 
-const AuthContext = createContext<AuthContextType>({
+const AuthContext = createContext<AuthContextInit>({
   auth: false,
   username: "",
 });

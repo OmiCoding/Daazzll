@@ -17,6 +17,26 @@ div#root {
   min-height: 100vh;
 }
 
+div#root {
+  position: relative;
+}
+
+/* Some reason scrollbar appears under the modal element */
+div#modal-root {
+  position: absolute;
+  width: 100%;
+  min-height: 100vh;
+  top: 0;
+  left: 0;
+  z-index: 2;
+  overflow-y: hidden;
+  -ms-overflow-style: none; /* IE and Edge */
+  scrollbar-width: none; /* Firefox */
+}
+div#modal-root::-webkit-scrollbar {
+  display: none;
+}
+
 body {
   font-family: var(--main-font);
   font-weight: var(--fnt-weight-1);
@@ -39,7 +59,6 @@ button {
 }
 
 @media screen and (min-width: 320px) {
-
   html,
   body,
   div#root {
