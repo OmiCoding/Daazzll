@@ -1,4 +1,5 @@
 import React, { useEffect, useRef } from "react";
+import useApp from "../../hooks/general/useApp";
 import { createPortal } from "react-dom";
 
 interface ModalContext {
@@ -6,24 +7,41 @@ interface ModalContext {
 }
 
 const Modal: React.FC<ModalContext> = function ({ children }) {
-  const el = useRef(document.createElement("div"));
+  const childElem = useRef(document.createElement("div"));
+  const modalRoot = useRef(document.getElementById("modal-root"));
+
+  const { modalActive } = useApp();
+
   useEffect(() => {
-    const current = el.current;
-    const modalRoot = document.getElementById("modal-root");
+    const currChild = childElem.current;
+    const currRoot = modalRoot.current;
 
-    current.classList.add("modal-wrapper");
+    currChild.classList.add("modal-wrapper");
 
-    if (modalRoot) {
-      modalRoot.appendChild(current);
+    if (modalRoot && currRoot) {
+      currRoot.append(currChild);
     }
-    return () => {
-      if (modalRoot) {
-        modalRoot.removeChild(current);
-      }
-    };
-  }, []);
 
-  return createPortal(children, el.current);
+    if (modalActive && currRoot) {
+      currRoot.classList.add("display--block");
+      document.body.style.overflowY = "hidden";
+    } else {
+      if (currRoot && !modalActive) {
+        currRoot.classList.remove("display--block");
+        currChild.style.height = "auto";
+        document.body.style.overflowY = "auto";
+      }
+    }
+
+    return () => {
+      currRoot?.removeChild(currChild);
+      currRoot?.classList.remove("display--block");
+      currChild.style.height = "auto";
+      document.body.style.overflowY = "auto";
+    };
+  }, [modalActive]);
+
+  return createPortal(children, childElem.current);
 };
 
 export default Modal;

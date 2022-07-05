@@ -7,6 +7,7 @@ export interface ContextChildren {
 export interface AppContextInit {
   modalActive: boolean;
   modal: string;
+  dispatch?: Dispatch<Action>;
 }
 
 export interface AuthContextInit {

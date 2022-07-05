@@ -5,16 +5,11 @@ import MediaLinks from "./MediaLinks";
 
 interface PFModalProps {
   modalType: string;
-  modalActive: boolean;
+  active: boolean;
 }
 
-const ProfileModal: React.FC<PFModalProps> = function ({
-  modalType,
-  modalActive,
-}) {
-  const modalRoot = useRef(document.getElementById("modal-root"));
-  const appRoot = useRef(document.getElementById("root"));
-
+const ProfileModal: React.FC<PFModalProps> = function ({ modalType, active }) {
+  const bgElem = useRef<HTMLDivElement>(null);
   let modalItem;
 
   if (modalType === "media-links") {
@@ -38,24 +33,30 @@ const ProfileModal: React.FC<PFModalProps> = function ({
   }, []);
 
   useLayoutEffect(() => {
-    const modalCurr = modalRoot.current;
-    const appCurr = appRoot.current;
-    if (modalActive && modalRoot && modalCurr && appCurr) {
-      modalCurr.classList.remove("display--none");
-      modalCurr.style.overflow = "auto";
-      appCurr.style.overflow = "hidden";
-    } else if (!modalActive && modalRoot && modalCurr && appCurr) {
-    }
+    const rootElem = document.getElementById("root");
+
+    // const modalCurr = modalRoot.current;
+    // const appCurr = appRoot.current;
+    // if (modalActive && modalRoot && modalCurr && appCurr) {
+    //   modalCurr.classList.remove("display--none");
+    //   modalCurr.style.overflow = "auto";
+    //   appCurr.style.overflow = "hidden";
+    // } else if (!modalActive && modalRoot && modalCurr && appCurr) {
+    //   appCurr.style.overflow = "auto";
+    //   modalCurr.style.overflow = "auto";
+    // }
 
     window.addEventListener("resize", debounceResize);
 
     return () => {
       window.removeEventListener("resize", debounceResize);
     };
-  }, [modalActive, debounceResize]);
+  }, [active, debounceResize]);
 
+  // add the height here on when active is true
+  // find
   return (
-    <div className="bg-modal-1">
+    <div ref={bgElem} className="bg-modal-1">
       <div className="pf-modal-wrapper">
         <div className="pf-modal">{modalItem}</div>
       </div>

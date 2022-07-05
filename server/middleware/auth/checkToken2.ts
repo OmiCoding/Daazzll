@@ -29,6 +29,7 @@ export const checkToken2: RequestHandler = async function (
 
       const accPayload: any = await handleJWT(access_token, publicKey);
 
+      console.log(accPayload);
       if (!accPayload) {
         console.log(1);
         if (sid) {
@@ -61,10 +62,6 @@ export const checkToken2: RequestHandler = async function (
       }
       return next();
     } catch (e: any) {
-      /* 
-        Handling Refresh Tokens 
-      
-      */
       try {
         // Needs proper typing
         const refPayload: any = await handleJWT(refresh_token, publicKey);
@@ -132,8 +129,8 @@ export const checkToken2: RequestHandler = async function (
             username: refPayload.username,
           },
           PRIV_KEY_PATH,
-          "5m",
-          3000
+          "10m",
+          600
         );
 
         const newRefToken = await regenToken(
@@ -144,8 +141,8 @@ export const checkToken2: RequestHandler = async function (
             username: refPayload.username,
           },
           PRIV_KEY_PATH,
-          "5m",
-          3000
+          "30m",
+          1800
         );
 
         await signedToken(

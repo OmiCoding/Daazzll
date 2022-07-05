@@ -28,9 +28,11 @@ const ProfileContainer: React.FC = function () {
           />
         </section>
       </div>
-      <Modal>
-        <ProfileModal modalType={modal} modalActive={modalActive} />
-      </Modal>
+      {modalActive ? (
+        <Modal>
+          <ProfileModal modalType={modal} active={modalActive} />
+        </Modal>
+      ) : null}
     </>
   );
 };

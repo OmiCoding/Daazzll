@@ -12,8 +12,8 @@ const AppProvider: React.FC<AppProps> = function ({ children }) {
   const [state, dispatch] = useReducer<AppReducer<AppContextInit, Action>>(
     appReducer,
     {
-      modalActive: false,
-      modal: "",
+      modalActive: true,
+      modal: "media-links",
     }
   );
 
@@ -21,6 +21,7 @@ const AppProvider: React.FC<AppProps> = function ({ children }) {
     <AppContext.Provider
       value={{
         ...state,
+        dispatch,
       }}
     >
       {children}

@@ -7,11 +7,6 @@
 }
 
 html,
-body {
-  overflow: auto;
-}
-
-html,
 body,
 div#root {
   min-height: 100vh;
@@ -23,16 +18,19 @@ div#root {
 
 /* Some reason scrollbar appears under the modal element */
 div#modal-root {
+  display: none;
   position: absolute;
-  width: 100%;
-  min-height: 100vh;
   top: 0;
   left: 0;
+  height: 100%;
+  width: 100%;
+  min-height: 100vh;
+  overflow-y: scroll;
   z-index: 2;
-  overflow-y: hidden;
   -ms-overflow-style: none; /* IE and Edge */
   scrollbar-width: none; /* Firefox */
 }
+
 div#modal-root::-webkit-scrollbar {
   display: none;
 }

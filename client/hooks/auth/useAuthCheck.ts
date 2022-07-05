@@ -1,11 +1,9 @@
-import { useRef, useLayoutEffect, useCallback } from "react";
+import { useLayoutEffect, useCallback } from "react";
 import useAuth from "./useAuth";
 import Cookies from "js-cookie";
 
 const useAuthCheck = function () {
   const { dispatch, auth } = useAuth();
-
-  const modalRoot = useRef(document.getElementById("modal-root"));
 
   const check = useCallback(() => {
     const accessToken = Cookies.get("access_token");
@@ -21,15 +19,16 @@ const useAuthCheck = function () {
     })
       .then((data) => data.json())
       .then((res) => {
-        if (res.msg === "Ok.") {
+        console.log(res.username);
+        if (res.username) {
           if (dispatch && !auth) {
             sessionStorage.setItem("hallpass", JSON.stringify({ pass: true }));
+            sessionStorage.setItem("username", res.username);
             dispatch({
               type: "CHECK_AUTH",
             });
           }
         } else {
-          modalRoot.current?.classList.add("display--none");
           sessionStorage.removeItem("username");
           sessionStorage.removeItem("hallpass");
           if (dispatch && auth) {

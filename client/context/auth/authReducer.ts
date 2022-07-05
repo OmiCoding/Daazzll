@@ -19,7 +19,6 @@ const authReducer: AuthReducer<AuthContextInit, Action> = function (
         auth: true,
       };
     case LOGIN_USER:
-      console.log(action.data.username);
       return {
         ...prevState,
         auth: true,
