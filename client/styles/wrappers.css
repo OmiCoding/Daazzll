@@ -36,6 +36,20 @@
   align-items: center;
 }
 
+.relative-wrapper-1 {
+  position: relative;
+  width: 100%;
+  min-height: 580px;
+}
+
+.transition-wrapper-1 {
+  position: absolute;
+  width: 100%;
+  height: min-content;
+  top: 0;
+  left: 0;
+}
+
 @media screen and (min-width: 320px) {
   .header-wrapper {
     height: 80px;

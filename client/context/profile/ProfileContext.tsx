@@ -7,6 +7,11 @@ const ProfileContext = createContext<ProfileContextInit>({
   descActive: false,
   username: "",
   pitch: "",
+  discord: "",
+  facebook: "",
+  twitter: "",
+  instagram: "",
+  website: "",
 });
 
 export default ProfileContext;

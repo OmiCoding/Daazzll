@@ -1,9 +1,10 @@
+import crypto from "crypto";
 import { RequestHandler, Request, Response, NextFunction } from "express";
 import { v4 as uuidv4 } from "uuid";
 import { hash } from "bcrypt";
 
 import prismaClient from "../prismaClient";
-import { genToken } from "../utils/functions/auth";
+import { genToken, signedToken } from "../utils/functions/auth";
 import { PRIV_KEY_PATH } from "../serverConfig";
 
 export const register: RequestHandler = async function (
@@ -74,68 +75,40 @@ export const register: RequestHandler = async function (
       1800
     );
 
-    if (!accessToken || !refreshToken)
-      return res.status(400).json({ msg: "Bad request." });
+    const uid = crypto.randomBytes(24).toString("base64");
+
+    await signedToken(
+      {
+        role: "user",
+        userId: result.id,
+        email: result.email,
+        username: result.username,
+      },
+      uid,
+      600
+    );
 
     res.cookie("access_token", accessToken, {
       path: "/",
-      sameSite: "strict",
       secure: true,
-      expires: new Date(new Date().getTime() + 3 * 60000),
+      maxAge: 10 * 60 * 1000, // 10min
     });
     res.cookie("refresh_token", refreshToken, {
       path: "/",
-      sameSite: "strict",
       secure: true,
-      expires: new Date(new Date().getTime() + 3 * 60000),
+      maxAge: 30 * 60 * 1000, // 30min
     });
 
-    // if(redisStore.all) {
-    //   // Implement the correct typing for this
-    //   redisStore.all(function(err, sessions: any) {
-    //     if(err){
-    //       console.error(err);
-    //       return res.status(500).json({ msg: "Something has gone wrong..." })
-    //     }
-    //     if(sessions) {
-    //       const session = sessions[0]
-
-    //       session.user = {
-    //         role: "user",
-    //         email: email,
-    //         username: username,
-    //         userId: result.id,
-    //       }
-
-    //       const sessionId = session.id;
-
-    //       redisStore.set(sessionId, session, function(err) {
-    //         if(err){
-    //           console.error(err);
-    //           return res.status(500).json({ msg: "Something has gone wrong..." })
-    //         }
-
-    //         return res.status(200).json({
-    //           msg: "Ok"
-    //         })
-    //       })
-    //     } else {
-    //       console.error("No session was found...");
-    //       return res.status(500).json({
-    //         msg: "Something has gone wrong..."
-    //       })
-    //     }
-    //   })
-    // } else {
-    //   console.error("The redis store all method is undefined...");
-    //   return res.status(500).json({
-    //     msg: "Something has gone wrong..."
-    //   })
-    // }
-
-    return res.status(200).json({
-      msg: "Ok",
+    res.cookie("sid", uid, {
+      path: "/",
+      sameSite: "strict",
+      httpOnly: true,
+      secure: true,
+      signed: true,
+      maxAge: 10 * 60 * 1000, // 10min
     });
+
+    return res.status(200).json({ username: result.username });
   } catch (e) {
     return next(e);
   }

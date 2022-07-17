@@ -43,7 +43,7 @@ const AuthProvider: React.FC<ProviderProps> = function ({ children }) {
   //   }
   // }
 
-  const register = function (body: RegisterBody, cb: () => void) {
+  const register = function (body: RegisterBody) {
     fetch("/register", {
       method: "POST",
       mode: "cors",
@@ -54,14 +54,17 @@ const AuthProvider: React.FC<ProviderProps> = function ({ children }) {
       body: JSON.stringify(body),
     })
       .then((data) => {
-        return data.status;
+        return data.json();
       })
       .then((res) => {
-        if (res === 200) {
+        if (res.username) {
+          sessionStorage.setItem("username", res.username);
           dispatch({
             type: REGISTER_USER,
+            data: {
+              username: res.username,
+            },
           });
-          cb();
         }
       })
       .catch((err) => {

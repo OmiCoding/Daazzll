@@ -7,11 +7,7 @@ import Login from "./pages/Login";
 import Register from "./pages/Register";
 import Watch from "./pages/Watch";
 import Wallet from "./pages/Wallet";
-import UnlockContext from "./components/auth/UnlockContext";
-import UnauthorizedContext from "./components/auth/UnauthorizedContext";
-import ProfileProvider from "./context/profile/ProfileProvider";
-import ProfileSetup from "./context/profile/ProfileSetup";
-import ProfilesSetup from "./context/profile/ProfilesSetup";
+import Profiles from "./pages/Profiles";
 
 const App: React.FC = function () {
   // Protected Routes on the frontend are defined here
@@ -19,44 +15,10 @@ const App: React.FC = function () {
     <Routes>
       <Route path="/" element={<PageLayout />}>
         <Route index element={<Home />} />
-        <Route
-          path=":username"
-          element={
-            <UnlockContext>
-              <ProfileProvider>
-                <ProfileSetup>
-                  <Profile />
-                </ProfileSetup>
-              </ProfileProvider>
-            </UnlockContext>
-          }
-        />
-        <Route
-          path="profiles/:username"
-          element={
-            <ProfileProvider>
-              <ProfilesSetup>
-                <Profile />
-              </ProfilesSetup>
-            </ProfileProvider>
-          }
-        />
-        <Route
-          path="login"
-          element={
-            <UnauthorizedContext>
-              <Login />
-            </UnauthorizedContext>
-          }
-        />
-        <Route
-          path="register"
-          element={
-            <UnauthorizedContext>
-              <Register />
-            </UnauthorizedContext>
-          }
-        />
+        <Route path=":username" element={<Profile />} />
+        <Route path="profiles/:username" element={<Profiles />} />
+        <Route path="login" element={<Login />} />
+        <Route path="register" element={<Register />} />
         <Route path="watch" element={<Watch />} />
         <Route path="wallet" element={<Wallet />} />
       </Route>

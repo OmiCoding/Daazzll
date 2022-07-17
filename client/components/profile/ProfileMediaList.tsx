@@ -1,4 +1,5 @@
-import React, { MouseEvent } from "react";
+import React from "react";
+import useApp from "../../hooks/general/useApp";
 
 interface MediaProps {
   show: boolean;
@@ -6,13 +7,7 @@ interface MediaProps {
 }
 
 const ProfileMediaList: React.FC<MediaProps> = function ({ show, user }) {
-  const setMediaLinks = async function (e: MouseEvent<HTMLButtonElement>) {
-    // trigger modal
-  };
-
-  const openSideMenu = async function (e: MouseEvent<HTMLButtonElement>) {
-    // trigger side menu
-  };
+  const { handleModal } = useApp();
 
   return (
     <ul
@@ -30,13 +25,16 @@ const ProfileMediaList: React.FC<MediaProps> = function ({ show, user }) {
       </li>
       {user ? (
         <li className="profile__list__item">
-          <button onClick={(e) => setMediaLinks(e)} className="abs-list__btn" />
+          <button
+            onClick={(e) => handleModal!(e, "media-links")}
+            className="abs-list__btn"
+          />
           <i className="fa-solid fa-plus" />
           Set media links
         </li>
       ) : null}
       <li className="profile__list__item hide--mobile">
-        <button onClick={(e) => openSideMenu(e)} className="abs-list__btn" />
+        <button className="abs-list__btn" />
         <i className="fa-solid fa-wand-magic-sparkles" />
         Add to watchlist
       </li>

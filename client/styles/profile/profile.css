@@ -1,4 +1,4 @@
-@import url("./theme.css");
+@import url("../theme.css");
 
 .profile-page {
   position: relative;
@@ -263,71 +263,6 @@
   margin-left: 0.4rem;
 }
 
-.pf-modal-wrapper {
-  position: relative;
-  width: 100%;
-  min-height: 100vh;
-}
-
-.pf-modal {
-  position: relative;
-}
-
-.medialinks-wrapper {
-  position: absolute;
-  left: 0;
-  right: 0;
-  background-color: var(--bg-color);
-  padding: 2rem;
-}
-
-.ml-split-wrapper {
-  display: flex;
-  align-items: center;
-}
-
-.ml-form-wrapper {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  flex-direction: column;
-}
-
-.ml-btn-wrapper {
-  display: flex;
-  justify-content: flex-end;
-  align-items: flex-start;
-  width: 100%;
-  height: 50px;
-}
-
-.medialinks__cls-btn {
-  background-color: var(--bg-color);
-  color: var(--grey-text);
-  font-size: var(--btn-size);
-  font-weight: var(--fnt-weight-2);
-  border-radius: 5px;
-  transition: all 400ms var(--transition-1);
-}
-
-.medialinks__cls-btn:hover {
-  color: var(--danger-color);
-  text-shadow: 0px 5px 5px hsl(0deg 0% 1% / 0.1);
-}
-
-.medialinks__form {
-  width: 100%;
-  height: 100%;
-}
-
-.ml-link-input-wrapper {
-  display: flex;
-  position: relative;
-  align-items: flex-end;
-  width: 100%;
-  max-width: 450px;
-}
-
 .ml-link__btn {
   width: 60px;
   height: 50px;
@@ -347,19 +282,6 @@
 
 .ml-link__btn > .fa-link {
   font-size: var(--reg-size);
-}
-
-.ml-platform-wrapper {
-  display: flex;
-  align-items: center;
-  flex-direction: column;
-}
-
-.card-wrapper {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  background-color: black;
 }
 
 @media screen and (min-width: 320px) {
@@ -412,82 +334,11 @@
   .pitch__desc {
     text-align: center;
   }
-
-  .pf-modal-wrapper {
-    height: 100%;
-  }
-
-  .pf-modal {
-    min-height: 100vh;
-    width: 100%;
-  }
-
-  .medialinks-wrapper {
-    min-height: 100vh;
-    height: 100%;
-  }
-
-  .ml-split-wrapper {
-    justify-content: center;
-    flex-direction: column;
-  }
-
-  .ml-form-wrapper {
-    width: 100%;
-  }
-
-  .medialinks__form {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    flex-direction: column;
-    margin: 2rem 0;
-  }
-
-  .ml-platform-wrapper {
-    justify-content: flex-start;
-  }
-
-  .ml-form__title {
-    width: 100%;
-    text-align: center;
-    font-size: var(--heading-4);
-    font-weight: var(--fnt-weight-2);
-    margin: 0;
-    margin-bottom: 1rem;
-  }
-
-  .ml-form__desc {
-    width: 80%;
-    text-align: center;
-    font-size: var(--reg-size);
-    margin: 2rem 0;
-  }
-
-  .ml-link__label {
-    display: inline-block;
-    font-size: 1rem;
-    font-weight: var(--fnt-weight-2);
-    text-align: center;
-    margin-left: 2rem;
-    margin-bottom: 0.5rem;
-  }
-
-  .platform__title {
-    width: 100%;
-    text-align: center;
-    font-size: var(--heading-4);
-    font-weight: var(--fnt-weight-2);
-  }
 }
 
 @media screen and (min-width: 414px) {
   .profile-desc-wrapper {
     width: 70%;
-  }
-
-  .medialinks-wrapper {
-    height: 100%;
   }
 }
 
@@ -499,16 +350,6 @@
   .profile-desc-wrapper--less,
   .profile-desc-wrapper--more {
     width: 50%;
-  }
-
-  .medialinks-wrapper {
-    border-radius: 20px;
-    top: 0;
-    bottom: 0;
-    margin: auto;
-    height: min-content;
-    max-width: 600px;
-    min-height: 650px;
   }
 }
 
@@ -573,63 +414,7 @@
     margin-right: 0;
   }
 
-  .pf-modal-wrapper {
-    height: auto;
-  }
-
-  .pf-modal {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    width: 100%;
-    min-height: 100vh;
-  }
-
-  .medialinks-wrapper {
-    display: flex;
-    justify-content: flex-start;
-    align-items: center;
-    flex-direction: column;
-    min-height: 650px;
-    max-width: 1000px;
-    box-shadow: -30px 60px 100px hsl(0deg 0% 0% / 0.2);
-  }
-
-  .ml-split-wrapper {
-    align-items: flex-start;
-    justify-content: center;
-    flex-direction: row;
-    height: auto;
-    flex-grow: 1;
-    width: 100%;
-  }
-
-  .ml-form-wrapper {
-    width: 50%;
-    font-size: 2rem;
-  }
-
-  .ml-form__desc {
-    margin-top: 2rem;
-  }
-
-  .medialinks__form {
-  }
-
-  .ml-platform-wrapper {
-    width: 50%;
-  }
-
   .form__title {
     font-size: var(--heading-4);
-  }
-  .platform__title {
-    font-size: var(--heading-4);
-  }
-}
-
-@media screen and (min-width: 1920px) {
-  .medialinks-wrapper {
-    min-width: 1200px;
   }
 }

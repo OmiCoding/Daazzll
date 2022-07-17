@@ -5,7 +5,7 @@ import { Action, ProfileContextInit, ProfileReducer } from "../../custom-types";
 
 import ProfileContext from "./ProfileContext";
 import profileReducer from "./profileReducer";
-import { GET_PROFILE, PROFILE_DATA } from "./cases";
+import { GET_PROFILE, PROFILE_DATA, SET_LINK } from "./cases";
 
 interface ProviderProps {
   children: ReactNode;
@@ -20,6 +20,11 @@ const ProfileProvider: React.FC<ProviderProps> = function ({ children }) {
     descActive: false,
     username: "",
     pitch: "",
+    discord: "",
+    twitter: "",
+    facebook: "",
+    instagram: "",
+    website: "",
   });
 
   const getProfileData = useCallback(() => {
@@ -66,12 +71,23 @@ const ProfileProvider: React.FC<ProviderProps> = function ({ children }) {
       .catch((err) => console.error(err));
   }, []);
 
+  const setLink = function (name: string, link: string) {
+    dispatch({
+      type: SET_LINK,
+      data: {
+        name,
+        link,
+      },
+    });
+  };
+
   return (
     <ProfileContext.Provider
       value={{
         ...state,
         getProfileData,
         getProfile,
+        setLink,
         dispatch,
       }}
     >

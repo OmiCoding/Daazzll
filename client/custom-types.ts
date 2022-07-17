@@ -1,4 +1,4 @@
-import React, { Dispatch } from "react";
+import React, { Dispatch, MouseEvent } from "react";
 
 export interface ContextChildren {
   children: React.ReactElement<any, any>;
@@ -8,6 +8,8 @@ export interface AppContextInit {
   modalActive: boolean;
   modal: string;
   dispatch?: Dispatch<Action>;
+  handleModal?: (e: MouseEvent<HTMLButtonElement>, modal: string) => void;
+  closeModal?: (e: MouseEvent<HTMLButtonElement>) => void;
 }
 
 export interface AuthContextInit {
@@ -25,9 +27,15 @@ export interface ProfileContextInit {
   user: boolean;
   username: string;
   pitch: string;
+  discord: string;
+  facebook: string;
+  instagram: string;
+  twitter: string;
+  website: string;
   descActive: boolean;
   getProfileData?: () => void;
   getProfile?: (username: string) => void;
+  setLink?: (name: string, link: string) => void;
   dispatch?: Dispatch<Action>;
 }
 
@@ -56,7 +64,7 @@ export interface LoginState {
   warn_2: string | undefined;
 }
 
-type RegisterFunc = (body: RegisterBody, cb: () => void) => void;
+type RegisterFunc = (body: RegisterBody) => void;
 type LoginFunc = (body: LoginBody) => void;
 type checkAuthFunc = (cb: (pass: boolean) => void) => void;
 type LogoutFunc = () => void;

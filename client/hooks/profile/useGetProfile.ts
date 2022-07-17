@@ -5,7 +5,6 @@ import useProfile from "./useProfile";
 const useGetProfile = function () {
   const { username } = useParams();
 
-  console.log(username);
   const { getProfile } = useProfile();
 
   useEffect(() => {

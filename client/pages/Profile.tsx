@@ -1,9 +1,10 @@
+import loadable from "@loadable/component";
 import React from "react";
-import ProfileContainer from "../components/profile/ProfileContainer";
-import "../styles/profile.css";
+import Loading from "../components/general/Loading";
 
-const Profile: React.FC = function () {
-  return <ProfileContainer />;
-};
+import "../styles/profile/profile.css";
 
+const Profile = loadable(() => import("../components/profile/ProfileContext"), {
+  fallback: <Loading />,
+});
 export default Profile;

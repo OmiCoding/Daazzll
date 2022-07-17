@@ -1,5 +1,4 @@
 import React, { MouseEvent, useState } from "react";
-import useAuth from "../../hooks/auth/useAuth";
 import ProfileMediaList from "./ProfileMediaList";
 
 interface MediaProps {
