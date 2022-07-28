@@ -61,18 +61,101 @@ const AddUserImages = function () {
     }
   }
 
-  function handleSubmit(e: FormEvent<HTMLFormElement>) {
+  async function handleSubmit(e: FormEvent<HTMLFormElement>) {
     e.preventDefault();
-
     const accessToken = Cookies.get("access_token");
-    if (modal === "user-photo") {
-      // fetch("/profile/signature?type=profile", {
-      //   method: "GET",
-      //   headers: {
-      //     "Content-Type": "application/json",
-      //     Authorization: `Bearer ${accessToken}`,
-      //   },
-      // });
+
+    if (!profFile && modal === "user-photo") return;
+    if (!bannerFile && modal === "banner") return;
+
+    let ext: string;
+    if (profFile!.type === "image/png" || bannerFile!.type === "image/png") {
+      if (modal === "banner") {
+        if (bannerFile) {
+          ext =
+            "." +
+            bannerFile.type.substring(
+              bannerFile.type.length - 3,
+              bannerFile.type.length
+            );
+        } else {
+          return;
+        }
+      } else {
+        if (profFile) {
+          ext =
+            "." +
+            profFile.type.substring(
+              profFile.type.length - 3,
+              profFile.type.length
+            );
+        } else {
+          return;
+        }
+      }
+    } else if (
+      profFile!.type === "image/jpeg" ||
+      bannerFile!.type === "image/jpeg"
+    ) {
+      if (modal === "banner") {
+        if (bannerFile) {
+          ext = "." + bannerFile.name.split(".")[1];
+        } else {
+          return;
+        }
+      } else {
+        if (profFile) {
+          ext = "." + profFile.name.split(".")[1];
+        } else {
+          return;
+        }
+      }
+    } else {
+      return;
+    }
+
+    try {
+      await fetch(
+        `/profile/fileId?uploadType=${
+          modal === "banner" ? "banner" : "profile"
+        }`,
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${accessToken}`,
+          },
+          body: JSON.stringify({
+            image: modal === "banner" ? bannerFile!.name : profFile!.name,
+            ext: ext,
+            type: modal === "banner" ? bannerFile!.type : profFile!.type,
+          }),
+        }
+      );
+
+      const formData = new FormData();
+
+      if (profFile) {
+        formData.append("avatar", profFile);
+      }
+
+      if (bannerFile) {
+        formData.append("banner", bannerFile);
+      }
+
+      await fetch(
+        `/profile/upload?uploadType=${
+          modal === "banner" ? "banner" : "profile"
+        }`,
+        {
+          method: "POST",
+          mode: "cors",
+          credentials: "include",
+          body: formData,
+        }
+      );
+    } catch (err) {
+      console.error(err);
     }
   }
 

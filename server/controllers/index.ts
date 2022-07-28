@@ -10,6 +10,8 @@ export * from "./updateUser";
 export * from "./checkAuth";
 export * from "./createLink";
 export * from "./genSignature";
+export * from "./uploadProfFileId";
+export * from "./uploadProfileImgs";
 
 // Accounts
 export * from "./profileData";
