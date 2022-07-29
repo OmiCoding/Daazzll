@@ -53,9 +53,11 @@ model acc_profiles {
 
 model acc_avatars {
   id        Int             @id @default(autoincrement())
-  image     String
+  imageId   String
   ext       String
   type      String
+  url       String
+  folder    String
   createdAt DateTime        @default(now())
   updatedAt DateTime        @updatedAt
   userId    Int             @unique
@@ -64,9 +66,11 @@ model acc_avatars {
 
 model acc_banners {
   id        Int           @id @default(autoincrement())
-  image     String
+  imageId   String
   ext       String
   type      String
+  url       String
+  folder    String
   createdAt DateTime      @default(now())
   updatedAt DateTime      @updatedAt
   userId    Int           @unique

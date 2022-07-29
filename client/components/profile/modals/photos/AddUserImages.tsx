@@ -145,7 +145,7 @@ const AddUserImages = function () {
 
       await fetch(
         `/profile/upload?uploadType=${
-          modal === "banner" ? "banner" : "profile"
+          modal === "banner" ? "banner" : "avatar"
         }`,
         {
           method: "POST",
