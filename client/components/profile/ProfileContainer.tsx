@@ -4,6 +4,7 @@ import loadable from "@loadable/component";
 import BannerContainer from "./BannerContainer";
 import ProfileHeader from "./ProfileHeader";
 import ProfilePitch from "./ProfilePitch";
+import AddDesignSection from "./design/AddDesignSection";
 import useProfile from "../../hooks/profile/useProfile";
 import Loading from "../general/Loading";
 
@@ -29,6 +30,7 @@ const ProfileContainer: React.FC = function () {
             setActive={setActive}
             active={active}
           />
+          <AddDesignSection />
         </section>
       </div>
       <LoadableModal />

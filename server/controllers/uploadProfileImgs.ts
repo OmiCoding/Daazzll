@@ -16,7 +16,7 @@ export const uploadProfileImgs: RequestHandler = async function (
 
     const uploadStream = cloudinary.uploader.upload_stream(
       {
-        folder: "demo",
+        folder: req.body.folder,
       },
       async function (err, result) {
         if (err) {
@@ -33,19 +33,11 @@ export const uploadProfileImgs: RequestHandler = async function (
             folder: result.folder,
           });
         }
-
-        return res.status(200).json({
-          msg: "Ok.",
-        });
       }
     );
 
     bb.on("file", (name, file, info) => {
       file.pipe(uploadStream);
-    });
-
-    bb.on("field", (name, val, info) => {
-      console.log(`Field [${name}]: value: %j`, val);
     });
 
     bb.on("close", () => {

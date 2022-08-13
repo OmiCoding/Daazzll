@@ -25,7 +25,12 @@ const AppProvider: React.FC<AppProps> = function ({ children }) {
     });
   }
 
-  function closeModal(event: MouseEvent<HTMLButtonElement>) {
+  function closeModal(event?: MouseEvent<HTMLButtonElement>) {
+    if (!event) {
+      return dispatch({
+        type: CLOSE_MODAL,
+      });
+    }
     return dispatch({
       type: CLOSE_MODAL,
     });

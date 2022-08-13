@@ -46,6 +46,7 @@ const ProfileProvider: React.FC<ProviderProps> = function ({ children }) {
         });
       })
       .catch((err) => {
+        console.log(state);
         console.error(err);
       });
   }, []);
