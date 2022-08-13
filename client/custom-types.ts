@@ -9,7 +9,7 @@ export interface AppContextInit {
   modal: string;
   dispatch?: Dispatch<Action>;
   handleModal?: (e: MouseEvent<HTMLButtonElement>, modal: string) => void;
-  closeModal?: (e: MouseEvent<HTMLButtonElement>) => void;
+  closeModal?: (e?: MouseEvent<HTMLButtonElement>) => void;
 }
 
 export interface AuthContextInit {

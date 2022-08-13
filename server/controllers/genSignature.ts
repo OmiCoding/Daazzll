@@ -1,4 +1,4 @@
-import { NextFunction, Request, RequestHandler, Response } from "express";
+import e, { NextFunction, Request, RequestHandler, Response } from "express";
 import { v2 as cloudinary } from "cloudinary";
 import { cloudFormProfile } from "../utils/cloudinary/cloudForms";
 import upsertImages from "../utils/functions/upsertImages";
@@ -11,15 +11,13 @@ export const genSignature: RequestHandler = async function (
   next: NextFunction
 ) {
   try {
-    const { type } = req.params;
+    const { type } = req.query;
     const { timestamp, signature } = cloudFormProfile();
-    await upsertImages(type, req);
-
-    return res.status(200).json({
-      cloudName,
-      timestamp,
-      signature,
-    });
+    if (type === "profile" || type === "banner") {
+      await upsertImages(type, req);
+    } else {
+      throw new Error("type does not match either string.");
+    }
   } catch (e) {
     return next(e);
   }

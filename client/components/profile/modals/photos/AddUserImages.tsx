@@ -6,6 +6,7 @@ import React, {
   ChangeEvent,
 } from "react";
 import { CSSTransition } from "react-transition-group";
+import Cookies from "js-cookie";
 import useApp from "../../../../hooks/general/useApp";
 import SwitchWrapper from "./SwitchWrapper";
 import ProfileSection from "./ProfileSection";
@@ -13,7 +14,6 @@ import BannerSection from "./BannerSection";
 
 import "../../../../styles/profile/addprofimage.css";
 import "../../../../styles/wrappers.css";
-import Cookies from "js-cookie";
 
 interface UserImageState {
   profFile: File | null;
@@ -46,8 +46,6 @@ const AddUserImages = function () {
     const { name, files } = e.target;
     if (!files) return;
     if (files.length === 0) return;
-
-    console.log(files[0]);
     if (name === "profile") {
       setState({
         ...state,
@@ -61,18 +59,103 @@ const AddUserImages = function () {
     }
   }
 
-  function handleSubmit(e: FormEvent<HTMLFormElement>) {
+  async function handleSubmit(
+    e: FormEvent<HTMLFormElement>,
+    file: File | null
+  ) {
     e.preventDefault();
-
+    if (!file) return;
     const accessToken = Cookies.get("access_token");
-    if (modal === "user-photo") {
-      // fetch("/profile/signature?type=profile", {
-      //   method: "GET",
-      //   headers: {
-      //     "Content-Type": "application/json",
-      //     Authorization: `Bearer ${accessToken}`,
-      //   },
-      // });
+
+    let ext: string;
+
+    if (file.type === "image/png") {
+      if (modal === "banner") {
+        if (bannerFile) {
+          ext =
+            "." +
+            bannerFile.type.substring(
+              bannerFile.type.length - 3,
+              bannerFile.type.length
+            );
+        } else {
+          return;
+        }
+      } else {
+        if (profFile) {
+          ext =
+            "." +
+            profFile.type.substring(
+              profFile.type.length - 3,
+              profFile.type.length
+            );
+        } else {
+          return;
+        }
+      }
+    } else if (file.type === "image/jpeg") {
+      if (modal === "banner") {
+        if (bannerFile) {
+          ext = "." + bannerFile.name.split(".")[1];
+        } else {
+          return;
+        }
+      } else {
+        if (profFile) {
+          ext = "." + profFile.name.split(".")[1];
+        } else {
+          return;
+        }
+      }
+    } else {
+      return;
+    }
+
+    try {
+      await fetch(
+        `/profile/fileId?uploadType=${
+          modal === "banner" ? "banner" : "profile"
+        }`,
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${accessToken}`,
+          },
+          body: JSON.stringify({
+            folder: modal === "banner" ? "banners" : "avatars",
+            image: file.name,
+            ext: ext,
+            type: file.type,
+          }),
+        }
+      );
+
+      const formData = new FormData();
+
+      if (modal === "banner") {
+        formData.append("banner", file);
+      } else {
+        formData.append("avatar", file);
+      }
+
+      await fetch(
+        `/profile/upload?uploadType=${
+          modal === "banner" ? "banner" : "avatar"
+        }`,
+        {
+          method: "POST",
+          mode: "cors",
+          credentials: "include",
+          body: formData,
+        }
+      );
+
+      if (closeModal) {
+        return closeModal();
+      }
+    } catch (err) {
+      console.error(err);
     }
   }
 
@@ -94,12 +177,12 @@ const AddUserImages = function () {
         <div className="relative-wrapper-1">
           <ProfileSection
             uploaded={profFile ? true : false}
-            handleSubmit={handleSubmit}
+            handleSubmit={(e) => handleSubmit(e, profFile)}
             handleChange={handleChange}
           />
           <BannerSection
             uploaded={bannerFile ? true : false}
-            handleSubmit={handleSubmit}
+            handleSubmit={(e) => handleSubmit(e, bannerFile)}
             handleChange={handleChange}
           />
         </div>

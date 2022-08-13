@@ -43,11 +43,10 @@
 }
 
 .bg-img-wrapper {
-  position: absolute;
+  position: relative;
   display: flex;
   justify-content: center;
   align-items: center;
-
   width: 180px;
   height: 180px;
   border-radius: 50%;
@@ -68,24 +67,46 @@
   position: absolute;
   bottom: 18px;
   right: -5px;
-  width: 32px;
-  height: 32px;
+  min-width: 200px;
+  min-height: 32px;
+  transition: all 300ms var(--transition-1);
 }
 
 .add-img__btn {
-  width: 100%;
-  height: 100%;
+  width: 32px;
+  height: 32px;
   font-size: var(--reg-size);
   border-radius: 50%;
   color: var(--shadow-color);
   border: 1px solid var(--border-color);
   background-color: var(--bg-color);
-  transition: all var(--transition-1) 300ms;
+  transition: all 300ms var(--transition-1);
 }
 
 .add-img__btn:hover {
   color: var(--btn-hover-1);
   box-shadow: 0px 10px 13px var(--shadow-color);
+  width: 130px;
+  border-radius: 10px;
+}
+
+.add-img__btn:hover > .btn-text {
+  display: inline-block;
+  opacity: 1;
+}
+
+.btn-text {
+  display: none;
+  opacity: 0;
+  transition: all 300ms 500ms var(--transition-1);
+}
+
+.btn-text--none {
+  display: none;
+}
+
+.btn-text--inline {
+  display: inline;
 }
 
 .profile-pitch {
@@ -244,11 +265,15 @@
   line-height: 1.5;
 }
 
+.desc-btn-wrapper {
+  margin: 0.5rem auto;
+  width: 120px;
+}
+
 .desc-btn {
   padding: 0.3rem 0.5rem;
-  margin-top: 1rem;
-  margin-right: 0.2rem;
   transition: all var(--transition-1) 300ms;
+  border: 1px solid var(--border-color);
   border-radius: 7px;
 }
 
@@ -327,12 +352,16 @@
 
   .profile-desc-wrapper--less,
   .profile-desc-wrapper--more {
-    margin-top: 0.5rem;
     width: 80%;
+    margin: 0.25rem auto;
   }
 
   .pitch__desc {
     text-align: center;
+  }
+
+  .desc-btn {
+    margin: 0.5rem auto;
   }
 }
 
@@ -381,10 +410,10 @@
   }
 
   .bg-img-wrapper {
-    top: calc(40% + 35px);
     left: 0;
     right: unset;
-    transform: translate(30%, 0);
+    transform: unset;
+    transform: translateY(60%);
   }
 
   .profile-media__list--transform {
@@ -395,13 +424,13 @@
   .profile__title {
     text-align: left;
     width: 50%;
-    margin-left: 2.7rem;
   }
 
   .profile-desc-wrapper--less,
   .profile-desc-wrapper--more {
     width: 50%;
-    margin-left: 2.7rem;
+    margin: 0;
+    margin-top: 0.5rem;
     max-width: 650px;
   }
 
@@ -410,11 +439,16 @@
   }
 
   .desc-btn {
-    margin-left: 2.2rem;
-    margin-right: 0;
+    margin: 0;
+    margin-top: 1rem;
   }
 
   .form__title {
     font-size: var(--heading-4);
+  }
+
+  .desc-btn-wrapper {
+    margin: 0;
+    margin-top: 1rem;
   }
 }
