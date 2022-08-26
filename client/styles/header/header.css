@@ -8,6 +8,11 @@
   left: 0;
   background-color: var(--bg-color);
   z-index: 4;
+  transition: all 400ms var(--transition-1);
+}
+
+.header--hide {
+  top: -80px;
 }
 
 .header-wrapper {

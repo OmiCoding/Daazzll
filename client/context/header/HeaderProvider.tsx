@@ -1,15 +1,14 @@
-import React, { useReducer } from "react";
-import { ContextChildren } from "../../custom-types";
+import React, { useReducer, ReactNode } from "react";
 
 import HeaderContext from "./HeaderContext";
 
 import headerReducer from "./headerReducer";
 
-interface HeaderProps ={
-  
+interface HeaderProps {
+  children: ReactNode;
 }
 
-const HeaderProvider: React.FC<> = function ({ children }) {
+const HeaderProvider: React.FC<HeaderProps> = function ({ children }) {
   const [state, dispatch] = useReducer(headerReducer, {
     active: false,
   });
@@ -30,6 +29,6 @@ const HeaderProvider: React.FC<> = function ({ children }) {
       {children}
     </HeaderContext.Provider>
   );
-}
+};
 
 export default HeaderProvider;
