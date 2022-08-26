@@ -2,7 +2,7 @@ import fs from "fs";
 import util from "util";
 import jwt from "jsonwebtoken";
 import { redisClient } from "../../storageInit";
-import { Payload, UserProp } from "../../custome-types";
+import { Payload, UserProp } from "../../custom-types";
 
 const readFile = util.promisify(fs.readFile);
 

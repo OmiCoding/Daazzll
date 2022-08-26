@@ -8,6 +8,14 @@
   display: block !important;
 }
 
+.pad-1 {
+  padding: 1rem;
+}
+
+.pad-1--lr {
+  padding: 1rem 0.5rem;
+}
+
 .btn-wrapper-1 {
   margin: 0 auto;
 }
@@ -360,22 +368,6 @@
   color: var(--text-color);
 }
 
-.hamburger-wrapper {
-  position: relative;
-  width: 36px;
-  height: 36px;
-  z-index: 0;
-}
-
-.hamburger-button {
-  position: absolute;
-  top: 0;
-  right: 0;
-  width: 100%;
-  height: 100%;
-  z-index: 1;
-}
-
 .hamburger-menu {
   position: relative;
   z-index: 0;
@@ -592,11 +584,11 @@
 
   .art-wrapper-1 {
     display: flex;
-    width: 65%;
+    width: 55%;
   }
 
   .flex-wrapper-1 {
-    width: 35%;
+    width: 45%;
   }
 
   .flex-wrapper--split {

@@ -1,6 +1,6 @@
 import { useEffect } from "react";
 
-function useScrollAbsHeader() {
+function useScrollAbsHeader(active: boolean) {
   useEffect(() => {
     let prevPos = window.scrollY;
 
@@ -69,7 +69,7 @@ function useScrollAbsHeader() {
 
       // the event listener calls this inner function
       // the event listener context is given to this inner function, and arguments that are passed to it
-      return function (this: any, ...args: any[]) {
+      return function (this: any, ...args: []) {
         // this will clear out the setTimeout each time the listener calls the inner function.
         clearTimeout(debounceTimer);
 
@@ -85,7 +85,7 @@ function useScrollAbsHeader() {
     return () => {
       window.removeEventListener("scroll", debouncer(moveHeader, 500));
     };
-  }, []);
+  }, [active]);
 }
 
 export default useScrollAbsHeader;

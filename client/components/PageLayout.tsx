@@ -1,16 +1,19 @@
 import React from "react";
-import AbsHeader from "./absHeader/AbsHeader";
 import { Outlet } from "react-router-dom";
+import HeaderProvider from "../context/header/HeaderProvider";
 import "../styles/global.css";
 import "../styles/wrappers.css";
+import Header from "./header/Header";
 
 const PageLayout: React.FC = function () {
   return (
     <>
-      <div className="main">
-        <AbsHeader />
+      <HeaderProvider>
+        <Header />
+      </HeaderProvider>
+      <main className="main">
         <Outlet />
-      </div>
+      </main>
     </>
   );
 };

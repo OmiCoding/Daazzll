@@ -2,7 +2,6 @@ import React, { useState } from "react";
 import loadable from "@loadable/component";
 
 import BannerContainer from "./BannerContainer";
-import ProfileHeader from "./ProfileHeader";
 import ProfilePitch from "./ProfilePitch";
 import AddDesignSection from "./design/AddDesignSection";
 import useProfile from "../../hooks/profile/useProfile";
@@ -21,7 +20,6 @@ const ProfileContainer: React.FC = function () {
     <>
       <div className="page-wrapper">
         <section className="profile-page">
-          <ProfileHeader />
           <BannerContainer user={user} />
           <ProfilePitch
             user={user}

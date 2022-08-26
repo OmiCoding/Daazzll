@@ -1,4 +1,4 @@
-import React, { Dispatch, MouseEvent } from "react";
+import React, { Dispatch, MouseEvent, SetStateAction } from "react";
 
 export interface ContextChildren {
   children: React.ReactElement<any, any>;
@@ -7,6 +7,7 @@ export interface ContextChildren {
 export interface AppContextInit {
   modalActive: boolean;
   modal: string;
+  absHeader: boolean;
   dispatch?: Dispatch<Action>;
   handleModal?: (e: MouseEvent<HTMLButtonElement>, modal: string) => void;
   closeModal?: (e?: MouseEvent<HTMLButtonElement>) => void;
@@ -39,9 +40,17 @@ export interface ProfileContextInit {
   dispatch?: Dispatch<Action>;
 }
 
+type ActionType = { type: "ACTIVE"; payload?: string };
+
 export interface HeaderState {
   active: boolean;
+  setActive?: () => void;
 }
+
+export type HeaderReducer = (
+  prevState: HeaderState,
+  action: ActionType
+) => HeaderState;
 
 export interface RegisterState {
   fName: string;
@@ -82,6 +91,10 @@ export type ProfileReducer<S, A> = (
 ) => ProfileContextInit;
 
 export type AppReducer<S, A> = (prevState: S, action: A) => AppContextInit;
+
+export interface HeaderState {
+  active: boolean;
+}
 
 export interface LoginBody {
   email_user: string;

@@ -13,8 +13,9 @@ const AppProvider: React.FC<AppProps> = function ({ children }) {
   const [state, dispatch] = useReducer<AppReducer<AppContextInit, Action>>(
     appReducer,
     {
-      modalActive: false,
       modal: "",
+      modalActive: false,
+      absHeader: false,
     }
   );
 

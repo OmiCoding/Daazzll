@@ -32,9 +32,6 @@ services:
       - type: volume
         source: redis_data
         target: /data
-      - type: bind
-        source: ./.docker/redis.conf
-        target: /usr/local/etc/redis/redis.conf
     expose:
       - "6379"
   webserver:

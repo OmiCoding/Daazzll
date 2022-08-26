@@ -1,5 +1,5 @@
 import { RedisStore } from "connect-redis";
-import { ReqUser } from "../../custome-types";
+import { ReqUser } from "../../custom-types";
 
 export const handleSession = function (
   method: string,

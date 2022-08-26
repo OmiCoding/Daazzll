@@ -1,4 +1,3 @@
-import { DebouncedFunc } from "lodash";
 import { useEffect, MutableRefObject, Dispatch, SetStateAction } from "react";
 
 function useResizeAbsHeader(
@@ -10,6 +9,7 @@ function useResizeAbsHeader(
   setActive: Dispatch<SetStateAction<boolean>>
 ) {
   useEffect(() => {
+    console.log();
     const orientation =
       window.innerWidth > window.innerHeight ? "landscape" : "portrait";
 
@@ -51,39 +51,3 @@ function useResizeAbsHeader(
 }
 
 export default useResizeAbsHeader;
-
-// function stylesOnOrientation() {
-//   const orientation =
-//     window.innerWidth > window.innerHeight ? "landscape" : "portrait";
-
-//   if (!headerElem.current || !headWrapElem.current || !hbWrapElem.current) {
-//     return;
-//   }
-
-//   if (active) {
-//     if (orientation === "landscape") {
-//       if (window.innerWidth <= 1280) {
-//         headerElem.current.classList.add("header-wrapper--ls");
-//         headWrapElem.current.classList.add("header-hb-flex-wrapper--ls");
-//         hbWrapElem.current.classList.add("hamburger-nav-wrapper--ls");
-//       }
-//     } else {
-//       headerElem.current.classList.remove("header-wrapper--ls");
-//       headWrapElem.current.classList.remove("header-hb-flex-wrapper--ls");
-//       hbWrapElem.current.classList.remove("hamburger-nav-wrapper--ls");
-//     }
-//   }
-
-//   return;
-// }
-
-// function debouncer(func: Function, delay: number) {
-//   let debounceTimer: ReturnType<typeof setTimeout>;
-
-//   return function (this: any, ...args: any[]) {
-//     const ctx = this;
-
-//     clearTimeout(debounceTimer);
-//     debounceTimer = setTimeout(() => func.apply(ctx, args), delay);
-//   };
-// }

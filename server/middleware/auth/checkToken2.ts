@@ -4,7 +4,7 @@ import util from "util";
 import { RequestHandler, Request, Response, NextFunction } from "express";
 import { v4 as uuidv4 } from "uuid";
 import { redisClient } from "../../storageInit";
-import { RedisAuthToken } from "../../custome-types";
+import { RedisAuthToken } from "../../custom-types";
 import { regenToken, signedToken } from "../../utils/functions/auth";
 import "dotenv/config";
 import prismaClient from "../../prismaClient";

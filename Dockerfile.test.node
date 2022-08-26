@@ -25,7 +25,7 @@ COPY --chown=node:node .env.test babel.config.js postcss.config.js tsconfig.json
 
 COPY --chown=node:node ./server ./server/
 
-COPY --chown=node:node ./certs/daazzll.dev* ./
+COPY --chown=node:node ./certs/daazzll.dev* ./certs/
 
 COPY --chown=node:node ./prisma ./prisma/
 
@@ -51,7 +51,7 @@ COPY --chown=node:node package-lock.json package.json ./
 
 COPY --chown=node:node .env.test ./
 
-COPY --chown=node:node ./certs/daazzll.dev* ./
+COPY --chown=node:node ./certs/daazzll.dev* ./certs/
 
 COPY --chown=node:node ./prisma ./prisma
 

@@ -1,4 +1,5 @@
 import React from "react";
+import "../../styles/header/hamburger.css";
 
 const HamburgerIcon: React.FC<{ active: boolean }> = function ({ active }) {
   return (

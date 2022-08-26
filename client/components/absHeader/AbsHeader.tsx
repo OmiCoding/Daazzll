@@ -1,7 +1,7 @@
-import React, { useState, useRef, SyntheticEvent, useMemo } from "react";
+import React, { useState, useRef, useMemo } from "react";
 import debounce from "lodash.debounce";
 import HamburgerHeader from "../general/HamburgerHeader";
-import HeaderNav from "./HeaderNav";
+import HeaderNav from "../header/HeaderNav";
 import useScrollAbsHeader from "../../hooks/absHeader/useScrollAbsHeader";
 import HamburgerList from "../general/HamburgerList";
 import useResizeAbsHeader from "../../hooks/absHeader/useResizeAbsHeader";
@@ -16,13 +16,12 @@ const AbsHeader: React.FC = function () {
   const headWrapElem = useRef<HTMLDivElement | null>(null);
   const hbWrapElem = useRef<HTMLDivElement | null>(null);
 
-  function handleClick(e: SyntheticEvent) {
+  function handleClick() {
     const htmlElem = document.documentElement;
 
     if (!headerElem.current || !headWrapElem.current || !hbWrapElem.current) {
       return;
     }
-
     if (!active) {
       htmlElem.classList.add("html-hb");
       headerElem.current.classList.add("header-wrapper-hb--open");
@@ -56,7 +55,6 @@ const AbsHeader: React.FC = function () {
             hbWrapElem.current.classList.add("hamburger-nav-wrapper--ls");
           }
         } else {
-          // For when the orientation changes while the hamburger menu is still open
           headerElem.current.classList.remove("header-wrapper--ls");
           headWrapElem.current.classList.remove("header-hb-flex-wrapper--ls");
           hbWrapElem.current.classList.remove("hamburger-nav-wrapper--ls");
@@ -94,7 +92,7 @@ const AbsHeader: React.FC = function () {
     return debounce(handleResize, 500);
   }, [active, setActive]);
 
-  useScrollAbsHeader();
+  useScrollAbsHeader(active);
   useResizeAbsHeader(
     active,
     headerElem,
@@ -119,7 +117,12 @@ const AbsHeader: React.FC = function () {
                 <button className="sign-in-btn">Sign In</button>
               </div>
             </div>
-            <HamburgerHeader id={"abs-header-hamburger-btn"} />
+            <HamburgerHeader
+              id={"abs-header-hamburger-btn"}
+              active={active}
+              setActive={setActive}
+              handleClick={handleClick}
+            />
           </div>
           <HamburgerList ref={hbWrapElem} active={active} />
         </div>

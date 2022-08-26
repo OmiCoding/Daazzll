@@ -1,11 +1,6 @@
-import React, {
-  Dispatch,
-  SetStateAction,
-  useEffect,
-  MutableRefObject,
-} from "react";
+import { Dispatch, SetStateAction, useEffect, MutableRefObject } from "react";
 
-function useResetState(
+function useResetActive(
   setActive: Dispatch<SetStateAction<boolean>>,
   headerElem: MutableRefObject<HTMLDivElement | null>,
   headWrapElem: MutableRefObject<HTMLDivElement | null>,
@@ -13,7 +8,9 @@ function useResetState(
 ) {
   useEffect(() => {
     function resetState() {
+      console.log("Hello???");
       if (window.innerWidth >= 1280) {
+        console.log("goodbye");
         if (
           !headerElem.current ||
           !headWrapElem.current ||
@@ -34,10 +31,10 @@ function useResetState(
       }
     }
 
-    function debouncer(func: Function, delay: number) {
+    function debouncer(func: () => void, delay: number) {
       let debouncerTimer: ReturnType<typeof setTimeout>;
 
-      return function (this: any, ...args: any[]) {
+      return function (this: any, ...args: []) {
         let ctx = this;
 
         clearTimeout(debouncerTimer);
@@ -54,4 +51,4 @@ function useResetState(
   }, [setActive]);
 }
 
-export default useResetState;
+export default useResetActive;

@@ -1,5 +1,5 @@
 import React from "react";
-import HamburgerHeader from "../general/HamburgerHeader";
+import HamburgerHeader from "../header/HamburgerHeader";
 
 const ProfileHeader: React.FC = function () {
   return (
@@ -9,9 +9,9 @@ const ProfileHeader: React.FC = function () {
           <div className="logo-wrapper">
             <h1 className="logo-title">Daazzll</h1>
           </div>
-          <div className="hamburger-wrapper">
+          {/* <div className="hamburger-wrapper">
             <HamburgerHeader id="profile-hamburger-btn" />
-          </div>
+          </div> */}
         </div>
       </div>
     </header>
