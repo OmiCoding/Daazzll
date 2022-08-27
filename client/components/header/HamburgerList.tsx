@@ -1,12 +1,10 @@
 import React from "react";
 import { Link } from "react-router-dom";
-// import CardSvg from "./svgIcons/CardSvg";
 
 type Props = {
   active: boolean;
 };
 
-// React.forwardRef requires a named function
 const HamburgerList = React.forwardRef<HTMLDivElement, Props>(function HBList(
   { active },
   ref

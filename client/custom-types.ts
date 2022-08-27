@@ -1,4 +1,4 @@
-import React, { Dispatch, MouseEvent, SetStateAction } from "react";
+import React, { Dispatch, MouseEvent } from "react";
 
 export interface ContextChildren {
   children: React.ReactElement<any, any>;
@@ -96,6 +96,10 @@ export interface HeaderState {
   active: boolean;
 }
 
+export interface HeaderProps {
+  handleClick: () => void;
+  active: boolean;
+}
 export interface LoginBody {
   email_user: string;
   password: string;

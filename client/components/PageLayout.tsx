@@ -1,16 +1,15 @@
 import React from "react";
 import { Outlet } from "react-router-dom";
-import HeaderProvider from "../context/header/HeaderProvider";
+import Aside from "./aside/Aside";
+import Header from "./header/Header";
 import "../styles/global.css";
 import "../styles/wrappers.css";
-import Header from "./header/Header";
 
 const PageLayout: React.FC = function () {
   return (
     <>
-      <HeaderProvider>
-        <Header />
-      </HeaderProvider>
+      <Header />
+      <Aside />
       <main className="main">
         <Outlet />
       </main>
