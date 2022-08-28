@@ -14,8 +14,14 @@ const HeaderProvider: React.FC<HeaderProps> = function ({ children }) {
   });
 
   function setActive() {
-    return dispatch({
+    dispatch({
       type: "ACTIVE",
+    });
+  }
+
+  function resetActive() {
+    dispatch({
+      type: "RESET",
     });
   }
 
@@ -24,6 +30,7 @@ const HeaderProvider: React.FC<HeaderProps> = function ({ children }) {
       value={{
         ...state,
         setActive,
+        resetActive,
       }}
     >
       {children}

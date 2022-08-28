@@ -1,4 +1,4 @@
-import React, { Dispatch, MouseEvent } from "react";
+import React, { Dispatch, MouseEvent, RefObject } from "react";
 
 export interface ContextChildren {
   children: React.ReactElement<any, any>;
@@ -40,18 +40,6 @@ export interface ProfileContextInit {
   dispatch?: Dispatch<Action>;
 }
 
-type ActionType = { type: "ACTIVE"; payload?: string };
-
-export interface HeaderState {
-  active: boolean;
-  setActive?: () => void;
-}
-
-export type HeaderReducer = (
-  prevState: HeaderState,
-  action: ActionType
-) => HeaderState;
-
 export interface RegisterState {
   fName: string;
   lName: string;
@@ -92,14 +80,28 @@ export type ProfileReducer<S, A> = (
 
 export type AppReducer<S, A> = (prevState: S, action: A) => AppContextInit;
 
+type ActionType =
+  | { type: "ACTIVE"; payload?: string }
+  | { type: "RESET"; payload?: string };
+
 export interface HeaderState {
   active: boolean;
+  setActive?: () => void;
+  resetActive?: () => void;
+  dbScroll?: any;
 }
 
+export type HeaderReducer = (
+  prevState: HeaderState,
+  action: ActionType
+) => HeaderState;
+
 export interface HeaderProps {
-  handleClick: () => void;
-  active: boolean;
+  handleHB: () => void;
 }
+
+export type HeaderRef = RefObject<HTMLHeadElement> | null;
+
 export interface LoginBody {
   email_user: string;
   password: string;

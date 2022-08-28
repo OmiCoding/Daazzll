@@ -1,17 +1,15 @@
 import debounce from "lodash.debounce";
-import { useMemo, useEffect, Dispatch, SetStateAction } from "react";
+import { useMemo, useEffect } from "react";
 
 const useResizeHeader = function (
   active: boolean,
-  setActive: Dispatch<SetStateAction<boolean>>
+  setActive: () => void | undefined
 ) {
   const debouncer = useMemo(() => {
     const resize = function () {
       if (!active) return;
       if (window.innerWidth >= 1280 && active === true) {
-        setActive(() => {
-          return !active;
-        });
+        setActive();
       }
     };
     return debounce(resize, 100);

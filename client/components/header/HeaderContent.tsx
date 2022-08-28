@@ -1,19 +1,15 @@
 import React from "react";
 import HeaderNav from "./HeaderNav";
 import "../../styles/header/header.css";
+import { HeaderProps } from "../../custom-types";
 
-interface Props {
-  handleClick: () => void;
-  active: boolean;
-}
-
-const HeaderContent: React.FC<Props> = function ({ handleClick, active }) {
+const HeaderContent: React.FC<HeaderProps> = function ({ handleHB }) {
   return (
     <div className="header-flex-wrapper">
       <div className="logo-wrapper">
         <h1 className="logo-title">Daazzll</h1>
       </div>
-      <HeaderNav handleClick={handleClick} active={active} />
+      <HeaderNav handleHB={handleHB} />
     </div>
   );
 };

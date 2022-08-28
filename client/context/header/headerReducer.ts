@@ -1,6 +1,6 @@
 import { HeaderReducer, HeaderState } from "../../custom-types";
 
-import { ACTIVE } from "./types";
+import { ACTIVE, RESET } from "./types";
 
 const headerReducer: HeaderReducer = function (prevState, action): HeaderState {
   switch (action.type) {
@@ -10,6 +10,11 @@ const headerReducer: HeaderReducer = function (prevState, action): HeaderState {
         active: !prevState.active,
       };
 
+    case RESET:
+      return {
+        ...prevState,
+        active: false,
+      };
     default:
       return {
         ...prevState,

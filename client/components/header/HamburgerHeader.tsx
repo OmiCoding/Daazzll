@@ -1,16 +1,15 @@
-import React from "react";
+import React, { useContext } from "react";
+import HeaderContext from "../../context/header/HeaderContext";
+import { HeaderProps } from "../../custom-types";
 
 import HamburgerIcon from "./HamburgerIcon";
 
-type Props = {
-  active: boolean;
-  handleClick: () => void;
-};
+const HamburgerHeader: React.FC<HeaderProps> = function ({ handleHB }) {
+  const { active } = useContext(HeaderContext);
 
-const HamburgerHeader: React.FC<Props> = ({ active, handleClick }) => {
   return (
     <div className="hamburger-wrapper">
-      <button onClick={handleClick} className="hamburger-button" />
+      <button onClick={() => handleHB()} className="hamburger-button" />
       <HamburgerIcon active={active} />
     </div>
   );

@@ -1,12 +1,12 @@
 import React from "react";
 import { Link } from "react-router-dom";
 import HamburgerHeader from "./HamburgerHeader";
-import { HeaderProps } from "../../custom-types";
 import "../../styles/header/header-nav.css";
+import { HeaderProps } from "../../custom-types";
 
 const arr = ["Home", "Feed", "Explore", "Login", "Register"];
 
-const HeaderNav: React.FC<HeaderProps> = function ({ active, handleClick }) {
+const HeaderNav: React.FC<HeaderProps> = function ({ handleHB }) {
   return (
     <nav className="header-nav">
       <ul className="nav__list nl--desktop">
@@ -28,7 +28,7 @@ const HeaderNav: React.FC<HeaderProps> = function ({ active, handleClick }) {
           }
         })}
       </ul>
-      <HamburgerHeader handleClick={handleClick} active={active} />
+      <HamburgerHeader handleHB={handleHB} />
     </nav>
   );
 };

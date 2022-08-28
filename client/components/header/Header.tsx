@@ -1,15 +1,37 @@
-import React, { useState, useRef, useMemo } from "react";
+import React, { useContext, useRef, useMemo } from "react";
 import debounce from "lodash.debounce";
+import HeaderContext from "../../context/header/HeaderContext";
+import useHideHeader from "../../hooks/header/useHideHeader";
+import useResetActive from "../../hooks/header/useResetActive";
+
 import HeaderContent from "../header/HeaderContent";
 import "../../styles/header/header.css";
 
-import useHideHeader from "../../hooks/header/useHideHeader";
-import useResizeHeader from "../../hooks/general/useResizeHeader";
-
 function Header() {
-  const [active, setActive] = useState(false);
+  const { active, setActive } = useContext(HeaderContext);
 
   const headerRef = useRef<HTMLHeadElement>(null);
+
+  function handleHB() {
+    if (!headerRef) return;
+    const curr = headerRef.current;
+
+    if (!curr) return;
+    if (!setActive) return;
+    if (!active) {
+      window.removeEventListener("scroll", dbScroll);
+    }
+
+    if (!active) {
+      document.documentElement.style.overflowY = "hidden";
+      document.body.style.overflowY = "hidden";
+    } else {
+      document.documentElement.style.overflowY = "visible";
+      document.body.style.overflowY = "visible";
+    }
+
+    return setActive();
+  }
 
   const dbScroll = useMemo(() => {
     let scrollPos = 0;
@@ -25,6 +47,7 @@ function Header() {
         scrollDir = "scrollUp";
         scrollPos = window.scrollY;
       }
+
       if (window.scrollY === 0 && scrollDir === "scrollUp") {
         curr.classList.remove("header--hide", "header--shadow");
       }
@@ -43,24 +66,13 @@ function Header() {
     return debounce(scroll, 500);
   }, [headerRef]);
 
-  const handleClick = function () {
-    const curr = headerRef.current;
-
-    if (!curr) return;
-    if (!active) {
-      window.removeEventListener("scroll", dbScroll);
-    }
-
-    return setActive(!active);
-  };
-
-  useHideHeader(active, headerRef, setActive, dbScroll);
-  useResizeHeader(active, setActive);
+  useHideHeader(headerRef, dbScroll);
+  useResetActive();
 
   return (
     <header ref={headerRef} className="header">
       <div className="header-wrapper">
-        <HeaderContent handleClick={handleClick} active={active} />
+        <HeaderContent handleHB={handleHB} />
       </div>
     </header>
   );

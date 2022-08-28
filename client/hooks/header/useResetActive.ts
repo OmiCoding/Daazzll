@@ -1,22 +1,20 @@
-import { useMemo, useEffect, Dispatch, SetStateAction } from "react";
+import { useMemo, useEffect } from "react";
 import debounce from "lodash.debounce";
 
-type SetActive = Dispatch<SetStateAction<boolean>>;
-
-function useResetActive(setActive: SetActive) {
+function useResetActive() {
   const dbResize = useMemo(() => {
     function resize() {
-      if (window.scrollX < 1280) return;
-      return setActive(false);
+      if (window.innerWidth < 1280) return;
     }
     return debounce(resize, 500);
-  }, [setActive]);
+  }, []);
 
   useEffect(() => {
+    window.addEventListener("resize", dbResize);
     return () => {
       window.removeEventListener("resize", dbResize);
     };
-  }, [setActive, dbResize]);
+  }, [dbResize]);
 }
 
 export default useResetActive;
