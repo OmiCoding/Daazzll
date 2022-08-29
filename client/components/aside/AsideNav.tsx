@@ -1,14 +1,19 @@
-import React from "react";
+import React, { useContext } from "react";
 
 import { useNavigate } from "react-router-dom";
+import HeaderContext from "../../context/header/HeaderContext";
 
 import "../../styles/aside/aside-nav.css";
 
 function AsideNav() {
+  const { setActive } = useContext(HeaderContext);
   const navigate = useNavigate();
 
   const handleClick = function (path: string) {
-    return navigate(path);
+    navigate(path);
+    if (setActive) {
+      return setActive();
+    }
   };
 
   return (

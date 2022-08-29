@@ -9,17 +9,37 @@
   top: 80px;
   right: 0;
   z-index: 5;
+  transition: all 500ms var(--transition-1);
 }
 
-.aside-bg {
+.aside-bg-wrapper {
   position: relative;
   width: 100%;
   height: 100%;
   min-height: 100vh;
-  background-color: rgba(0, 0, 0, 0.2);
   z-index: 0;
   overflow-y: auto;
+  transition: all 1000ms 1000ms var(--transition-1);
 }
+
+.aside-bg {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: calc(100% - 350px);
+  height: 100vh;
+  background-color: rgba(0, 0, 0, 0.2);
+}
+
+.aside-bg--active {
+  opacity: 1;
+  transition: all 400ms 500ms var(--transition-1);
+}
+
+.aside-bg--invis {
+  opacity: 0;
+}
+
 .aside {
   position: absolute;
   display: flex;
@@ -38,11 +58,18 @@
 }
 
 .acc-btn-wrapper {
+  position: relative;
   display: flex;
   justify-content: flex-start;
   padding: 1rem;
   width: 100%;
   border-bottom: 1px solid var(--border-color);
+  transition: all 400ms var(--transition-1);
+}
+
+.acc-btn-wrapper:hover {
+  background-color: #fff;
+  color: var(--text-color);
 }
 
 .icon-wrapper {
@@ -67,7 +94,11 @@
 @media screen and (min-width: 320px) {
   .aside {
     width: 100%;
-    height: 2000px;
+    height: 100vh;
+  }
+
+  .aside-bg {
+    display: none;
   }
 
   .acc-btn-wrapper {
@@ -76,10 +107,17 @@
   }
 }
 
-@media screen and (min-width: 1024px) {
+@media screen and (min-width: 768px) {
   .aside {
-    width: 550px;
+    width: 350px;
   }
+
+  .aside-bg {
+    display: block;
+  }
+}
+
+@media screen and (min-width: 1024px) {
 }
 
 @media screen and (min-width: 1280px) {
