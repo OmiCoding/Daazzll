@@ -1,0 +1,30 @@
+@import "../theme.css";
+
+.home {
+  position: relative;
+  width: 100%;
+  min-height: 100vh;
+}
+
+.hp-flex-wrapper {
+  display: flex;
+}
+
+@media screen and (min-width: 320px) {
+  .hp-flex-wrapper {
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+  }
+}
+
+@media screen and (min-width: 768px) {
+}
+
+@media screen and (min-width: 1280px) {
+  .hp-flex-wrapper {
+    justify-content: center;
+    align-items: center;
+    flex-direction: row;
+  }
+}
