@@ -6,14 +6,14 @@
   --tertiary-color: #eaeaea;
   --quaternary-color: #000000;
   --text-color: #231f20;
-  --invTxt-color: #ffffff;
+  --invTxt-color: #f8f9fa;
+  --grey-text: #707a83;
   --danger-color: #d93025;
   --disabled-color: #495057;
   --disabled-color-2: #98aabb;
   --prime-btn-color: #000000;
   --border-color: #e5e8eb;
   --shadow-color: hsl(0deg 0% 0% / 0.1);
-  --grey-text: #707a83;
   --btn-hover-1: #2158c4;
   --btn-hover-2: #5f8de8;
   --transition-1: cubic-bezier(0.4, 0.4, 0.2, 1);

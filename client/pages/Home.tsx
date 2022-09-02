@@ -3,6 +3,7 @@ import HomeSection from "../components/home/HomeSection";
 import AboutSection from "../components/home/AboutSection";
 
 import "../styles/home/home.css";
+import "../styles/home/general.css";
 
 const Home: React.FC = function () {
   return (

@@ -3,7 +3,9 @@
 .home {
   position: relative;
   width: 100%;
-  min-height: 100vh;
+  min-height: 700px;
+  height: 100vh;
+  padding: 1.2rem 0;
 }
 
 .hp-flex-wrapper {
@@ -14,7 +16,7 @@
   .hp-flex-wrapper {
     justify-content: center;
     align-items: center;
-    flex-direction: column;
+    flex-direction: column-reverse;
   }
 }
 

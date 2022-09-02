@@ -1,9 +1,9 @@
 import React, { useState, useRef, useMemo } from "react";
 import debounce from "lodash.debounce";
-import HamburgerHeader from "../general/HamburgerHeader";
+import HamburgerHeader from "../header/HamburgerHeader";
 import HeaderNav from "../header/HeaderNav";
 import useScrollAbsHeader from "../../hooks/absHeader/useScrollAbsHeader";
-import HamburgerList from "../general/HamburgerList";
+import HamburgerList from "../header/HamburgerList";
 import useResizeAbsHeader from "../../hooks/absHeader/useResizeAbsHeader";
 import "../../styles/wrappers.css";
 import "../../styles/absHeader.css";
