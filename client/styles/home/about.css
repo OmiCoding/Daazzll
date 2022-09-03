@@ -1,6 +1,11 @@
 @import "../theme.css";
 
 .about {
+  position: relative;
+  width: 100%;
+  min-height: 700px;
+  height: 100vh;
+  padding: 1.2rem 0;
 }
 
 @media screen and (min-width: 320px) {

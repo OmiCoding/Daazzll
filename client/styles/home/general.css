@@ -13,6 +13,14 @@
   margin: auto;
 }
 
+.svg-wrapper > svg > .playbtn_svg__animate-btn {
+  transform: scale(0.95);
+  animation-name: playbtn;
+  animation-duration: 3s;
+  animation-timing-function: cubic-bezier(0.4, 0.23, 0.25, 0.85);
+  animation-iteration-count: infinite;
+}
+
 @media screen and (min-width: 320px) {
   .hp-flex-wrapper {
     justify-content: flex-end;
@@ -38,6 +46,20 @@
 
   .text-wrapper {
     padding: 0 1rem;
+  }
+}
+
+@keyframes playbtn {
+  0% {
+    transform: translateY(0);
+  }
+
+  50% {
+    transform: translateY(-3px);
+  }
+
+  100% {
+    transform: translateY(0);
   }
 }
 

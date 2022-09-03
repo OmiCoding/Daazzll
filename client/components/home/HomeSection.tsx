@@ -1,5 +1,5 @@
 import React from "react";
-import PlayBtnSvg from "../../../svgs/playbtn-final.svg";
+import PlayBtnSvg from "../../../svgs/playbtn.svg";
 import "../../styles/home/showcase.css";
 
 const HomeSection: React.FC = function () {
