@@ -1,4 +1,6 @@
 import React from "react";
+import CommunitySVG from "../../../svgs/community-02.svg";
+import "../../styles/home/about.css";
 
 const AboutSection: React.FC = function () {
   return (
@@ -14,7 +16,9 @@ const AboutSection: React.FC = function () {
             </p>
           </div>
           <div className="svg-container">
-            <div className="svg-wrapper"></div>
+            <div className="svg-wrapper-about">
+              <CommunitySVG />
+            </div>
           </div>
         </div>
       </div>

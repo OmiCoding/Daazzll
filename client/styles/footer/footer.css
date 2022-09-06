@@ -1,0 +1,13 @@
+@import "../../styles/theme.css";
+
+.footer {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  height: 50px;
+}
+
+.footer-desc {
+  font-size: var(--reg-size);
+}
