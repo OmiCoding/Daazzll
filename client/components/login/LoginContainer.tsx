@@ -5,6 +5,9 @@ import { LoginState } from "../../custom-types";
 import LoginForm from "./LoginForm";
 import checkLogin from "../../validation/checkLogin";
 import useAuth from "../../hooks/auth/useAuth";
+
+import LoginSVG from "../../../svgs/login-log-01.svg";
+
 import "../../styles/login.css";
 import "../../styles/general.css";
 
@@ -46,7 +49,11 @@ const LoginContainer = function () {
 
   return (
     <div className="page-wrapper">
-      <div className="art-wrapper-1"></div>
+      <div className="art-wrapper-1">
+        <div className="svg-log-wrapper">
+          <LoginSVG />
+        </div>
+      </div>
       <div className="flex-wrapper-1">
         <div className="page-card-1">
           <h2 className="page__logo-1">Daazzll</h2>

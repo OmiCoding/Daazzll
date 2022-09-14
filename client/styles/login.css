@@ -37,6 +37,10 @@
   color: var(--btn-hover-1);
 }
 
+.svg-log-wrapper {
+  position: relative;
+}
+
 @media screen and (min-width: 320px) {
   .login__link {
     display: inline-block;

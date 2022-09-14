@@ -31,7 +31,6 @@ const HamburgerList = React.forwardRef<HTMLDivElement, Props>(function HBList(
             </Link>
           </li>
           <li className="hb-nav__list__item">
-            {/* <CardSvg /> */}
             <Link to="/watch" className="hb-nav__item__link">
               Watch
             </Link>

@@ -23,6 +23,7 @@ function Header() {
     }
 
     if (!active) {
+      curr.classList.add()
       document.documentElement.style.overflowY = "hidden";
       document.body.style.overflowY = "hidden";
     } else {
@@ -37,6 +38,7 @@ function Header() {
     let scrollPos = 0;
 
     function scroll() {
+
       const curr = headerRef.current;
       let scrollDir = "";
       if (!curr) return;

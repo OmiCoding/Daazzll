@@ -66,6 +66,8 @@ if (process.env.BUILD === "dev" || process.env.BUILD === "test") {
   app.use(
     cors({
       origin: [
+        "https://127.0.0.1:8080/",
+        "https://127.0.0.1:8433/",
         "https://daazzll.dev",
         "https://daazzll.dev/",
         "https://daazzl.dev:8080",

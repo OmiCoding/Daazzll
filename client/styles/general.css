@@ -63,6 +63,14 @@
   justify-content: center;
   align-items: center;
   height: 100%;
+  min-height: 100vh;
+}
+
+.svg-wrapper {
+  position: relative;
+  width: 600px;
+  height: 600px;
+  min-height: 100vh;
 }
 
 .flex-wrapper-1 {

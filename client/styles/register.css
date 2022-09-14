@@ -41,6 +41,22 @@
   color: var(--btn-hover-1);
 }
 
+.svg-reg-wrapper {
+  position: relative;
+}
+
+
+.svg-reg__desc {
+  color: var(--text-color);
+  font-family: var(--title-font);
+  font-weight: var(--fnt-weight-3);
+  position: absolute;
+  bottom: -40px;
+  left: 0;
+  width: 100%;
+  text-align: center;
+}
+
 @media screen and (min-width: 320px) {
   .terms-wrapper {
     margin: 1.5rem auto;

@@ -24,13 +24,19 @@ function Aside() {
 
   useEffect(() => {
     const curr = bgRef.current;
-    if (active && curr) {
+    const awCurr = asideRef.current;
+    if (active && curr && awCurr) {
+      // const scrollY = window.scrollY;
+      awCurr.classList.remove("aw--hide");
       curr.classList.remove("aside-bg--invis");
       curr.classList.add("aside-bg--active");
+      // awCurr.style.top = `${scrollY}px`;
     } else {
-      if (curr) {
+      if (curr && awCurr) {
         curr.classList.remove("aside-bg--active");
         curr.classList.add("aside-bg--invis");
+        awCurr.classList.add("aw--hide");
+        // awCurr.style.top = "80px";
       }
     }
   }, [active]);

@@ -4,6 +4,8 @@ import useAuth from "../../hooks/auth/useAuth";
 import RegisterForm from "./RegisterForm";
 import { checkRegister } from "../../validation/checkRegister";
 import { RegisterState } from "../../custom-types";
+import RegisterSVG from "../../../svgs/robot-arm-02.svg";
+
 
 import "../../styles/register.css";
 
@@ -75,7 +77,12 @@ const RegisterContainer = function () {
 
   return (
     <div className="page-wrapper">
-      <div className="art-wrapper-1"></div>
+      <div className="art-wrapper-1">
+        <div className="svg-reg-wrapper">
+          <RegisterSVG />
+          <h2 className="svg-reg__desc">Register Bot 3000</h2>
+        </div>
+      </div>
       <div className="flex-wrapper-1">
         <div className="page-card-1">
           <h2 className="page__logo-1">Daazzll</h2>
