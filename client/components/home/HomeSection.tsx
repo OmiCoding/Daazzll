@@ -1,5 +1,6 @@
 import React from "react";
 import PlayBtnSvg from "../../../svgs/playbtn.svg";
+import "../../styles/home/general.css"
 import "../../styles/home/showcase.css";
 
 const HomeSection: React.FC = function () {
@@ -20,7 +21,7 @@ const HomeSection: React.FC = function () {
             </div>
           </div>
           <div className="svg-container">
-            <div className="svg-wrapper">
+            <div className="sc-svg-wrapper">
               <PlayBtnSvg />
             </div>
           </div>

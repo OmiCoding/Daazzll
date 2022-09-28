@@ -25,6 +25,8 @@ loadableReady(() => {
       root
     );
   } else {
+    console.log(root, root.innerHTML);
+    console.log("render");
     render(
       <AppProvider>
         <HeaderProvider>

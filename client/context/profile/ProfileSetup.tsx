@@ -4,7 +4,6 @@ import { ContextChildren } from "../../custom-types";
 
 const ProfileSetup: React.FC<ContextChildren> = function ({ children }) {
   useProfileData();
-
   return children;
 };
 

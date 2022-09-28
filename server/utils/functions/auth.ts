@@ -10,12 +10,11 @@ export const genToken = async function (
   payload: Payload,
   path: string,
   exp: string,
-  expRedis: number // seconds
+  expRedis: number
 ): Promise<string | null> {
   const result = await redisClient.get(payload.tokenId);
 
   if (result) return null;
-
   const privateKey = await readFile(path, "binary");
 
   const token = jwt.sign(payload, privateKey, {
@@ -69,15 +68,3 @@ export const signedToken = async function (
     throw e;
   }
 };
-
-// export const userRedisSetup = async function(
-//   payload: ReqUser,
-//   path: string,
-//   exp: string,
-//   expRedis: number
-// ): Promise<string> {
-//   const
-
-//   const result = await redisClient.GET()
-
-// }

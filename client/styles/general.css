@@ -357,13 +357,20 @@
 
 .password-svg-wrapper {
   position: absolute;
-  background-color: #000000;
   top: 50%;
   bottom: 50%;
   right: 0.75rem;
-  width: 35px;
-  height: 35px;
+  width: 32px;
+  height: 32px;
   transform: translateY(-55%);
+}
+
+.pass__eye__btn {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  color : var(--text-color);
+  font-size: var(--heading-4);
 }
 
 .logo-wrapper {

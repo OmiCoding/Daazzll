@@ -91,11 +91,13 @@ export const register: RequestHandler = async function (
     res.cookie("access_token", accessToken, {
       path: "/",
       secure: true,
+      sameSite: "strict",
       maxAge: 10 * 60 * 1000, // 10min
     });
     res.cookie("refresh_token", refreshToken, {
       path: "/",
       secure: true,
+      sameSite: "strict",
       maxAge: 30 * 60 * 1000, // 30min
     });
 

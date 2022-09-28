@@ -51,11 +51,8 @@ const NavList: React.FC<ListProps> = function ({ list, setList, handleList }) {
       if (list === listItems[i].innerText) {
         curr.style.left = "" + listItems[i].offsetLeft + "px";
         curr.style.width = "" + listItems[i].clientWidth + "px";
-        console.log(curr.style);
       }
     }
-
-    console.log("123");
     window.addEventListener("resize", debouncer);
 
     return () => {

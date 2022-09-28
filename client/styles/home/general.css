@@ -9,11 +9,11 @@
   height: auto;
 }
 
-.svg-wrapper {
+.sc-svg-wrapper {
   margin: auto;
 }
 
-.svg-wrapper > svg > .playbtn_svg__animate-btn {
+.sc-svg-wrapper > svg > .playbtn_svg__animate-btn {
   transform: scale(0.95);
   animation-name: playbtn;
   animation-duration: 3s;
@@ -32,12 +32,12 @@
     padding: 0 1rem;
   }
 
-  .svg-wrapper {
+  .sc-svg-wrapper {
     width: 100%;
     height: 100%;
   }
 
-  .svg-wrapper > svg {
+  .sc-svg-wrapper > svg {
     width: 100%;
     height: 100%;
   }
@@ -87,7 +87,7 @@
     padding: 0;
   }
 
-  .svg-wrapper {
+  .sc-svg-wrapper {
     width: 600px;
     height: 600px;
   }

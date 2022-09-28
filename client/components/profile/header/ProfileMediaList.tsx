@@ -1,5 +1,5 @@
 import React from "react";
-import useApp from "../../hooks/general/useApp";
+import useApp from "../../../hooks/general/useApp";
 
 interface MediaProps {
   show: boolean;

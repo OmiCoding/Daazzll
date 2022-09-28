@@ -67,46 +67,71 @@
   position: absolute;
   bottom: 18px;
   right: -5px;
-  min-width: 200px;
   min-height: 32px;
   transition: all 300ms var(--transition-1);
 }
 
-.add-img__btn {
+.aimg-pos-rel-wrap {
+  display: flex;
+  align-items: center;
+  position: relative;
   width: 32px;
   height: 32px;
+  z-index: 0;
+}
+
+.add-img__btn {
+  position: absolute;
+  width: 32px;
+  height: 32px;
+  border-radius: 10px;
   font-size: var(--reg-size);
-  border-radius: 50%;
-  color: var(--shadow-color);
+  color: var(--disabled-color-2);
   border: 1px solid var(--border-color);
   background-color: var(--bg-color);
-  transition: all 300ms var(--transition-1);
+  top: 0;
+  left: 0;
+  z-index: 1;
+  transition: all 400ms var(--transition-1);
+}
+
+.fa-camera {
+  display: inline-block;
+  position: absolute;
+  top: 0;
+  left: 0;
+  transform: translate(45%, 45%);
 }
 
 .add-img__btn:hover {
-  color: var(--btn-hover-1);
-  box-shadow: 0px 10px 13px var(--shadow-color);
-  width: 130px;
-  border-radius: 10px;
+  width: 150px;
+  border-top-right-radius: 15px;
+  border-bottom-right-radius: 15px;
+  box-shadow: 0px 3px 5px var(--shadow-color);
 }
 
-.add-img__btn:hover > .btn-text {
-  display: inline-block;
+.add-img__btn:hover > .fa-camera {
+  color: var(--btn-hover-2);
+}
+
+.add-img__btn:hover ~ .btn-text {
   opacity: 1;
+  right: -340%;
 }
 
 .btn-text {
-  display: none;
+  position: absolute;
+  top: 20%;
+  right: -330%;
   opacity: 0;
-  transition: all 300ms 500ms var(--transition-1);
+  font-weight: 600;
+  color: var(--btn-hover-2);
+  z-index: 2;
+  transition: all 400ms var(--transition-1);
 }
 
-.btn-text--none {
-  display: none;
-}
-
-.btn-text--inline {
-  display: inline;
+.fa-plus {
+  padding-left: 0.3rem;
 }
 
 .profile-pitch {

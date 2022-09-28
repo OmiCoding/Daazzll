@@ -1,12 +1,12 @@
 import React from "react";
-import UnauthSetup from "../auth/UnauthSetup";
+import GuestCheckContext from "../auth/GuestCheckContext";
 import RegisterContainer from "./RegisterContainer";
 
 const RegisterContext = function () {
   return (
-    <UnauthSetup>
+    <GuestCheckContext>
       <RegisterContainer />
-    </UnauthSetup>
+    </GuestCheckContext>
   );
 };
 

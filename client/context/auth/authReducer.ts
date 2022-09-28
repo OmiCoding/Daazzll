@@ -6,6 +6,8 @@ import {
   ERROR_PAGE,
   CHECK_AUTH,
   REMOVE_AUTH,
+  RESET_AUTH,
+  SET_AUTH,
 } from "./cases";
 
 const authReducer: AuthReducer<AuthContextInit, Action> = function (
@@ -42,6 +44,20 @@ const authReducer: AuthReducer<AuthContextInit, Action> = function (
     case REMOVE_AUTH:
       return {
         ...prevState,
+        username: "",
+        auth: false,
+      };
+    case SET_AUTH:
+      return {
+        ...prevState,
+        auth: true,
+        username: action.data,
+      };
+
+    case RESET_AUTH:
+      return {
+        ...prevState,
+        username: "",
         auth: false,
       };
     default:

@@ -2,13 +2,13 @@ import React from "react";
 import loadable from "@loadable/component";
 import Loading from "../general/Loading";
 
-const LoadableUnath = loadable(
+const LoadableUnauth = loadable(
   () => {
-    return import("./UnauthSetup");
+    return import("./GuestCheckContext");
   },
   {
     fallback: <Loading />,
   }
 );
 
-export default LoadableUnath;
+export default LoadableUnauth;

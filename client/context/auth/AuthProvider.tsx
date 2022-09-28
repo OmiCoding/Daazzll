@@ -1,4 +1,4 @@
-import React, { ReactNode, useReducer } from "react";
+import React, { ReactNode, useReducer, useCallback } from "react";
 import AuthContext from "./AuthContext";
 import authReducer from "./authReducer";
 import {
@@ -8,7 +8,13 @@ import {
   LoginBody,
   RegisterBody,
 } from "../../custom-types";
-import { REGISTER_USER, LOGIN_USER, ERROR_PAGE } from "./cases";
+import {
+  REGISTER_USER,
+  LOGIN_USER,
+  ERROR_PAGE,
+  RESET_AUTH,
+  SET_AUTH,
+} from "./cases";
 
 interface ProviderProps {
   children: ReactNode;
@@ -20,28 +26,20 @@ interface sessionObj {
 // Change the fetch url's for production
 
 const AuthProvider: React.FC<ProviderProps> = function ({ children }) {
-  const hp: any = sessionStorage.getItem("hallpass");
-  const user: any = sessionStorage.getItem("username");
-  let hpObj: sessionObj | null;
-
-  hpObj = JSON.parse(hp) || null;
-
+  const authInit = {
+    auth: false,
+    username: "",
+  };
+  if (window && window.app) {
+    if (window.app.auth) {
+      authInit.auth = window.app.auth.auth;
+      authInit.username = window.app.auth.username;
+    }
+  }
   const [state, dispatch] = useReducer<AuthReducer<AuthContextInit, Action>>(
     authReducer,
-    {
-      auth: hpObj ? hpObj.pass : false,
-      username: user ? user : "",
-    }
+    authInit
   );
-
-  // let BUILD_HOST: string;
-  // if (!process.env.BUILD_HOST) {
-  //   if (process.env.BUILD === "test") {
-  //     BUILD_HOST = "https://daazzll.dev/";
-  //   } else {
-  //     BUILD_HOST = "https://daazzll.dev:8433/";
-  //   }
-  // }
 
   const register = function (body: RegisterBody) {
     fetch("/register", {
@@ -75,6 +73,7 @@ const AuthProvider: React.FC<ProviderProps> = function ({ children }) {
   };
 
   const login = function (body: LoginBody) {
+    console.log(body);
     fetch("/login", {
       method: "POST",
       mode: "cors",
@@ -88,6 +87,7 @@ const AuthProvider: React.FC<ProviderProps> = function ({ children }) {
       .then((res) => {
         if (res.username) {
           // probably want to use some sort of encryption
+          sessionStorage.setItem("hallpass", JSON.stringify({ pass: true }));
           sessionStorage.setItem("username", res.username);
           dispatch({
             type: LOGIN_USER,
@@ -104,22 +104,38 @@ const AuthProvider: React.FC<ProviderProps> = function ({ children }) {
       });
   };
 
-  const logout = function () {
-    fetch("/auth/logout", {
+  const logout = async function () {
+    await fetch("/logout", {
       method: "GET",
       mode: "cors",
       credentials: "include",
       headers: {
-        // find a way to include the token here...
-        // "Authorization": `Bearer ${}`,
+        "Content-Type": "application/json",
       },
+    });
+
+    sessionStorage.removeItem("hallpass");
+    sessionStorage.removeItem("username");
+    dispatch({
+      type: RESET_AUTH,
     });
   };
 
-  // const checkAuth = function (cb: (pass: boolean) => void) {
-  //   const accessToken = Cookies.get("access_token");
+  const resetAuth = useCallback(() => {
+    return dispatch({
+      type: RESET_AUTH,
+    });
+  }, [dispatch]);
 
-  // };
+  const setAuth = useCallback(
+    (userN: string) => {
+      return dispatch({
+        type: SET_AUTH,
+        data: userN,
+      });
+    },
+    [dispatch]
+  );
 
   return (
     <AuthContext.Provider
@@ -127,7 +143,10 @@ const AuthProvider: React.FC<ProviderProps> = function ({ children }) {
         ...state,
         register,
         login,
+        logout,
         dispatch,
+        resetAuth,
+        setAuth,
       }}
     >
       {children}

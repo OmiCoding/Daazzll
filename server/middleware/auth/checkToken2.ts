@@ -25,40 +25,47 @@ export const checkToken2: RequestHandler = async function (
     const { sid } = req.signedCookies;
 
     try {
-      // Needs proper typing
-
       const accPayload: any = await handleJWT(access_token, publicKey);
-
-      console.log(accPayload);
       if (!accPayload) {
-        console.log(1);
         if (sid) {
           await redisClient.del(sid);
         }
         req.user = undefined;
-        return res.status(401).json({ msg: "Unauthenticated." });
+
+        console.log(1);
+        console.log("jello?");
+        return res.status(401).json({
+          msg: "Unauthenticated.",
+          clear: false,
+        });
       }
 
       const redisData = await redisClient.GET(accPayload.tokenId);
 
       if (!redisData) {
-        console.log(2);
         if (sid) {
           await redisClient.del(sid);
         }
+        console.log(2);
         req.user = undefined;
-        return res.status(401).json({ msg: "Unauthenticated." });
+        return res.status(401).json({
+          msg: "Unauthenticated.",
+          clear: false,
+        });
       }
 
       const tokenObj: RedisAuthToken = JSON.parse(redisData);
 
       if (tokenObj.token !== access_token) {
-        console.log(3);
         if (sid) {
           await redisClient.del(sid);
         }
+        console.log(3);
         req.user = undefined;
-        return res.status(401).json({ msg: "Unauthenticated." });
+        return res.status(401).json({
+          msg: "Unauthenticated.",
+          clear: false,
+        });
       }
       return next();
     } catch (e: any) {
@@ -67,34 +74,42 @@ export const checkToken2: RequestHandler = async function (
         const refPayload: any = await handleJWT(refresh_token, publicKey);
 
         if (!refPayload) {
-          console.log("refresh 2");
           if (sid) {
             await redisClient.del(sid);
           }
+          console.log(4);
           req.user = undefined;
-          return res.status(401).json({ msg: "Unauthenticated." });
+          return res.status(401).json({
+            msg: "Unauthenticated.",
+            clear: false,
+          });
         }
 
         const redisData = await redisClient.get(refPayload.tokenId);
 
         if (!redisData) {
-          console.log("refresh 3");
           if (sid) {
             await redisClient.del(sid);
           }
+          console.log(5);
           req.user = undefined;
-          return res.status(401).json({ msg: "Unauthenticated." });
+          return res.status(401).json({
+            msg: "Unauthenticated.",
+            clear: false,
+          });
         }
 
         const tokenObj: RedisAuthToken = JSON.parse(redisData);
-
         if (tokenObj.token !== refresh_token) {
-          console.log("refresh 4");
           if (sid) {
             await redisClient.del(sid);
           }
+          console.log(6);
           req.user = undefined;
-          return res.status(401).json({ msg: "Unauthenticated." });
+          return res.status(401).json({
+            msg: "Unauthenticated.",
+            clear: false,
+          });
         }
 
         const accessId = uuidv4();
@@ -113,12 +128,15 @@ export const checkToken2: RequestHandler = async function (
         });
 
         if (!account) {
-          console.log("refresh 5");
           if (sid) {
             await redisClient.del(sid);
           }
+          console.log(7);
           req.user = undefined;
-          return res.status(401).json({ msg: "Unauthenticated." });
+          return res.status(401).json({
+            msg: "Unauthenticated.",
+            clear: false,
+          });
         }
 
         const newAccToken = await regenToken(
@@ -129,8 +147,8 @@ export const checkToken2: RequestHandler = async function (
             username: refPayload.username,
           },
           PRIV_KEY_PATH,
-          "10m",
-          600
+          "2m",
+          120
         );
 
         const newRefToken = await regenToken(
@@ -141,8 +159,8 @@ export const checkToken2: RequestHandler = async function (
             username: refPayload.username,
           },
           PRIV_KEY_PATH,
-          "30m",
-          1800
+          "5m",
+          300
         );
 
         await signedToken(
@@ -153,24 +171,24 @@ export const checkToken2: RequestHandler = async function (
             username: account.username,
           },
           uid,
-          600
+          120
         );
 
         res.clearCookie("access_token", {
           path: "/",
-          sameSite: true,
+          sameSite: "strict",
           secure: true,
         });
 
         res.clearCookie("refresh_token", {
           path: "/",
-          sameSite: true,
+          sameSite: "strict",
           secure: true,
         });
 
         res.clearCookie("sid", {
           path: "/",
-          sameSite: true,
+          sameSite: "strict",
           httpOnly: true,
           secure: true,
           signed: true,
@@ -180,61 +198,61 @@ export const checkToken2: RequestHandler = async function (
           path: "/",
           sameSite: "strict",
           secure: true,
-          maxAge: 10 * 60 * 1000,
+          maxAge: 2 * 60 * 1000,
         });
 
         res.cookie("refresh_token", newRefToken, {
           path: "/",
           sameSite: "strict",
           secure: true,
-          maxAge: 30 * 60 * 1000,
+          maxAge: 5 * 60 * 1000,
         });
 
         res.cookie("sid", uid, {
           path: "/",
-          sameSite: true,
+          sameSite: "strict",
           httpOnly: true,
           secure: true,
           signed: true,
-          maxAge: 10 * 60 * 1000,
+          maxAge: 2 * 60 * 1000,
         });
 
-        console.log("passed.");
-
-        return res.status(200).json({ msg: "Ok" });
+        // console.log(req.cookies);
+        // console.log(req.user);
+        console.log("came through");
+        return next();
       } catch (e: any) {
         console.log(e);
-        console.log(req.cookies);
         res.clearCookie("access_token", {
           path: "/",
           sameSite: "strict",
           secure: true,
-          httpOnly: true,
         });
 
         res.clearCookie("refresh_token", {
           path: "/",
           sameSite: "strict",
           secure: true,
-          httpOnly: true,
         });
 
         res.clearCookie("sid", {
           path: "/",
-          sameSite: true,
+          sameSite: "strict",
           httpOnly: true,
           secure: true,
           signed: true,
         });
 
+        req.user = undefined;
         if (sid) {
           await redisClient.del(sid);
         }
-        req.user = undefined;
 
-        console.log("failed.");
-
-        return res.status(401).json({ msg: "Unauthenticated." });
+        console.log(8);
+        return res.status(401).json({
+          msg: "Unauthenticated.",
+          clear: false,
+        });
       }
     }
   } catch (e) {

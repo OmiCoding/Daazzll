@@ -6,7 +6,8 @@ export const checkAuth: RequestHandler = async function (
   next: NextFunction
 ) {
   try {
-    return res.status(200).json({ username: req.user.username });
+    console.log("checkAuth");
+    return res.status(200).json({ msg: "Ok", clear: true });
   } catch (e) {
     console.log(e);
     next(e);

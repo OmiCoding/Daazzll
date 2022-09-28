@@ -12,6 +12,7 @@ import "../../../styles/profile/medialinks.css";
 
 const ProfileModal: React.FC = function () {
   const bgElem = useRef<HTMLDivElement>(null);
+  const pfModal = useRef<HTMLDivElement>(null);
   let modalItem;
 
   const { modal, modalActive } = useApp();
@@ -38,6 +39,15 @@ const ProfileModal: React.FC = function () {
     // const rootElem = document.getElementById("root");
 
     window.addEventListener("resize", debounceResize);
+    // const currPfModal = pfModal.current;
+
+    // if (modalActive && currPfModal) {
+    //   currPfModal.style.top = "" + window.scrollY + "px";
+    // } else {
+    //   if (currPfModal) {
+    //     currPfModal.style.top = "unset";
+    //   }
+    // }
 
     return () => {
       window.removeEventListener("resize", debounceResize);

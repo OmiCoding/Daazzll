@@ -1,4 +1,4 @@
-import React, { ChangeEvent, FormEvent } from "react";
+import React, { ChangeEvent, FormEvent, MouseEvent } from "react";
 import { Link } from "react-router-dom";
 import WarnSvg from "../../../svgs/warning-08.svg";
 import { LoginState } from "../../custom-types";
@@ -6,16 +6,20 @@ import { LoginState } from "../../custom-types";
 interface LoginFormProps extends LoginState {
   handleChange: (e: ChangeEvent<HTMLInputElement>) => void;
   handleSubmit: (e: FormEvent<HTMLFormElement>) => void;
+  handleEye: () => void;
 }
 
 const LoginForm: React.FC<LoginFormProps> = function ({
   handleChange,
   handleSubmit,
+  handleEye,
   acc,
   pass,
+  eye,
   warn_1,
   warn_2,
 }) {
+
   return (
     <form className="page__form-1" onSubmit={handleSubmit} method="POST">
       <div className="page-input-wrapper-1">
@@ -45,10 +49,13 @@ const LoginForm: React.FC<LoginFormProps> = function ({
       <div className="page-input-wrapper-1">
         <input
           onChange={handleChange}
-          type="password"
+          type={eye ? "text" : "password"}
           name="pass"
           value={pass}
-          className="page__input-1"
+          style={{
+            color: eye ? "#2158c4" : "#231f20",
+          }}
+          className="page__input-1"    
         />
         <label className="page__label-1">{`${
           pass.length < 1 ? "Password" : ""
@@ -65,7 +72,17 @@ const LoginForm: React.FC<LoginFormProps> = function ({
             <span className="msg__text">{warn_2 ? warn_2 : ""}</span>
           </div>
         </div>
-        <div className="password-svg-wrapper"></div>
+        <div className="password-svg-wrapper">
+          <button 
+            type="button" 
+            onClick={() => handleEye()} className="pass__eye__btn"
+            style={{
+              color: eye ? "#2158c4" : "#231f20",
+            }}
+            >
+            {eye ? (<i className="fa-solid fa-eye" />) : (<i className="fa-solid fa-eye-slash" />)}
+          </button>
+        </div>
       </div>
       <div className="recovery-wrap-link">
         <Link className="login__recover-link" to="/recover-password">

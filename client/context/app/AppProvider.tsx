@@ -3,20 +3,27 @@ import { Action, AppContextInit, AppReducer } from "../../custom-types";
 
 import AppContext from "./AppContext";
 import appReducer from "./appReducer";
-import { CLOSE_MODAL, MODAL } from "./cases";
+import { CLOSE_MODAL, MODAL, GET_LOCATION } from "./cases";
 
 interface AppProps {
   children: ReactNode;
 }
 
 const AppProvider: React.FC<AppProps> = function ({ children }) {
+  const appInit = {
+    modal: "",
+    modalActive: false,
+    absHeader: false,
+    location: "",
+  };
+
+  if (window) {
+    appInit.location = window.app ? window.app.url : "";
+  }
+
   const [state, dispatch] = useReducer<AppReducer<AppContextInit, Action>>(
     appReducer,
-    {
-      modal: "",
-      modalActive: false,
-      absHeader: false,
-    }
+    appInit
   );
 
   function handleModal(event: MouseEvent<HTMLButtonElement>, modal: string) {
@@ -37,6 +44,13 @@ const AppProvider: React.FC<AppProps> = function ({ children }) {
     });
   }
 
+  function getLocation(path: string) {
+    dispatch({
+      type: GET_LOCATION,
+      data: path,
+    });
+  }
+
   return (
     <AppContext.Provider
       value={{
@@ -44,6 +58,7 @@ const AppProvider: React.FC<AppProps> = function ({ children }) {
         dispatch,
         handleModal,
         closeModal,
+        getLocation,
       }}
     >
       {children}

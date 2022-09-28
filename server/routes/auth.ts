@@ -5,8 +5,8 @@ import {
   updateUser,
   register,
   login,
-  logout,
   checkAuth,
+  logout,
 } from "../controllers";
 
 import {
@@ -17,7 +17,6 @@ import {
   checkUpdateUser,
   checkUser,
   checkedLoggedIn,
-  tokenExist,
   // checkToken,
   checkToken2,
 } from "../middleware/auth";
@@ -33,13 +32,11 @@ const router = Router();
 
 // GET Requests
 
-router.get("/checkToken", [checkToken2], function (req: any, res: any) {
-  return res.send("Ok");
-});
+router.get("/checkauth", [checkToken2], checkAuth);
 
-// router.get("/logout", [checkGuest, checkUser, checkToken2], logout);
+router.get("/checkGuest", checkGuest);
 
-router.get("/checkauth", [tokenExist, checkToken2], checkAuth);
+router.get("/logout", logout);
 
 // POST Requests
 

@@ -1,5 +1,5 @@
 import { Action, AppContextInit } from "../../custom-types";
-import { CLOSE_MODAL, MODAL } from "./cases";
+import { CLOSE_MODAL, MODAL, GET_LOCATION } from "./cases";
 
 const appReducer = function (prevState: AppContextInit, action: Action) {
   switch (action.type) {
@@ -14,6 +14,11 @@ const appReducer = function (prevState: AppContextInit, action: Action) {
         ...prevState,
         modal: action.data,
         modalActive: true,
+      };
+    case GET_LOCATION:
+      return {
+        ...prevState,
+        location: action.data,
       };
     default:
       return {

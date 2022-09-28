@@ -5,6 +5,9 @@ import { ChunkExtractor } from "@loadable/server";
 import serialize from "serialize-javascript";
 import { renderToString } from "react-dom/server";
 
+// import { AppSSR } from "../../client/main-node";
+// import stats from "@loada"
+
 /* Please Note: These path files need to be remade during production for the docker container*/
 
 // The stats file maintains mapping of all the components by chunk name and its dependencies.
@@ -23,7 +26,7 @@ export const renderer: RequestHandler = function (
     statsFile: webStatsFile,
     publicPath: "/static/",
   });
-  // This is needed for the ssr component
+  // This is needed for the server rendering
   const nodeExtractor = new ChunkExtractor({
     statsFile: nodeStatsFile,
   });
@@ -33,6 +36,18 @@ export const renderer: RequestHandler = function (
   const jsx = webExtractor.collectChunks(<App />);
 
   const html = renderToString(jsx);
+
+  let authObj;
+
+  if (req.user && req.cookies.access_token) {
+    authObj = {
+      auth: true,
+      username: req.user.username,
+    };
+  }
+
+  console.log(req.originalUrl);
+
   let templateString = ` 
   <!DOCTYPE html>
   <html lang="en">
@@ -46,7 +61,10 @@ export const renderer: RequestHandler = function (
     <script src="https://kit.fontawesome.com/5a51695694.js" crossorigin="anonymous"></script>
   </head>
   <body>
-  <script>;window.app=${serialize({ data: "hello" })}</script>
+  <script>;window.app=${serialize({
+    url: req.originalUrl,
+    auth: authObj,
+  })}</script>
     <div id="root">${html}</div>
     <div id="modal-root"></div>
     ${webExtractor.getScriptTags()}

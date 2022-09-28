@@ -1,39 +1,36 @@
-import { RequestHandler, Request, Response, NextFunction } from "express"
+import { RequestHandler, Request, Response, NextFunction } from "express";
 
-
-export const logout: RequestHandler = function (
+export const logout: RequestHandler = async function (
   req: Request,
   res: Response,
   next: NextFunction
 ) {
   try {
-    if (req.cookies) {
-      if (req.cookies.access_token) {
-        res.clearCookie("access_token", {
-          path: "/",
-          secure: true,
-          sameSite: "strict",
-        });
-      }
-      if (req.cookies.refresh_token) {
-        res.clearCookie("refresh_token", {
-          path: "/",
-          secure: true,
-          sameSite: "strict",
-        });
-      }
+    res.clearCookie("access_token", {
+      path: "/",
+      secure: true,
+      sameSite: "strict",
+    });
 
-      req.user = undefined;
+    res.clearCookie("refresh_token", {
+      path: "/",
+      secure: true,
+      sameSite: "strict",
+    });
 
-      return res.status(200).json({
-        msg: "Ok"
-      });
-    } else {
-      req.user = undefined;
-      return res.status(200).json({
-        msg: "Ok"
-      });
-    }
+    res.clearCookie("sid", {
+      path: "/",
+      sameSite: "strict",
+      httpOnly: true,
+      secure: true,
+      signed: true,
+    });
+
+    req.user = undefined;
+
+    return res.status(200).json({
+      msg: "Ok",
+    });
   } catch (e) {
     return next(e);
   }

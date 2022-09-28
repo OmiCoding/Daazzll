@@ -1,8 +1,7 @@
 import React, { useState } from "react";
 import loadable from "@loadable/component";
 
-import BannerContainer from "./BannerContainer";
-import ProfilePitch from "./ProfilePitch";
+import ProfileHeader from "./header/ProfileHeader";
 import AddDesignSection from "./design/AddDesignSection";
 import useProfile from "../../hooks/profile/useProfile";
 import Loading from "../general/Loading";
@@ -20,8 +19,7 @@ const ProfileContainer: React.FC = function () {
     <>
       <div className="page-wrapper">
         <section className="profile-page">
-          <BannerContainer user={user} />
-          <ProfilePitch
+          <ProfileHeader
             user={user}
             username={username}
             pitch={pitch}

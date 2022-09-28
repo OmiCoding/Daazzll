@@ -5,6 +5,7 @@ const AppContext = createContext<AppContextInit>({
   modal: "",
   modalActive: false,
   absHeader: false,
+  location: "",
 });
 
 export default AppContext;

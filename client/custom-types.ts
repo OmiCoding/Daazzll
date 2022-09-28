@@ -8,9 +8,11 @@ export interface AppContextInit {
   modalActive: boolean;
   modal: string;
   absHeader: boolean;
+  location: string;
   dispatch?: Dispatch<Action>;
   handleModal?: (e: MouseEvent<HTMLButtonElement>, modal: string) => void;
   closeModal?: (e?: MouseEvent<HTMLButtonElement>) => void;
+  getLocation?: (path: string) => void;
 }
 
 export interface AuthContextInit {
@@ -19,7 +21,9 @@ export interface AuthContextInit {
   register?: RegisterFunc;
   login?: LoginFunc;
   logout?: LogoutFunc;
+  resetAuth?: ResetAuthFunc;
   checkAuth?: checkAuthFunc;
+  setAuth?: (userN: string) => void;
   dispatch?: Dispatch<Action>;
 }
 
@@ -57,6 +61,7 @@ export interface RegisterState {
 export interface LoginState {
   acc: string;
   pass: string;
+  eye: boolean;
   warn_1: string | undefined;
   warn_2: string | undefined;
 }
@@ -65,6 +70,7 @@ type RegisterFunc = (body: RegisterBody) => void;
 type LoginFunc = (body: LoginBody) => void;
 type checkAuthFunc = (cb: (pass: boolean) => void) => void;
 type LogoutFunc = () => void;
+type ResetAuthFunc = () => void;
 
 export interface Action {
   type: string;

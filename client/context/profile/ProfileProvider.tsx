@@ -1,11 +1,13 @@
-import React, { ReactNode, useReducer, useCallback } from "react";
+import React, { ReactNode, useReducer, useCallback, useContext } from "react";
 import Cookies from "js-cookie";
 
 import { Action, ProfileContextInit, ProfileReducer } from "../../custom-types";
 
 import ProfileContext from "./ProfileContext";
 import profileReducer from "./profileReducer";
+import { useNavigate } from "react-router";
 import { GET_PROFILE, PROFILE_DATA, SET_LINK } from "./cases";
+import AuthContext from "../auth/AuthContext";
 
 interface ProviderProps {
   children: ReactNode;
@@ -27,32 +29,72 @@ const ProfileProvider: React.FC<ProviderProps> = function ({ children }) {
     website: "",
   });
 
+  const { setAuth, resetAuth } = useContext(AuthContext);
+  const navigate = useNavigate();
+
   const getProfileData = useCallback(() => {
-    const accessToken = Cookies.get("access_token");
-    fetch("/profileData", {
+    fetch("/checkauth", {
       method: "GET",
       mode: "cors",
       credentials: "include",
-      headers: {
-        Authorization: `Bearer ${accessToken}`,
-      },
     })
       .then((data) => data.json())
       .then((res) => {
-        if (res.msg === "Unauthenticated.") return;
-        dispatch({
-          type: PROFILE_DATA,
-          data: res,
-        });
+        if (!res.clear) {
+          fetch("/logout", {
+            method: "GET",
+            mode: "cors",
+            credentials: "include",
+            headers: {
+              "Content-Type": "application/json",
+            },
+          })
+            .then((data) => data.json())
+            .then((res) => {
+              sessionStorage.removeItem("hallpass");
+              sessionStorage.removeItem("username");
+              if (resetAuth) {
+                resetAuth();
+              }
+              return navigate("/login");
+            })
+            .catch((err) => {
+              console.error(err);
+            });
+        } else {
+          fetch("/profileData", {
+            method: "GET",
+            mode: "cors",
+            credentials: "include",
+            headers: {
+              "Content-Type": "application/json",
+            },
+          })
+            .then((data) => data.json())
+            .then((res) => {
+              if (res.msg === "Unauthenticated.") return;
+
+              if (setAuth) {
+                setAuth(res.username);
+              }
+              dispatch({
+                type: PROFILE_DATA,
+                data: res,
+              });
+            })
+            .catch((err) => {
+              console.error(err);
+            });
+        }
       })
       .catch((err) => {
-        console.log(state);
         console.error(err);
       });
-  }, []);
+  }, [navigate, resetAuth]);
 
   const getProfile = useCallback((username: string) => {
     const accessToken = Cookies.get("access_token");
+    console.log(accessToken);
     fetch(`/profile/${username}`, {
       method: "GET",
       mode: "cors",
@@ -63,7 +105,6 @@ const ProfileProvider: React.FC<ProviderProps> = function ({ children }) {
     })
       .then((data) => data.json())
       .then((res) => {
-        console.log(res);
         dispatch({
           type: GET_PROFILE,
           data: res,

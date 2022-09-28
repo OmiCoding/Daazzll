@@ -4,9 +4,7 @@ import path from "path";
 import express from "express";
 import cors from "cors";
 import cookieParser from "cookie-parser";
-import sessions from "express-session";
 import prismaClient from "./prismaClient";
-import connectRedis from "connect-redis";
 import { redisClient } from "./storageInit";
 import { renderer, errorHandler } from "./controllers";
 import { setUserProp } from "./middleware/auth";
@@ -28,8 +26,6 @@ declare global {
     }
   }
 }
-
-const RedisStore = connectRedis(sessions);
 
 const { API_SERVER_PORT, SESSION_SECRET, REDIS_PORT, USER_SECRET, BUILD } =
   process.env;

@@ -61,8 +61,8 @@ export const login: RequestHandler = async function (
         username: result.username,
       },
       PRIV_KEY_PATH,
-      "10m",
-      600
+      "2m",
+      120
     );
 
     const refreshToken = await genToken(
@@ -73,8 +73,8 @@ export const login: RequestHandler = async function (
         username: result.username,
       },
       PRIV_KEY_PATH,
-      "30m",
-      1800
+      "5m",
+      300
     );
 
     const uid = crypto.randomBytes(24).toString("base64");
@@ -87,19 +87,21 @@ export const login: RequestHandler = async function (
         username: username,
       },
       uid,
-      600
+      120
     );
 
     res.cookie("access_token", accessToken, {
       path: "/",
       secure: true,
-      maxAge: 10 * 60 * 1000, // 10min
+      sameSite: "strict",
+      maxAge: 2 * 60 * 1000, // 10min
     });
 
     res.cookie("refresh_token", refreshToken, {
       path: "/",
       secure: true,
-      maxAge: 30 * 60 * 1000, // 30min
+      sameSite: "strict",
+      maxAge: 5 * 60 * 1000, // 30min
     });
 
     res.cookie("sid", uid, {
@@ -108,8 +110,9 @@ export const login: RequestHandler = async function (
       httpOnly: true,
       secure: true,
       signed: true,
-      maxAge: 10 * 60 * 1000, // 10min
+      maxAge: 2 * 60 * 1000, // 10min
     });
+
     return res.status(200).json({ username });
   } catch (e) {
     return next(e);
