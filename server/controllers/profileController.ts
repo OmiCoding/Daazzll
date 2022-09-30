@@ -4,7 +4,6 @@ import busboy from "busboy";
 
 // import { cloudFormProfile } from "../utils/cloudinary/cloudForms";
 import prismaClient from "../prismaClient";
-import storeUploadData from "../utils/functions/storeUploadData";
 
 export const profile: RequestHandler = async function (
   req: Request,
@@ -146,21 +145,3 @@ export const getDesigns: RequestHandler = function (
 ) {
   return res.status(200).json({});
 };
-
-// export const genSignature: RequestHandler = async function (
-//   req: Request,
-//   res: Response,
-//   next: NextFunction
-// ) {
-//   try {
-//     const { type } = req.query;
-//     const { timestamp, signature } = cloudFormProfile();
-//     if (type === "profile" || type === "banner") {
-//       await upsertImages(type, req);
-//     } else {
-//       throw new Error("type does not match either string.");
-//     }
-//   } catch (e) {
-//     return next(e);
-//   }
-// };
