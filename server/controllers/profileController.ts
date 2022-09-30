@@ -2,7 +2,7 @@ import { RequestHandler, Request, Response, NextFunction } from "express";
 import { v2 as cloudinary } from "cloudinary";
 import busboy from "busboy";
 
-// import { cloudFormProfile } from "../utils/cloudinary/cloudForms";
+import { storeUploadData } from "../utils/helpers/profileHelpers";
 import prismaClient from "../prismaClient";
 
 export const profile: RequestHandler = async function (
