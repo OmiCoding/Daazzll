@@ -4,8 +4,11 @@ import AboutSection from "../components/home/AboutSection";
 
 import "../styles/home/home.css";
 import "../styles/home/general.css";
+import useGuestCheck from "../hooks/auth/useGuestCheck";
 
 const Home: React.FC = function () {
+  useGuestCheck();
+
   return (
     <>
       <HomeSection />

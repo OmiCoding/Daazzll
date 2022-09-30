@@ -1,11 +1,10 @@
+import { validCheck } from "../../custom-types";
 import {
   whiteSpace,
   longStr,
-  emptyStr,
   specChar,
-} from "../../utils/functions/regex";
-
-type validCheck = (...args: any[]) => string | boolean;
+  emptyStr,
+} from "../../utils/helpers/regex";
 
 export const validEmail: validCheck = function (email: string) {
   if (emptyStr(email)) return "Please give us your email.";
@@ -17,6 +16,22 @@ export const validEmail: validCheck = function (email: string) {
 
   if (!regex.test(email)) {
     return "Invalid email.";
+  }
+
+  return false;
+};
+
+export const validUser: validCheck = function (user: string) {
+  if (whiteSpace(user)) {
+    return "No whitespace characters allowed.";
+  }
+
+  if (longStr(user)) {
+    return "This username has exceeded the limit of characters.";
+  }
+
+  if (specChar(user)) {
+    return "No special characters are allowed. Ex: @#!$%^&*()";
   }
 
   return false;
@@ -37,41 +52,6 @@ export const validName: validCheck = function (name: string) {
 
   if (specChar(name)) {
     return "No special characters allowed.\n Ex: @#$%^!&*";
-  }
-
-  return false;
-};
-
-export const validPass: validCheck = function (
-  pass: string,
-  confirmPass: string
-) {
-  if (pass.length < 1 || confirmPass.length < 1) {
-    return "Can not have an empty pass field.";
-  }
-
-  if (pass.length < 8) {
-    return "Password length is too short. Minumum length is 8 characters.";
-  }
-
-  if (pass.length !== confirmPass.length) {
-    return "Passwords do not match.";
-  }
-
-  if (pass !== confirmPass) {
-    return "Passwords do not match.";
-  }
-
-  if (emptyStr(pass)) {
-    return "Please enter a password.";
-  }
-
-  if (whiteSpace(pass)) {
-    return "No white space allowed.";
-  }
-
-  if (longStr(pass)) {
-    return "Password is too long.";
   }
 
   return false;
@@ -107,17 +87,36 @@ export const validPhone: validCheck = function (phoneNum: string) {
   }
 };
 
-export const validUser: validCheck = function (user: string) {
-  if (whiteSpace(user)) {
-    return "No whitespace characters allowed.";
+export const validPass: validCheck = function (
+  pass: string,
+  confirmPass: string
+) {
+  if (pass.length < 1 || confirmPass.length < 1) {
+    return "Can not have an empty pass field.";
   }
 
-  if (longStr(user)) {
-    return "This username has exceeded the limit of characters.";
+  if (pass.length < 8) {
+    return "Password length is too short. Minumum length is 8 characters.";
   }
 
-  if (specChar(user)) {
-    return "No special characters are allowed. Ex: @#!$%^&*()";
+  if (pass.length !== confirmPass.length) {
+    return "Passwords do not match.";
+  }
+
+  if (pass !== confirmPass) {
+    return "Passwords do not match.";
+  }
+
+  if (emptyStr(pass)) {
+    return "Please enter a password.";
+  }
+
+  if (whiteSpace(pass)) {
+    return "No white space allowed.";
+  }
+
+  if (longStr(pass)) {
+    return "Password is too long.";
   }
 
   return false;

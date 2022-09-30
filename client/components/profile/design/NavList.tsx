@@ -61,48 +61,50 @@ const NavList: React.FC<ListProps> = function ({ list, setList, handleList }) {
   }, [list, debouncer]);
 
   return (
-    <ul className="design__nav-list">
-      <div ref={bgElem} className="bg-active-link" />
-      <li className="design__list-item">
-        <NavLink
-          to="#gifs"
-          className={`${
-            list === "Gifs"
-              ? "design-link design-link--active"
-              : "design-link design-link--unactive"
-          }`}
-          onClick={(e) => handleList(e, "Gifs")}
-        >
-          Gifs
-        </NavLink>
-      </li>
-      <li className="design__list-item">
-        <NavLink
-          to="#shorts"
-          className={`${
-            list === "Shorts"
-              ? "design-link design-link--active"
-              : "design-link design-link--unactive"
-          }`}
-          onClick={(e) => handleList(e, "Shorts")}
-        >
-          Shorts
-        </NavLink>
-      </li>
-      <li className="design__list-item">
-        <NavLink
-          to="#videos"
-          className={`${
-            list === "Videos"
-              ? "design-link design-link--active"
-              : "design-link design-link--unactive"
-          }`}
-          onClick={(e) => handleList(e, "Videos")}
-        >
-          Videos
-        </NavLink>
-      </li>
-    </ul>
+    <nav className="design-nav">
+      <ul className="design__nav-list">
+        <div ref={bgElem} className="bg-active-link" />
+        <li className="design__list-item">
+          <NavLink
+            to="#gifs"
+            className={`${
+              list === "Gifs"
+                ? "design-link design-link--active"
+                : "design-link design-link--unactive"
+            }`}
+            onClick={(e) => handleList(e, "Gifs")}
+          >
+            Gifs
+          </NavLink>
+        </li>
+        <li className="design__list-item">
+          <NavLink
+            to="#shorts"
+            className={`${
+              list === "Shorts"
+                ? "design-link design-link--active"
+                : "design-link design-link--unactive"
+            }`}
+            onClick={(e) => handleList(e, "Shorts")}
+          >
+            Shorts
+          </NavLink>
+        </li>
+        <li className="design__list-item">
+          <NavLink
+            to="#videos"
+            className={`${
+              list === "Videos"
+                ? "design-link design-link--active"
+                : "design-link design-link--unactive"
+            }`}
+            onClick={(e) => handleList(e, "Videos")}
+          >
+            Videos
+          </NavLink>
+        </li>
+      </ul>
+    </nav>
   );
 };
 

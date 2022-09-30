@@ -7,7 +7,7 @@ import cookieParser from "cookie-parser";
 import prismaClient from "./prismaClient";
 import { redisClient } from "./storageInit";
 import { renderer, errorHandler } from "./controllers";
-import { setUserProp } from "./middleware/auth";
+import { setUserProp } from "./middleware/auth/authMidWare";
 import auth from "./routes/auth";
 import profile from "./routes/profile";
 
@@ -96,7 +96,7 @@ app.use(function (req, res, next) {
   return next();
 });
 app.use(auth);
-app.use(profile);
+app.use("/profile", profile);
 app.use("*", renderer);
 app.use(errorHandler);
 

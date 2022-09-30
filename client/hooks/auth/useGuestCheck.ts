@@ -1,21 +1,18 @@
 import { useEffect, useCallback } from "react";
 import { useNavigate } from "react-router";
 import useAuth from "./useAuth";
-import Cookies from "js-cookie";
 
 const useGuestCheck = function () {
   const { dispatch, auth, username } = useAuth();
   const navigate = useNavigate();
 
   const check = useCallback(() => {
-    const accessToken = Cookies.get("access_token");
     fetch("/passGuest", {
       method: "GET",
       mode: "cors",
       credentials: "include",
       headers: {
         "Content-Type": "application/json",
-        Authorization: `Bearer ${accessToken}`,
       },
     })
       .then((data) => data.json())

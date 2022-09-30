@@ -12,11 +12,8 @@ export const checkRegister = function (
   password: string,
   confirmPass: string
 ): MsgObj | false {
-  
-
   let check: string | boolean = validName(fName);
   const warnings: MsgObj = {};
-
 
   if (check) {
     warnings["fName"] = check;

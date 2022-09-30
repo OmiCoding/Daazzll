@@ -1,20 +1,22 @@
 import { Router } from "express";
+import { createLink } from "../controllers/authController";
 import {
-  profileData,
   profile,
-  createLink,
+  profileData,
   uploadProfileImgs,
-} from "../controllers";
-import { checkAccToken, checkUser } from "../middleware/auth";
+} from "../controllers/profileController";
+import { checkAccToken, checkUser } from "../middleware/auth/authMidWare";
 
 const router = Router();
 
 router.get("/profileData", [checkAccToken, checkUser], profileData);
 
-router.get("/profile/:username", profile);
+router.get("/:username", profile);
 
-router.post("/profile/upload", uploadProfileImgs);
+// router.post("/designs", [checkAccToken, checkUser]);
 
-router.post("/profile/link", [checkAccToken], createLink);
+router.post("/upload", uploadProfileImgs);
+
+router.post("/link", [checkAccToken], createLink);
 
 export default router;

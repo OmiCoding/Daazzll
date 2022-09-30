@@ -1,13 +1,13 @@
 import { Router } from "express";
 
 import {
-  deleteUser,
-  updateUser,
   register,
   login,
   checkAuth,
   logout,
-} from "../controllers";
+  deleteUser,
+  updateUser,
+} from "../controllers/authController";
 
 import {
   checkDeleteUser,
@@ -17,16 +17,15 @@ import {
   checkUpdateUser,
   checkUser,
   checkedLoggedIn,
-  // checkToken,
   checkToken2,
-} from "../middleware/auth";
+} from "../middleware/auth/authMidWare";
 
 import {
   joiDeleteUser,
   joiLogin,
   joiRegister,
   joiUpdateUser,
-} from "../middleware/auth";
+} from "../middleware/auth/joiMidWare";
 
 const router = Router();
 

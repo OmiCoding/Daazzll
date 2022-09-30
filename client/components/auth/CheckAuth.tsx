@@ -1,5 +1,4 @@
 import React from "react";
-import useAuth from "../../hooks/auth/useAuth";
 import useAuthCheck from "../../hooks/auth/useAuthCheck";
 import { ContextChildren } from "../../custom-types";
 

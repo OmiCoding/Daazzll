@@ -6,7 +6,6 @@
   width: 100%;
   min-height: 100vh;
   z-index: 0;
-  
 }
 
 .max-wrapper {
@@ -87,11 +86,5 @@
 @media screen and (min-width: 1920px) {
   .max-wrapper {
     max-width: 1920px;
-  }
-}
-
-@media screen and (min-width: 2560px) {
-  .max-wrapper {
-    max-width: 2560px;
   }
 }

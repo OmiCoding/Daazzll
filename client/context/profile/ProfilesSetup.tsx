@@ -4,7 +4,6 @@ import useGetProfile from "../../hooks/profile/useGetProfile";
 
 const ProfilesSetup: React.FC<ContextChildren> = function ({ children }) {
   useGetProfile();
-
   return children;
 };
 

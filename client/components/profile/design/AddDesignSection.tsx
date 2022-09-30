@@ -1,7 +1,7 @@
 import React, { useState, MouseEvent } from "react";
-
 import "../../../styles/profile/design.css";
 import NavList from "./NavList";
+import DesignsContainer from "./DesignsContainer";
 
 const AddDesignSection = function () {
   const [list, setList] = useState("Gifs");
@@ -11,13 +11,15 @@ const AddDesignSection = function () {
   };
 
   return (
-    <section className="design-section">
-      <div className="max-wrapper">
-        <nav className="design-nav">
+    <>
+      <section className="design-section">
+        <div className="max-wrapper">
           <NavList list={list} setList={setList} handleList={handleList} />
-        </nav>
-      </div>
-    </section>
+          <div className="border" />
+        </div>
+      </section>
+      <DesignsContainer />
+    </>
   );
 };
 

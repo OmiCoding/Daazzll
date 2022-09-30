@@ -62,7 +62,7 @@ const ProfileProvider: React.FC<ProviderProps> = function ({ children }) {
               console.error(err);
             });
         } else {
-          fetch("/profileData", {
+          fetch("/profile/profileData", {
             method: "GET",
             mode: "cors",
             credentials: "include",
