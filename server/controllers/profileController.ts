@@ -143,5 +143,55 @@ export const getDesigns: RequestHandler = function (
   res: Response,
   next: NextFunction
 ) {
-  return res.status(200).json({});
+  return res.status(200).json({
+    msg: "Ok",
+  });
+};
+
+export const postDesigns: RequestHandler = async function (
+  req: Request,
+  res: Response,
+  next: NextFunction
+) {
+  try {
+    const bb = busboy({ headers: req.headers });
+
+    const uploadStream = cloudinary.uploader.upload_stream(
+      {
+        folder: req.body.folder,
+      },
+      async function (err, result) {
+        if (err) {
+          console.error(err);
+        }
+
+        console.log(result);
+        if (result) {
+          // await storeUploadData(req, {
+          //   model: req.query.uploadType,
+          //   imageId: result.public_id,
+          //   ext: result.format,
+          //   type: result.resource_type,
+          //   url: result.secure_url,
+          //   folder: result.folder,
+          // });
+        }
+      }
+    );
+
+    bb.on("file", (name, file, info) => {
+      file.pipe(uploadStream);
+    });
+
+    bb.on("close", () => {
+      console.log("Done parsing the form!");
+      res.status(200).json({
+        msg: "Ok.",
+      });
+    });
+
+    req.pipe(bb);
+  } catch (err) {
+    next(err);
+  }
 };

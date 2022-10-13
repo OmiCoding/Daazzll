@@ -1,5 +1,11 @@
 import { Action, ProfileContextInit, ProfileReducer } from "../../custom-types";
-import { GET_PROFILE, PROFILE_DATA, SET_LINK } from "./cases";
+import {
+  ACTIVE_DESIGN,
+  GET_PROFILE,
+  PROFILE_DATA,
+  RESET_DESIGN,
+  SET_LINK,
+} from "./cases";
 
 const profileReducer: ProfileReducer<ProfileContextInit, Action> = function (
   prevState,
@@ -33,7 +39,16 @@ const profileReducer: ProfileReducer<ProfileContextInit, Action> = function (
         ...prevState,
         [data.name]: data.link,
       };
-
+    case ACTIVE_DESIGN:
+      return {
+        ...prevState,
+        design: data,
+      };
+    case RESET_DESIGN:
+      return {
+        ...prevState,
+        design: null,
+      };
     default:
       return {
         ...prevState,

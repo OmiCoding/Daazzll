@@ -9,6 +9,7 @@ import Modal from "../../modal/Modal";
 
 import "../../../styles/modal.css";
 import "../../../styles/profile/medialinks.css";
+import Designs from "./designs/Designs";
 
 const ProfileModal: React.FC = function () {
   const bgElem = useRef<HTMLDivElement>(null);
@@ -21,8 +22,8 @@ const ProfileModal: React.FC = function () {
     modalItem = <MediaLinks />;
   } else if (modal === "user-photo" || modal === "banner") {
     modalItem = <AddUserImages />;
-  } else if (modal === "report") {
-    modalItem = "";
+  } else if (modal === "design") {
+    modalItem = <Designs />;
   }
 
   const debounceResize = useMemo(() => {
@@ -36,19 +37,7 @@ const ProfileModal: React.FC = function () {
   }, []);
 
   useLayoutEffect(() => {
-    // const rootElem = document.getElementById("root");
-
     window.addEventListener("resize", debounceResize);
-    // const currPfModal = pfModal.current;
-
-    // if (modalActive && currPfModal) {
-    //   currPfModal.style.top = "" + window.scrollY + "px";
-    // } else {
-    //   if (currPfModal) {
-    //     currPfModal.style.top = "unset";
-    //   }
-    // }
-
     return () => {
       window.removeEventListener("resize", debounceResize);
     };

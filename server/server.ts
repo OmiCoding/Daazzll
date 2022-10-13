@@ -6,7 +6,8 @@ import cors from "cors";
 import cookieParser from "cookie-parser";
 import prismaClient from "./prismaClient";
 import { redisClient } from "./storageInit";
-import { renderer, errorHandler } from "./controllers";
+import renderer from "./controllers/renderer";
+import errorHandler from "./controllers/errorHandler";
 import { setUserProp } from "./middleware/auth/authMidWare";
 import auth from "./routes/auth";
 import profile from "./routes/profile";
@@ -55,7 +56,11 @@ const credentials = {
 
 const app = express();
 app.use(express.urlencoded({ extended: true }));
-app.use(express.json());
+app.use(
+  express.json({
+    limit: "50mb",
+  })
+);
 
 // include helmet
 if (process.env.BUILD === "dev" || process.env.BUILD === "test") {

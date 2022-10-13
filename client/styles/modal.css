@@ -6,6 +6,7 @@
   height: 100%;
   min-height: 100vh;
   background-color: rgba(100, 100, 100, 0.1);
+  /* overflow-y: auto; */
 }
 
 .bg-modal-1 {
@@ -22,6 +23,15 @@
   right: 0;
   background-color: var(--bg-color);
   padding: 2rem;
+}
+
+.modal-wrapper-3 {
+  position: absolute;
+  left: 0;
+  top: 0;
+  width: 100%;
+  overflow-y: auto;
+  background-color: var(--bg-color);
 }
 
 .modalBg-enter,
@@ -176,6 +186,11 @@
     height: 100%;
     min-height: 100vh;
   }
+
+  .modal-wrapper-3 {
+    min-height: 100vh;
+    padding: 1.2rem;
+  }
 }
 
 @media screen and (min-width: 414px) {
@@ -188,7 +203,7 @@
     bottom: 0;
     left: 0;
     right: 0;
-    margin: auto;
+    margin: 0 auto;
     height: min-content;
     max-width: 600px;
     min-height: 550px;
@@ -203,6 +218,18 @@
     flex-direction: column;
     min-height: 600px;
     height: 690px;
+    margin-top: 1.5rem;
     box-shadow: -30px 60px 100px hsl(0deg 0% 0% / 0.2);
+  }
+
+  .modal-wrapper-3 {
+    right: 0;
+    width: 92%;
+    min-height: 93vh;
+    height: 93vh;
+    margin: auto;
+    margin-top: 1.4rem;
+    padding: 0;
+    overflow-y: unset;
   }
 }

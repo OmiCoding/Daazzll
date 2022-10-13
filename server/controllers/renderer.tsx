@@ -16,7 +16,7 @@ const nodeStatsFile = path.resolve("build/node-loadable-stats.json");
 
 const webStatsFile = path.resolve("build/web-loadable-stats.json");
 
-export const renderer: RequestHandler = function (
+const renderer: RequestHandler = function (
   req: Request,
   res: Response,
   next: NextFunction
@@ -76,3 +76,5 @@ export const renderer: RequestHandler = function (
 
   return res.status(200).send(templateString);
 };
+
+export default renderer;

@@ -12,6 +12,7 @@ const ProfileContext = createContext<ProfileContextInit>({
   twitter: "",
   instagram: "",
   website: "",
+  design: null,
 });
 
 export default ProfileContext;

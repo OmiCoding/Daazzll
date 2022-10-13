@@ -1,6 +1,6 @@
 import { ErrorRequestHandler, NextFunction, Request, Response } from "express";
 
-export const errorHandler: ErrorRequestHandler = function (
+const errorHandler: ErrorRequestHandler = function (
   err: any,
   req: Request,
   res: Response,
@@ -13,3 +13,5 @@ export const errorHandler: ErrorRequestHandler = function (
   }
   return res.status(500).redirect("/");
 };
+
+export default errorHandler;

@@ -7,6 +7,7 @@ import React, {
   SetStateAction,
 } from "react";
 import { NavLink } from "react-router-dom";
+import "../../../styles/profile/design-nav.css";
 
 import debounce from "lodash.debounce";
 

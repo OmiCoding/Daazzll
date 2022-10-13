@@ -4,6 +4,8 @@ import {
   profile,
   profileData,
   uploadProfileImgs,
+  postDesigns,
+  getDesigns,
 } from "../controllers/profileController";
 import { checkAccToken, checkUser } from "../middleware/auth/authMidWare";
 
@@ -13,7 +15,9 @@ router.get("/profileData", [checkAccToken, checkUser], profileData);
 
 router.get("/:username", profile);
 
-// router.post("/designs", [checkAccToken, checkUser]);
+router.get("/designs", getDesigns);
+
+router.post("/designs", postDesigns);
 
 router.post("/upload", uploadProfileImgs);
 

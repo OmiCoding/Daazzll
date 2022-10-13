@@ -1,7 +1,6 @@
 import React, { Dispatch, SetStateAction } from "react";
 import ProfilePitch from "./ProfilePitch";
 import BannerContainer from "./BannerContainer";
-import ProfileMediaContainer from "./ProfileMediaContainer";
 
 interface HeaderProps {
   user: boolean;

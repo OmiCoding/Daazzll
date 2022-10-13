@@ -1,0 +1,23 @@
+@import url("../theme.css");
+
+.designs__mdl-content {
+  flex-grow: 1;
+  width: 100%;
+}
+
+.designs-img-wrapper {
+  width: 100%;
+  background-color: var(--disabled-color-2);
+}
+
+@media screen and (min-width: 320px) {
+  .designs__mdl-content {
+    min-height: 100vh;
+  }
+}
+
+@media screen and (min-width: 1280px) {
+  .designs__mdl-content {
+    height: 100%;
+  }
+}

@@ -81,7 +81,7 @@ model designs {
   id        Int             @id @default(autoincrement())
   image     String
   ext       String
-  link      String
+  url       String
   createdAt DateTime        @default(now())
   userId    Int             @unique
   user      accounts        @relation(fields: [userId], references: [id])

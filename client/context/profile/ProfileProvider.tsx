@@ -27,6 +27,7 @@ const ProfileProvider: React.FC<ProviderProps> = function ({ children }) {
     facebook: "",
     instagram: "",
     website: "",
+    design: null,
   });
 
   const { setAuth, resetAuth } = useContext(AuthContext);
@@ -123,6 +124,19 @@ const ProfileProvider: React.FC<ProviderProps> = function ({ children }) {
     });
   };
 
+  const activeDesign = function (file: File) {
+    return dispatch({
+      type: "ACTIVE_DESIGN",
+      data: file,
+    });
+  };
+
+  const resetDesign = function () {
+    return dispatch({
+      type: "RESET_DESIGN",
+    });
+  };
+
   return (
     <ProfileContext.Provider
       value={{
@@ -130,6 +144,8 @@ const ProfileProvider: React.FC<ProviderProps> = function ({ children }) {
         getProfileData,
         getProfile,
         setLink,
+        activeDesign,
+        resetDesign,
         dispatch,
       }}
     >

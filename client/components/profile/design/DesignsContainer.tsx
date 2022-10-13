@@ -1,20 +1,44 @@
-import React from "react";
+import React, { ChangeEvent, MouseEvent } from "react";
 import DesignCard from "./DesignCard";
+import AddDesignBtn from "./AddDesignBtn";
+import useProfile from "../../../hooks/profile/useProfile";
+import useApp from "../../../hooks/general/useApp";
 
-const arr = [
-  1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22,
-  23, 24, 25, 26, 27, 28, 29, 30,
-];
+const arr = [1, 2, 3];
 
 const DesignContainer = function () {
+  const { activeDesign, design } = useProfile();
+  const { handleModal } = useApp();
+
+  console.log(design);
+  function handleChange(e: ChangeEvent<HTMLInputElement>) {
+    const { name, files } = e.target;
+    if (files) {
+      if (activeDesign) {
+        return activeDesign(files[0]);
+      }
+    }
+  }
+
+  function handleClick(e: MouseEvent<HTMLButtonElement>) {
+    if (handleModal) {
+      return handleModal(e, "design");
+    }
+  }
+
   return (
-    <section className="designs">
-      <div className="max-wrapper">
-        <ol className="designs__list">
-          {arr.map((elem) => {
-            return <DesignCard key={elem} />;
-          })}
-        </ol>
+    <section className="design-section">
+      <div className="design-max-wrapper">
+        <section className="designs">
+          <ol className="designs__list">
+            <AddDesignBtn handleChange={handleChange} />
+            {arr.map((elem, ind) => {
+              return (
+                <DesignCard key={ind} elem={elem} handleClick={handleClick} />
+              );
+            })}
+          </ol>
+        </section>
       </div>
     </section>
   );

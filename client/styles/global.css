@@ -17,17 +17,18 @@ div#modal-root {
   position: absolute;
   top: 0;
   left: 0;
-  height: 100%;
   width: 100%;
   min-height: 100vh;
   z-index: 5;
+  overflow-y: auto;
+  overflow-x: hidden;
   -ms-overflow-style: none; /* IE and Edge */
   scrollbar-width: none; /* Firefox */
 }
 
-.root--active {
+/* .root--active {
   overflow-y: auto;
-}
+} */
 
 div#modal-root::-webkit-scrollbar {
   display: none;
@@ -38,6 +39,7 @@ body {
   font-family: var(--main-font);
   font-weight: var(--fnt-weight-1);
   background-color: var(--bg-color);
+  overflow-x: hidden;
 }
 
 a {
@@ -56,11 +58,22 @@ button {
 }
 
 @media screen and (min-width: 320px) {
+  div#modal-root {
+    background-color: var(--bg-color);
+  }
+
   /* html,
   body,
   div#root {
     min-height: 910px;
   } */
+}
+
+@media screen and (min-width: 768px) {
+  div#modal-root {
+    background-color: unset;
+    height: 100%;
+  }
 }
 
 @media screen and (min-width: 1280px) {

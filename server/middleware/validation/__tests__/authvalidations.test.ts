@@ -5,7 +5,7 @@ import {
   validPass,
   validPhone,
   validUser,
-} from "../authValidation";
+} from "../authValidation2";
 
 test("checking validEmail works with valid email.", () => {
   const email = "johndoe123@gmail.com";

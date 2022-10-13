@@ -29,7 +29,6 @@ const BannerSection: React.FC<SectionProps> = function ({
           headerTxt={"Add Your Banner Image"}
           descTxt={"Backgrounds are always a nice touch for aesthetics"}
         />
-
         <UserImagesForm
           name={"banner"}
           uploaded={uploaded}

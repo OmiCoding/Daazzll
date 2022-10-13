@@ -6,7 +6,7 @@ import { promisify } from "util";
 import { readFile } from "fs";
 import prismaClient from "../../prismaClient";
 import { redisClient } from "../../storageInit";
-import { genToken } from "../../utils/functions/auth";
+import { genToken } from "../../utils/helpers/auth";
 import jwt from "jsonwebtoken";
 import "dotenv/config";
 

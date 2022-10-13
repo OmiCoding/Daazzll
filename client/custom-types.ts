@@ -38,10 +38,13 @@ export interface ProfileContextInit {
   twitter: string;
   website: string;
   descActive: boolean;
+  design: File | null;
   getProfileData?: () => void;
   getProfile?: (username: string) => void;
   setLink?: (name: string, link: string) => void;
   dispatch?: Dispatch<Action>;
+  activeDesign?: (file: File) => void;
+  resetDesign?: () => void;
 }
 
 export interface RegisterState {
