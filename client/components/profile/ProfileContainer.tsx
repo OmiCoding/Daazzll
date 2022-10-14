@@ -20,6 +20,7 @@ const ProfileContainer: React.FC = function () {
     if (!design) return;
     const formData = new FormData();
     formData.append("design", design);
+    formData.append("folder", "designs");
 
     console.log(formData, design);
 

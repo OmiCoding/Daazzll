@@ -79,9 +79,11 @@ model acc_banners {
 
 model designs {
   id        Int             @id @default(autoincrement())
-  image     String
+  imageId   String
   ext       String
+  type      String
   url       String
+  folder    String
   createdAt DateTime        @default(now())
   userId    Int             @unique
   user      accounts        @relation(fields: [userId], references: [id])

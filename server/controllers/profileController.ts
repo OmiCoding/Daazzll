@@ -4,6 +4,7 @@ import busboy from "busboy";
 
 import { storeUploadData } from "../utils/helpers/profileHelpers";
 import prismaClient from "../prismaClient";
+import storeDesign from "../utils/helpers/storeDesign";
 
 export const profile: RequestHandler = async function (
   req: Request,
@@ -99,9 +100,17 @@ export const uploadProfileImgs: RequestHandler = async function (
   try {
     const bb = busboy({ headers: req.headers });
 
+    let folder = "";
+    if (req.query.uploadType === "banners") {
+      folder = req.query.uploadType;
+    } else if (req.query.uploadType === "avatars") {
+    } else {
+      throw new Error("A folder must be specified.");
+    }
+
     const uploadStream = cloudinary.uploader.upload_stream(
       {
-        folder: req.body.folder,
+        folder: folder,
       },
       async function (err, result) {
         if (err) {
@@ -158,23 +167,21 @@ export const postDesigns: RequestHandler = async function (
 
     const uploadStream = cloudinary.uploader.upload_stream(
       {
-        folder: req.body.folder,
+        folder: "designs",
       },
       async function (err, result) {
         if (err) {
           console.error(err);
         }
 
-        console.log(result);
         if (result) {
-          // await storeUploadData(req, {
-          //   model: req.query.uploadType,
-          //   imageId: result.public_id,
-          //   ext: result.format,
-          //   type: result.resource_type,
-          //   url: result.secure_url,
-          //   folder: result.folder,
-          // });
+          await storeDesign(req, {
+            imageId: result.public_id,
+            ext: result.format,
+            type: result.resource_type,
+            url: result.secure_url,
+            folder: result.folder,
+          });
         }
       }
     );
