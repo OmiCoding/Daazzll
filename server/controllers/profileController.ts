@@ -173,7 +173,6 @@ export const postDesigns: RequestHandler = async function (
         if (err) {
           console.error(err);
         }
-
         if (result) {
           await storeDesign(req, {
             imageId: result.public_id,

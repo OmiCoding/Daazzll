@@ -85,7 +85,7 @@ model designs {
   url       String
   folder    String
   createdAt DateTime        @default(now())
-  userId    Int             @unique
+  userId    Int         
   user      accounts        @relation(fields: [userId], references: [id])
 }
 

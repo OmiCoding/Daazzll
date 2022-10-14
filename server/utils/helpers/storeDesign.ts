@@ -26,7 +26,6 @@ async function storeDesign(
     });
   } catch (e: any) {
     console.error(e);
-    throw new Error("Something has gone wrong...");
   }
 }
 
