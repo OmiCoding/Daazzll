@@ -60,8 +60,8 @@ model acc_avatars {
   folder    String
   createdAt DateTime        @default(now())
   updatedAt DateTime        @updatedAt
-  userId    Int             @unique
-  profile   acc_profiles    @relation(fields: [userId], references: [userId])
+  profileId Int             @unique
+  profile   acc_profiles    @relation(fields: [profileId], references: [id])
 }
 
 model acc_banners {
@@ -73,8 +73,8 @@ model acc_banners {
   folder    String
   createdAt DateTime      @default(now())
   updatedAt DateTime      @updatedAt
-  userId    Int           @unique
-  profile   acc_profiles  @relation(fields: [userId], references: [userId])
+  profileId Int           @unique
+  profile   acc_profiles  @relation(fields: [profileId], references: [id])
 }
 
 model designs {
@@ -85,7 +85,7 @@ model designs {
   url       String
   folder    String
   createdAt DateTime        @default(now())
-  userId    Int         
+  userId    Int             
   user      accounts        @relation(fields: [userId], references: [id])
 }
 
