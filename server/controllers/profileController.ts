@@ -31,13 +31,13 @@ export const profile: RequestHandler = async function (
         },
       },
     });
-
     return res.status(200).json({
       ...data,
       profile: {
         ...data?.profile,
       },
     });
+    
   } catch (e: any) {
     return next(e);
   }
@@ -147,14 +147,28 @@ export const uploadProfileImgs: RequestHandler = async function (
   }
 };
 
-export const getDesigns: RequestHandler = function (
+export const getDesigns: RequestHandler = async function (
   req: Request,
   res: Response,
   next: NextFunction
 ) {
+  try {
+    const data = await prismaClient.designs.findMany({
+    where: {
+      userId: req.user.id,
+    },
+    select: {
+      url: true,
+    }
+  })
+
   return res.status(200).json({
-    msg: "Ok",
-  });
+    data,
+    msg: "Ok"
+  })
+  } catch(e) {
+    return next(e);
+  }
 };
 
 export const postDesigns: RequestHandler = async function (

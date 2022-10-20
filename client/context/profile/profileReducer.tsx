@@ -5,6 +5,7 @@ import {
   PROFILE_DATA,
   RESET_DESIGN,
   SET_LINK,
+  DONE_LOAD,
 } from "./cases";
 
 const profileReducer: ProfileReducer<ProfileContextInit, Action> = function (
@@ -49,6 +50,11 @@ const profileReducer: ProfileReducer<ProfileContextInit, Action> = function (
         ...prevState,
         design: null,
       };
+    case DONE_LOAD:
+      return {
+        ...prevState,
+        designLoad: false,
+      }
     default:
       return {
         ...prevState,

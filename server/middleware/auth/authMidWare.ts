@@ -373,10 +373,9 @@ export const checkToken2: RequestHandler = async function (
 
         // console.log(req.cookies);
         // console.log(req.user);
-        console.log("came through");
+        // console.log("came through");
         return next();
       } catch (e: any) {
-        console.log(e);
         res.clearCookie("access_token", {
           path: "/",
           sameSite: "strict",

@@ -13,6 +13,7 @@ const ProfileContext = createContext<ProfileContextInit>({
   instagram: "",
   website: "",
   design: null,
+  designLoad: true,
 });
 
 export default ProfileContext;

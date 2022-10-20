@@ -39,12 +39,14 @@ export interface ProfileContextInit {
   website: string;
   descActive: boolean;
   design: File | null;
+  designLoad: boolean;
   getProfileData?: () => void;
   getProfile?: (username: string) => void;
   setLink?: (name: string, link: string) => void;
   dispatch?: Dispatch<Action>;
   activeDesign?: (file: File) => void;
   resetDesign?: () => void;
+  doneLoad?: () => void;
 }
 
 export interface RegisterState {

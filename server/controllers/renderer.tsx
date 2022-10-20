@@ -46,8 +46,6 @@ const renderer: RequestHandler = function (
     };
   }
 
-  console.log(req.originalUrl);
-
   let templateString = ` 
   <!DOCTYPE html>
   <html lang="en">

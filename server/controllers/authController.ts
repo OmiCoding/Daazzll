@@ -306,7 +306,6 @@ export const checkAuth: RequestHandler = async function (
   next: NextFunction
 ) {
   try {
-    console.log("checkAuth");
     return res.status(200).json({ msg: "Ok", clear: true });
   } catch (e) {
     console.log(e);

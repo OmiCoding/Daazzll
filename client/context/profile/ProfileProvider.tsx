@@ -28,6 +28,7 @@ const ProfileProvider: React.FC<ProviderProps> = function ({ children }) {
     instagram: "",
     website: "",
     design: null,
+    designLoad: true,
   });
 
   const { setAuth, resetAuth } = useContext(AuthContext);
@@ -137,6 +138,12 @@ const ProfileProvider: React.FC<ProviderProps> = function ({ children }) {
     });
   };
 
+  const doneLoad = function() {
+    return dispatch({
+      type: "DONE_LOAD",
+    })
+  }
+
   return (
     <ProfileContext.Provider
       value={{
@@ -146,6 +153,7 @@ const ProfileProvider: React.FC<ProviderProps> = function ({ children }) {
         setLink,
         activeDesign,
         resetDesign,
+        doneLoad,
         dispatch,
       }}
     >

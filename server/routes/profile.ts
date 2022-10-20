@@ -13,8 +13,6 @@ const router = Router();
 
 router.get("/profileData", [checkAccToken, checkUser], profileData);
 
-router.get("/:username", profile);
-
 router.get("/designs", getDesigns);
 
 router.post("/designs", postDesigns);
@@ -22,5 +20,7 @@ router.post("/designs", postDesigns);
 router.post("/upload", uploadProfileImgs);
 
 router.post("/link", [checkAccToken], createLink);
+
+router.get("/:username", profile);
 
 export default router;
