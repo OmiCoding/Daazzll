@@ -14,6 +14,22 @@ async function storeDesign(
   { imageId, ext, type, url, folder }: uploadContext
 ) {
   try {
+    // console.log(req.user);
+    // await prismaClient.accounts.findUnique({
+    //   where: {
+    //     email_username: {
+    //       email: req.user.email,
+    //       username: req.user.username,
+    //     }
+    //   },
+    //   select: {
+    //     designs: {
+          
+    //     }
+    //   }
+    // });
+
+
     await prismaClient.designs.create({
       data: {
         imageId,

@@ -152,6 +152,8 @@ export const getDesigns: RequestHandler = async function (
   res: Response,
   next: NextFunction
 ) {
+  const { count } = req.params;
+  
   try {
     const data = await prismaClient.designs.findMany({
     where: {
@@ -159,7 +161,8 @@ export const getDesigns: RequestHandler = async function (
     },
     select: {
       url: true,
-    }
+    }, 
+    skip: parseInt(count),
   })
 
   return res.status(200).json({

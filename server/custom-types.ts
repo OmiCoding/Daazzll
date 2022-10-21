@@ -5,6 +5,7 @@ export interface ReqUser {
   userId?: number;
   email?: string;
   username?: string;
+  cursor?: number;
 }
 
 export interface RedisAuthToken {

@@ -3,17 +3,18 @@ import DesignCard from "./DesignCard";
 import AddDesignBtn from "./AddDesignBtn";
 import useProfile from "../../../hooks/profile/useProfile";
 import useApp from "../../../hooks/general/useApp";
+import DesignsList from "./DesignsList";
 
-const arr = [1, 2, 3];
 
 interface DesignObj {
   url: string;
 }
 
 const DesignContainer = function () {
-  const { activeDesign, designLoad, doneLoad } = useProfile();
+  const { activeDesign, designLoad, dispatch } = useProfile();
   const { handleModal } = useApp();
-  const [designs, setDesigns] = useState(null);
+  const [designs, setDesigns] = useState<string[]>([]);
+  const [count, setCount] = useState(0);
 
   function handleChange(e: ChangeEvent<HTMLInputElement>) {
     const { files } = e.target;
@@ -34,7 +35,7 @@ const DesignContainer = function () {
 
   useEffect(() => {
     if(designLoad) {
-      fetch("/profile/designs", {
+      fetch(`/profile/designs?count=${count}`, {
         method: "GET",
         mode: "cors",
         credentials: "include",
@@ -44,16 +45,28 @@ const DesignContainer = function () {
       })
       .then((data) => data.json())
       .then(async (res) => {
-        if(res.data) {
-          const dataArr: any = [];
-          
-          // const result = await res.data.forEach(async (elem: DesignObj) => {
-          //   const imgData = await fetch(elem.url);
-          //   dataArr.push(imgData);
-            
-          if(doneLoad) {
-            doneLoad();
+        const data: DesignObj[] = res.data;
+        const dataArr: string[] = [];
+
+        for await (const urlObj of data) {
+          try {
+            const { url } = await fetch(urlObj.url);
+            dataArr.push(url);
+          } catch(e) {
+            console.error(e);
           }
+        } 
+
+        if (designs.length < 5) {
+          setCount(0)
+        } else {
+          setCount(5);
+        }
+        setDesigns(dataArr);
+        if (dispatch) {
+          dispatch({
+            type: "DONE_LOAD",
+          })
         }
       }) 
       .catch((err) => {
@@ -62,7 +75,10 @@ const DesignContainer = function () {
   
     }
     
-  }, [designLoad])
+  }, [designLoad, dispatch])
+  
+
+  console.log(designs);
 
   return (
     <section className="design-section">
@@ -70,16 +86,15 @@ const DesignContainer = function () {
         <section className="designs">
           <ol className="designs__list">
             <AddDesignBtn handleChange={handleChange} />
-            {arr.map((elem, ind) => {
-              return (
-                <DesignCard key={ind} elem={elem} handleClick={handleClick} />
-              );
-            })}
+            <DesignsList designs={designs} handleClick={handleClick} />
           </ol>
         </section>
       </div>
     </section>
   );
+
+
+  
 };
 
 export default DesignContainer;
