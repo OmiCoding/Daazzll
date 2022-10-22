@@ -14,7 +14,7 @@ const DesignContainer = function () {
   const { activeDesign, designLoad, dispatch } = useProfile();
   const { handleModal } = useApp();
   const [designs, setDesigns] = useState<string[]>([]);
-  const [count, setCount] = useState(0);
+  const [cursor, setCursor] = useState(0);
 
   function handleChange(e: ChangeEvent<HTMLInputElement>) {
     const { files } = e.target;
@@ -35,7 +35,7 @@ const DesignContainer = function () {
 
   useEffect(() => {
     if(designLoad) {
-      fetch(`/profile/designs?count=${count}`, {
+      fetch(`/profile/designs?cursor=${cursor}`, {
         method: "GET",
         mode: "cors",
         credentials: "include",
@@ -58,9 +58,9 @@ const DesignContainer = function () {
         } 
 
         if (designs.length < 5) {
-          setCount(0)
+          setCursor(0);
         } else {
-          setCount(5);
+          setCursor(cursor + 5);
         }
         setDesigns(dataArr);
         if (dispatch) {
@@ -75,7 +75,7 @@ const DesignContainer = function () {
   
     }
     
-  }, [designLoad, dispatch])
+  }, [designs,designLoad, dispatch])
   
 
   console.log(designs);

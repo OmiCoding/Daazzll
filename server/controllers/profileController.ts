@@ -5,6 +5,14 @@ import busboy from "busboy";
 import { storeUploadData } from "../utils/helpers/profileHelpers";
 import prismaClient from "../prismaClient";
 import storeDesign from "../utils/helpers/storeDesign";
+import getDesignData from "../utils/helpers/getDesignData";
+import { DesignData } from "../custom-types"
+
+
+interface DesignDataRes {
+  data: DesignData[]; 
+  cursor: number | undefined; 
+}
 
 export const profile: RequestHandler = async function (
   req: Request,
@@ -152,18 +160,20 @@ export const getDesigns: RequestHandler = async function (
   res: Response,
   next: NextFunction
 ) {
-  const { count } = req.params;
-  
   try {
-    const data = await prismaClient.designs.findMany({
-    where: {
-      userId: req.user.id,
-    },
-    select: {
-      url: true,
-    }, 
-    skip: parseInt(count),
-  })
+  if(!req.params) {
+    throw new Error("Invalid parameters");
+  }
+  let data: DesignDataRes;
+  const { cursor } = req.params;
+
+  const parsedCursor = parseInt(cursor);
+
+  if(parsedCursor === 0) {
+    data = await getDesignData(req.user.userId);
+  } else {
+    data = await getDesignData(req.user.userId, parsedCursor); 
+  }
 
   return res.status(200).json({
     data,
