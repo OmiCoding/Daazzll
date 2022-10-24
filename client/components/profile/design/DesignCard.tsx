@@ -7,7 +7,11 @@ const DesignCard: React.FC<{
   return (
     <li className="designs__card">
       <button className="designs__card-btn" onClick={(e) => handleClick(e)} />
-    </li>
+      <img style={{
+        width: "100%",
+        height: "100%",
+      }} src={elem} />
+    </li> 
   );
 };
 

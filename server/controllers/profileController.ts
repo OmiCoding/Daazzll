@@ -6,12 +6,15 @@ import { storeUploadData } from "../utils/helpers/profileHelpers";
 import prismaClient from "../prismaClient";
 import storeDesign from "../utils/helpers/storeDesign";
 import getDesignData from "../utils/helpers/getDesignData";
+// import fetchDesigns from "../utils/cloudinary/fetchDesigns";
 import { DesignData } from "../custom-types"
+import cloudinaryDesignSetup from "../utils/cloudinary/fetchDesigns";
 
 
 interface DesignDataRes {
   data: DesignData[]; 
-  cursor: number | undefined; 
+  cursor: number | null; 
+  version: number | undefined;
 }
 
 export const profile: RequestHandler = async function (
@@ -161,23 +164,32 @@ export const getDesigns: RequestHandler = async function (
   next: NextFunction
 ) {
   try {
-  if(!req.params) {
+  if (!req.params) {
     throw new Error("Invalid parameters");
   }
-  let data: DesignDataRes;
+  let dbData: DesignDataRes;
   const { cursor } = req.params;
 
   const parsedCursor = parseInt(cursor);
 
-  if(parsedCursor === 0) {
-    data = await getDesignData(req.user.userId);
+  if (parsedCursor === 0) {
+    dbData = await getDesignData(req.user.userId);
   } else {
-    data = await getDesignData(req.user.userId, parsedCursor); 
+    dbData = await getDesignData(req.user.userId, parsedCursor); 
   }
 
+  const idArr: string[] = [];
+  
+  for (let i=0; i < dbData.data.length; i++) {
+    idArr.push(dbData.data[i].imageId);
+  }
+
+  const imgs = await cloudinaryDesignSetup(idArr, dbData.version);
+
   return res.status(200).json({
-    data,
-    msg: "Ok"
+   imgs: imgs,
+   cursor: dbData.cursor,
+   msg: "Ok"
   })
   } catch(e) {
     return next(e);
@@ -207,6 +219,7 @@ export const postDesigns: RequestHandler = async function (
             type: result.resource_type,
             url: result.secure_url,
             folder: result.folder,
+            version: result.version,
           });
         }
       }

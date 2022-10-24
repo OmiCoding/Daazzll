@@ -31,5 +31,7 @@ export type validCheck = (...args: any[]) => string | boolean;
 
 export interface DesignData {
   id: number;
-  url: string;
+  url?: string;
+  imageId: string;
+  version: number;
 }

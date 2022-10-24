@@ -26,6 +26,7 @@
   border-radius: 20px;
   transition: all 400ms var(--transition-1);
   z-index: 0;
+  overflow: hidden;
 }
 
 .designs__card:hover {

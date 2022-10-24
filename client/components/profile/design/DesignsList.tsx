@@ -15,7 +15,11 @@ const DesignsList: React.FC<ListProps> = function({ designs, handleClick }) {
         return (
           <DesignCard key={ind} elem={elem} handleClick={handleClick} />
         );
-      })) : (<div></div>)}
+      })) : (designs.map((elem, ind) => {
+        return (
+          <DesignCard key={ind} elem={elem} handleClick={handleClick} />
+        );
+      }))}
     </>
   );
 }

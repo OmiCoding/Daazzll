@@ -84,6 +84,7 @@ model designs {
   type      String
   url       String
   folder    String
+  version   Int
   createdAt DateTime        @default(now())
   userId    Int             
   user      accounts        @relation(fields: [userId], references: [id])

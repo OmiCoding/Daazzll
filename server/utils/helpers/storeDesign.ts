@@ -7,29 +7,14 @@ interface uploadContext {
   url: string;
   type: string;
   folder: string;
+  version: number;
 }
 
 async function storeDesign(
   req: Request,
-  { imageId, ext, type, url, folder }: uploadContext
+  { imageId, ext, type, url, folder, version }: uploadContext
 ) {
   try {
-    // console.log(req.user);
-    // await prismaClient.accounts.findUnique({
-    //   where: {
-    //     email_username: {
-    //       email: req.user.email,
-    //       username: req.user.username,
-    //     }
-    //   },
-    //   select: {
-    //     designs: {
-          
-    //     }
-    //   }
-    // });
-
-
     await prismaClient.designs.create({
       data: {
         imageId,
@@ -37,6 +22,7 @@ async function storeDesign(
         type,
         url,
         folder,
+        version,
         userId: req.user.userId,
       },
     });
