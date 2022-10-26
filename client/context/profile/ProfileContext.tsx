@@ -14,6 +14,8 @@ const ProfileContext = createContext<ProfileContextInit>({
   website: "",
   design: null,
   designLoad: true,
+  designs: [],
+  count: 0,
 });
 
 export default ProfileContext;

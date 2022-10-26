@@ -1,6 +1,12 @@
 import React from "react";
 
-function DesignsContent() {
+interface ModalData {
+  design: string;
+}
+
+const DesignsContent: React.FC<ModalData> = function ({ design }) {
+  console.log(design);
+  
   return (
     <section className="designs__mdl-content">
       <div className="designs-img-wrapper"></div>

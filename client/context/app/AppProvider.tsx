@@ -15,6 +15,7 @@ const AppProvider: React.FC<AppProps> = function ({ children }) {
     modalActive: false,
     absHeader: false,
     location: "",
+    design: "",
   };
 
   if (window) {
@@ -26,10 +27,22 @@ const AppProvider: React.FC<AppProps> = function ({ children }) {
     appInit
   );
 
-  function handleModal(event: MouseEvent<HTMLButtonElement>, modal: string) {
+  function handleModal(event: MouseEvent<HTMLButtonElement>, modal: string, modalData?: any) {
+    if (modalData.key === "design") {
+      return dispatch({
+        type: MODAL,
+        data: {
+          modal,
+          design: modalData.design
+        }
+      })
+    } 
     return dispatch({
       type: MODAL,
-      data: modal,
+      data: {
+        modal,
+        modalData,
+      }
     });
   }
 

@@ -1,6 +1,5 @@
 import React, { useState } from "react";
 import loadable from "@loadable/component";
-
 import ProfileHeader from "./header/ProfileHeader";
 import AddDesignSection from "./design/AddDesignSection";
 import DesignSubmit from "./design/DesignSubmit";

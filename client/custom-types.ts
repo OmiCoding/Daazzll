@@ -9,6 +9,7 @@ export interface AppContextInit {
   modal: string;
   absHeader: boolean;
   location: string;
+  design: string;
   dispatch?: Dispatch<Action>;
   handleModal?: (e: MouseEvent<HTMLButtonElement>, modal: string) => void;
   closeModal?: (e?: MouseEvent<HTMLButtonElement>) => void;
@@ -40,9 +41,12 @@ export interface ProfileContextInit {
   descActive: boolean;
   design: File | null;
   designLoad: boolean;
+  designs: string[];
+  count: number;
   getProfileData?: () => void;
   getProfile?: (username: string) => void;
   setLink?: (name: string, link: string) => void;
+  setDesigns?: () => void;
   dispatch?: Dispatch<Action>;
   activeDesign?: (file: File) => void;
   resetDesign?: () => void;

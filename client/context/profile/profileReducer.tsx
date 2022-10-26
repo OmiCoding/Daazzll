@@ -6,6 +6,7 @@ import {
   RESET_DESIGN,
   SET_LINK,
   DONE_LOAD,
+  SET_CURSOR_DESIGNS,
 } from "./cases";
 
 const profileReducer: ProfileReducer<ProfileContextInit, Action> = function (
@@ -19,11 +20,12 @@ const profileReducer: ProfileReducer<ProfileContextInit, Action> = function (
         ...prevState,
         init: false,
         user: true,
+        designLoad: false,
+        designs: [...data.imgs],
+        count: data.cursor,
         username: data.username,
       };
     case GET_PROFILE:
-      const { discord, twitter } = data;
-
       return {
         ...prevState,
         init: false,
@@ -50,6 +52,12 @@ const profileReducer: ProfileReducer<ProfileContextInit, Action> = function (
         ...prevState,
         design: null,
       };
+    case SET_CURSOR_DESIGNS:
+      return {
+        ...prevState,
+        designs: [...data.imgs],
+        count: data.cursor,
+      }
     case DONE_LOAD:
       return {
         ...prevState,

@@ -7,7 +7,8 @@ import DesignsContent from "./DesignsContent";
 import "../../../../styles/profile/design-modal.css";
 
 const Designs = function () {
-  const { closeModal, modalActive } = useApp();
+  const { closeModal, modalActive, design } = useApp();
+
 
   const wrapElem = useRef<HTMLDivElement>(null);
 
@@ -26,7 +27,6 @@ const Designs = function () {
         }
       }
     }
-
     return debounce(dbResize, 500);
   }, [modalActive]);
 
@@ -44,7 +44,7 @@ const Designs = function () {
 
       window.removeEventListener("resize", handleResize);
     };
-  }, [wrapElem]);
+  }, [wrapElem, handleResize]);
 
   return (
     <CSSTransition
@@ -60,19 +60,10 @@ const Designs = function () {
             Close
           </button>
         </div> */}
-        <DesignsContent />
+        <DesignsContent design={design} />
       </div>
     </CSSTransition>
   );
 };
 
 export default Designs;
-
-// style={{
-//   width: "100%",
-//   height: "100vh",
-//   margin: "0",
-//   borderRadius: "0",
-//   maxWidth: "unset",
-//   overflowY: "auto",
-// }}

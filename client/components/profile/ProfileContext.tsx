@@ -1,8 +1,6 @@
 import React from "react";
-
 import ProfileProvider from "../../context/profile/ProfileProvider";
 import ProfileSetup from "../../context/profile/ProfileSetup";
-
 import ProfileContainer from "./ProfileContainer";
 
 const ProfileContext = function () {
