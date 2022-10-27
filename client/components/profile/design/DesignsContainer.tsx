@@ -7,7 +7,6 @@ import DesignsList from "./DesignsList";
 const DesignContainer = function () {
   const { activeDesign, designs, setDesigns } = useProfile();
   const { handleModal } = useApp();
-
   function handleChange(e: ChangeEvent<HTMLInputElement>) {
     const { files } = e.target;
      
@@ -19,9 +18,12 @@ const DesignContainer = function () {
     e.target.value = "";
   }
 
-  function handleClick(e: MouseEvent<HTMLButtonElement>) {
+  function handleClick(e: MouseEvent<HTMLButtonElement>, url: string) {
     if (handleModal) {
-      return handleModal(e, "design");
+      return handleModal(e, "design", {
+        key: "design",
+        url,
+      });
     }
   }
   

@@ -141,7 +141,28 @@ const ProfileProvider: React.FC<ProviderProps> = function ({ children }) {
         if (setAuth) {
           setAuth(username);
         }
-  
+
+        const avatarData = await fetch("/profile/avatar", {
+          method: "GET",
+          mode: "cors",
+          credentials: "include",
+          headers: {
+            "Content-Type": "application/json",
+          }
+        })
+
+        const bannerData = await fetch("/profile/banner", {
+          method: "GET",
+          mode: "cors",
+          credentials: "include",
+          headers: {
+            "Content-Type": "application/json",
+          }
+        })
+
+        const avatarUrl = await avatarData.json();
+        const bannerUrl = await bannerData.json();
+
         const designData = await fetch(`/profile/designs?cursor=${count}`, {
           method: "GET",
           mode: "cors",
@@ -159,6 +180,8 @@ const ProfileProvider: React.FC<ProviderProps> = function ({ children }) {
             username,
             imgs,
             cursor,
+            avatarUrl,
+            bannerUrl,
           }
         })
       }

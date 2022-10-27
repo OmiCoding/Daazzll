@@ -11,10 +11,10 @@ const appReducer = function (prevState: AppContextInit, action: Action) {
         modal: "",
       };
     case MODAL:
-      if(data.design) {
+      if(data.modal === "design") {
         return {
           ...prevState,
-          modal: action.data,
+          modal: data.modal,
           modalActive: true,
           design: data.design,
         };        

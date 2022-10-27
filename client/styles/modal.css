@@ -224,11 +224,12 @@
 
   .modal-wrapper-3 {
     right: 0;
-    width: 92%;
-    min-height: 93vh;
-    height: 93vh;
+    width: 0px;
+    min-height: 82vh;
+    min-width: 1100px;
+    height: 753.6px;
     margin: auto;
-    margin-top: 1.4rem;
+    margin-top: 4.4rem;
     padding: 0;
     overflow-y: unset;
   }

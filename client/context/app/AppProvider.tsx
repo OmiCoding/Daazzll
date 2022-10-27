@@ -16,6 +16,8 @@ const AppProvider: React.FC<AppProps> = function ({ children }) {
     absHeader: false,
     location: "",
     design: "",
+    avatar: "",
+    banner: "",
   };
 
   if (window) {
@@ -33,7 +35,7 @@ const AppProvider: React.FC<AppProps> = function ({ children }) {
         type: MODAL,
         data: {
           modal,
-          design: modalData.design
+          design: modalData.url,
         }
       })
     } 

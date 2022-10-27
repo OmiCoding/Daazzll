@@ -11,7 +11,7 @@ export interface AppContextInit {
   location: string;
   design: string;
   dispatch?: Dispatch<Action>;
-  handleModal?: (e: MouseEvent<HTMLButtonElement>, modal: string) => void;
+  handleModal?: (e: MouseEvent<HTMLButtonElement>, modal: string, modalData?: any) => void;
   closeModal?: (e?: MouseEvent<HTMLButtonElement>) => void;
   getLocation?: (path: string) => void;
 }

@@ -1,14 +1,16 @@
 import { RequestHandler, Request, Response, NextFunction } from "express";
 import { v2 as cloudinary } from "cloudinary";
 import busboy from "busboy";
-
 import { storeUploadData } from "../utils/helpers/profileHelpers";
 import prismaClient from "../prismaClient";
 import storeDesign from "../utils/helpers/storeDesign";
 import getDesignData from "../utils/helpers/getDesignData";
-// import fetchDesigns from "../utils/cloudinary/fetchDesigns";
 import { DesignData } from "../custom-types"
-import cloudinaryDesignSetup from "../utils/cloudinary/fetchDesigns";
+import getAvatarData from "../utils/helpers/getAvatarData";
+import getBannerData from "../utils/helpers/getBannerData";
+import setupAvatarUrl from "../utils/cloudinary/setupAvatarUrl";
+import setupBannerUrl from "../utils/cloudinary/setupBannerUrl";
+import setupDesignUrls from "../utils/cloudinary/setupDesignUrls";
 
 
 interface DesignDataRes {
@@ -158,7 +160,36 @@ export const uploadProfileImgs: RequestHandler = async function (
   }
 };
 
-export const getDesigns: RequestHandler = async function (
+export const getAvatarImg: RequestHandler = async function (req: Request, res: Response, next: NextFunction) {
+  try {
+    const dbData = await getAvatarData(req.user.userId);
+    let avatarData;
+
+    if (dbData) {
+       avatarData = setupAvatarUrl(dbData.imageId, dbData.ext, dbData.version);
+    }
+    
+    return res.status(200).json(avatarData);
+  } catch(e) {
+    return next(e);
+  }
+}
+
+export const getBannerImg: RequestHandler = async function(req:Request, res: Response, next: NextFunction) {
+  try {
+    const dbData = await getBannerData(req.user.userId);
+    let bannerData;
+    if(dbData) {
+      bannerData = setupBannerUrl(dbData.imageId, dbData.ext, dbData.version);
+    }
+
+    return res.status(200).json(bannerData);
+  } catch(e) {
+    return next(e);
+  }
+}
+
+export const getDesigns: RequestHandler = async function(
   req: Request,
   res: Response,
   next: NextFunction
@@ -184,7 +215,7 @@ export const getDesigns: RequestHandler = async function (
     idArr.push(dbData.data[i].imageId);
   }
 
-  const imgs = await cloudinaryDesignSetup(idArr, dbData.version);
+  const imgs = setupDesignUrls(idArr, dbData.version);
 
   return res.status(200).json({
    imgs: imgs,
@@ -196,7 +227,7 @@ export const getDesigns: RequestHandler = async function (
   }
 };
 
-export const postDesigns: RequestHandler = async function (
+export const postDesigns: RequestHandler = async function(
   req: Request,
   res: Response,
   next: NextFunction

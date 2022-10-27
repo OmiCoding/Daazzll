@@ -9,7 +9,6 @@ import "../../../../styles/profile/design-modal.css";
 const Designs = function () {
   const { closeModal, modalActive, design } = useApp();
 
-
   const wrapElem = useRef<HTMLDivElement>(null);
 
   const handleResize = useMemo(() => {

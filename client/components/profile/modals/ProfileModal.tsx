@@ -18,6 +18,8 @@ const ProfileModal: React.FC = function () {
 
   const { modal, modalActive } = useApp();
 
+  console.log(modal)
+
   if (modal === "media-links") {
     modalItem = <MediaLinks />;
   } else if (modal === "user-photo" || modal === "banner") {

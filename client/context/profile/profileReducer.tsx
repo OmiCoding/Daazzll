@@ -24,6 +24,8 @@ const profileReducer: ProfileReducer<ProfileContextInit, Action> = function (
         designs: [...data.imgs],
         count: data.cursor,
         username: data.username,
+        avatar: data.avatarUrl,
+        banner: data.bannerUrl,
       };
     case GET_PROFILE:
       return {
