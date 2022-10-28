@@ -129,3 +129,20 @@ export const getBannerData = async function(userId: number) {
 
   return data;
 }
+
+
+export const getAvatarData = async function(userId: number) {
+  const data = await prismaClient.acc_avatars.findUnique({
+    where: {
+      profileId: userId,
+    },
+    select: {
+      imageId: true,
+      version: true,
+      ext: true,
+    }
+  });
+
+  return data;
+
+}
