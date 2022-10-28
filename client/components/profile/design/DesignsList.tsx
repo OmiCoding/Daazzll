@@ -3,7 +3,7 @@ import DesignCard from "./DesignCard";
 
 interface ListProps {
   designs: string[];
-  handleClick: (e: MouseEvent<HTMLButtonElement>) => void;
+  handleClick: (e: MouseEvent<HTMLButtonElement>, url: string) => void;
 }
 
 const arr = [1, 2, 3];
