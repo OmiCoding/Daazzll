@@ -1,12 +1,11 @@
 import { RequestHandler, Request, Response, NextFunction } from "express";
 import { v2 as cloudinary } from "cloudinary";
+import { DesignData } from "../custom-types"
 import busboy from "busboy";
-import { storeUploadData, getDesignData, getBannerData, getAvatarData } from "../utils/helpers/profileHelpers";
 import prismaClient from "../prismaClient";
 import storeDesign from "../utils/helpers/storeDesign";
-import { DesignData } from "../custom-types"
-import { setupAvatarUrl, setupBannerUrl } from "../utils/cloudinary/cloudinaryHelpers";
-import setupDesignUrls from "../utils/cloudinary/setupDesignUrls";
+import { storeUploadData, getDesignData, getBannerData, getAvatarData } from "../utils/helpers/profileHelpers";
+import { setupAvatarUrl, setupBannerUrl, setupDesignUrls } from "../utils/cloudinary/cloudinaryHelpers";
 
 
 interface DesignDataRes {
