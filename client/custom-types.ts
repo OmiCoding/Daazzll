@@ -46,6 +46,7 @@ export interface ProfileContextInit {
   getProfileData?: () => void;
   getProfile?: (username: string) => void;
   setLink?: (name: string, link: string) => void;
+  storeLink?: (url: string, option: string) => void;
   setDesigns?: () => void;
   dispatch?: Dispatch<Action>;
   activeDesign?: (file: File) => void;

@@ -220,6 +220,34 @@ const ProfileProvider: React.FC<ProviderProps> = function ({ children }) {
     });
   };
 
+  const storeLink = function(url: string, option: string) {
+    fetch("/profile/link", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        option: option.toLowerCase(),
+        url,
+      }),
+    })
+    //   .then((data) => data.json())
+    //   .then((res) => {
+    //     if (
+    //       res.msg === "Link has been added to account!" &&
+    //       res.name &&
+    //       res.link
+    //     ) {
+    //       if (setLink) {
+    //         return setLink(res.name, res.link);
+    //       }
+    //     }
+    //   })
+    //   .catch((err) => {
+    //     console.error(err);
+    //   });
+  }
+
   const activeDesign = function (file: File) {
     return dispatch({
       type: "ACTIVE_DESIGN",
@@ -262,7 +290,7 @@ const ProfileProvider: React.FC<ProviderProps> = function ({ children }) {
               imgs,
             }
           })
-        }
+      }
     } catch(e) {
       console.error(e);
     }

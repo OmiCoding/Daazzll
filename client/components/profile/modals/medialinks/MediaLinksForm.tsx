@@ -4,7 +4,7 @@ import useProfile from "../../../../hooks/profile/useProfile";
 import MLSelectSection from "./MLSelectSection";
 
 const MediaLinksForm: React.FC = function () {
-  const { setLink } = useProfile();
+  const { setLink, storeLink } = useProfile();
 
   const [state, setState] = useState({
     link: "",
@@ -65,32 +65,10 @@ const MediaLinksForm: React.FC = function () {
 
     // proper validation required in the future
     if (link.length === 0) return;
-    fetch("/profile/link", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-        Authorization: `Bearer ${accessToken}`,
-      },
-      body: JSON.stringify({
-        name: option.toLowerCase(),
-        link: link,
-      }),
-    })
-      .then((data) => data.json())
-      .then((res) => {
-        if (
-          res.msg === "Link has been added to account!" &&
-          res.name &&
-          res.link
-        ) {
-          if (setLink) {
-            return setLink(res.name, res.link);
-          }
-        }
-      })
-      .catch((err) => {
-        console.error(err);
-      });
+
+    if (storeLink) {
+      storeLink(link, option);
+    }
   };
 
   return (
