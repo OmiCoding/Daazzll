@@ -153,6 +153,9 @@ export const storeUploadData = async function (
   }
 };
 
+export const storeLinkData = async function(url: string, option: string) {
+  
+}
 
 export const storeDesign = async function(
   req: Request,
@@ -174,3 +177,4 @@ export const storeDesign = async function(
     console.error(e);
   }
 }
+
