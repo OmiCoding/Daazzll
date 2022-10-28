@@ -220,8 +220,8 @@ const ProfileProvider: React.FC<ProviderProps> = function ({ children }) {
     });
   };
 
-  const storeLink = function(url: string, option: string) {
-    fetch("/profile/link", {
+  const storeLink = async function(url: string, option: string) {
+    const data = await fetch("/profile/link", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
