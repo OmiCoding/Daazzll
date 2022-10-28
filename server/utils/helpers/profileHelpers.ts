@@ -113,3 +113,19 @@ export const getDesignData = async function(id: number, cursorId?: number) {
 
   return { data, cursor, version };
 }
+
+
+export const getBannerData = async function(userId: number) {
+  const data = await prismaClient.acc_banners.findUnique({
+    where: {
+      profileId: userId,
+    },
+    select: {
+      imageId: true,
+      version: true,
+      ext: true,
+    }
+  });
+
+  return data;
+}
