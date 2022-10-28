@@ -330,9 +330,7 @@ export const createLink: RequestHandler = async function (req, res, next) {
         },
       },
     });
-
-    console.log(result);
-
+    
     return res.status(200).json({
       msg: "Link has been added to account!",
       name,

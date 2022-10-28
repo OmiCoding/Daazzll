@@ -11,10 +11,6 @@ const MediaLinks = function () {
 
   useEffect(() => {
     const currElem = wrapElem.current;
-
-    console.log(window.innerWidth);
-    console.log(currElem);
-
     if (currElem && window.innerWidth > 1280) {
       currElem.style.top = "" + window.scrollY + "px";
     }

@@ -1,5 +1,4 @@
 import { Router } from "express";
-import { createLink } from "../controllers/authController";
 import {
   profile,
   profileData,
@@ -8,6 +7,7 @@ import {
   getDesigns,
   getAvatarImg,
   getBannerImg,
+  createLink,
 } from "../controllers/profileController";
 import { checkAccToken, checkUser } from "../middleware/auth/authMidWare";
 
@@ -25,7 +25,7 @@ router.post("/designs", postDesigns);
 
 router.post("/upload", uploadProfileImgs);
 
-router.post("/link", [checkAccToken], createLink);
+router.post("/link", createLink);
 
 router.get("/:username", profile);
 

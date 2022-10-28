@@ -65,7 +65,6 @@ const MediaLinksForm: React.FC = function () {
 
     // proper validation required in the future
     if (link.length === 0) return;
-
     fetch("/profile/link", {
       method: "POST",
       headers: {
