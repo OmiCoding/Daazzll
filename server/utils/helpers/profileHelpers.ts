@@ -18,8 +18,6 @@ interface designContext extends CommonContext {
   version: number;
 }
  
-
-
 export const getDesignData = async function(id: number, cursorId?: number) {
   let data: DesignData[];
   let cursor: number | null;
@@ -66,7 +64,6 @@ export const getDesignData = async function(id: number, cursorId?: number) {
   return { data, cursor, version };
 }
 
-
 export const getBannerData = async function(userId: number) {
   const data = await prismaClient.acc_banners.findUnique({
     where: {
@@ -81,7 +78,6 @@ export const getBannerData = async function(userId: number) {
 
   return data;
 }
-
 
 export const getAvatarData = async function(userId: number) {
   const data = await prismaClient.acc_avatars.findUnique({
@@ -155,7 +151,7 @@ export const storeUploadData = async function (
 
 export const storeLinkData = async function(url: string, option: string) {
   
-}
+};
 
 export const storeDesign = async function(
   req: Request,
@@ -176,5 +172,5 @@ export const storeDesign = async function(
   } catch (e: any) {
     console.error(e);
   }
-}
+};
 

@@ -142,24 +142,35 @@ const ProfileProvider: React.FC<ProviderProps> = function ({ children }) {
           setAuth(username);
         }
 
-        const avatarData = await fetch("/profile/avatar", {
-          method: "GET",
-          mode: "cors",
-          credentials: "include",
-          headers: {
-            "Content-Type": "application/json",
-          }
-        })
+        let avatarData: any;
+        let bannerData: any;
 
-        const bannerData = await fetch("/profile/banner", {
-          method: "GET",
-          mode: "cors",
-          credentials: "include",
-          headers: {
-            "Content-Type": "application/json",
-          }
-        })
+        try {
+          avatarData = await fetch("/profile/avatar", {
+            method: "GET",
+            mode: "cors",
+            credentials: "include",
+            headers: {
+              "Content-Type": "application/json",
+            }
+          })
+        } catch(e) {
+          console.error(e);
+        }
 
+        try {
+          bannerData = await fetch("/profile/banner", {
+            method: "GET",
+            mode: "cors",
+            credentials: "include",
+            headers: {
+              "Content-Type": "application/json",
+            }
+          })
+        } catch(e) {
+          console.error(e);
+        }
+        
         const avatarUrl = await avatarData.json();
         const bannerUrl = await bannerData.json();
 
