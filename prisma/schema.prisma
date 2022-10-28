@@ -40,15 +40,22 @@ model acc_settings {
 model acc_profiles {
   id        Int             @id @default(autoincrement())
   pitch     String?
-  website   String?
+  userId    Int             @unique         
+  user      accounts        @relation(fields: [userId], references: [id])
+  social    acc_socials?
+  avatar    acc_avatars?  
+  banner    acc_banners?
+}
+
+model acc_socials {
+  id        Int
+  webstite  String?
   discord   String?
   facebook  String?
   instagram String?
   twitter   String?
-  userId    Int             @unique         
-  user      accounts        @relation(fields: [userId], references: [id])
-  avatar    acc_avatars?  
-  banner    acc_banners?
+  profileId Int             @unique
+  profile   acc_profiles    @relation(fields: [profileId], references: [userId])
 }
 
 model acc_avatars {
