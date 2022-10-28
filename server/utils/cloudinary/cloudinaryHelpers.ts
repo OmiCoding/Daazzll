@@ -9,3 +9,11 @@ export const setupAvatarUrl = function(imageId: string, ext: string, version: nu
     version: version ? "" + version: undefined,
   })
 }
+
+export const setupBannerUrl = function setupBannerUrl(imageId: string, ext: string, version: number) {
+  return cloudinary.url(`${imageId}.${ext}`, {
+    ...authConfig,
+    dpr: "auto",
+    version: version ? "" + version : undefined,
+  })
+}
