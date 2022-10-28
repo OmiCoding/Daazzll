@@ -17,3 +17,14 @@ export const setupBannerUrl = function setupBannerUrl(imageId: string, ext: stri
     version: version ? "" + version : undefined,
   })
 }
+
+export const setupDesignUrls = function setupDesignUrls(idArr: string[], version?: number) {
+  return idArr.map((elem) => {
+    return cloudinary.url(`${elem}.gif`, {
+      ...authConfig,
+      dpr: "auto",
+      width: "auto",
+      version: version ? "" + version : undefined,
+    })
+  })
+}
