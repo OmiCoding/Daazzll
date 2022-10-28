@@ -2,10 +2,7 @@ import { Request } from "express";
 import { DesignData } from "../../custom-types";
 import prismaClient from "../../prismaClient";
 
-
-
-interface uploadContext {
-  model: any;
+interface CommonContext {
   imageId: string;
   ext: string;
   url: string;
@@ -13,59 +10,14 @@ interface uploadContext {
   folder: string;
 }
 
-export const storeUploadData = async function (
-  req: Request,
-  { model, imageId, ext, type, url, folder }: uploadContext
-) {
-  try {
-    await prismaClient.acc_profiles.upsert({
-      where: {
-        userId: req.user.userId,
-      },
-      update: {
-        [model]: {
-          upsert: {
-            update: {
-              imageId,
-              ext,
-              type,
-              url,
-              folder,
-            },
-            create: {
-              imageId,
-              ext,
-              type,
-              url,
-              folder,
-            },
-          },
-        },
-      },
-      create: {
-        user: {
-          connect: {
-            email_username: {
-              email: req.user.email,
-              username: req.user.username,
-            },
-          },
-        },
-        [model]: {
-          create: {
-            imageId,
-            ext,
-            type,
-            url,
-            folder,
-          },
-        },
-      },
-    });
-  } catch (err) {
-    throw new Error("Something has gone wrong...");
-  }
-};
+interface profileContext extends CommonContext {
+  model: any;
+}
+
+interface designContext extends CommonContext {
+  version: number;
+}
+ 
 
 
 export const getDesignData = async function(id: number, cursorId?: number) {
@@ -145,4 +97,80 @@ export const getAvatarData = async function(userId: number) {
 
   return data;
 
+}
+
+export const storeUploadData = async function (
+  req: Request,
+  { model, imageId, ext, type, url, folder }: profileContext
+) {
+  try {
+    await prismaClient.acc_profiles.upsert({
+      where: {
+        userId: req.user.userId,
+      },
+      update: {
+        [model]: {
+          upsert: {
+            update: {
+              imageId,
+              ext,
+              type,
+              url,
+              folder,
+            },
+            create: {
+              imageId,
+              ext,
+              type,
+              url,
+              folder,
+            },
+          },
+        },
+      },
+      create: {
+        user: {
+          connect: {
+            email_username: {
+              email: req.user.email,
+              username: req.user.username,
+            },
+          },
+        },
+        [model]: {
+          create: {
+            imageId,
+            ext,
+            type,
+            url,
+            folder,
+          },
+        },
+      },
+    });
+  } catch (err) {
+    throw new Error("Something has gone wrong...");
+  }
+};
+
+
+export const storeDesign = async function(
+  req: Request,
+  { imageId, ext, type, url, folder, version }: designContext
+) {
+  try {
+    await prismaClient.designs.create({
+      data: {
+        imageId,
+        ext,
+        type,
+        url,
+        folder,
+        version,
+        userId: req.user.userId,
+      },
+    });
+  } catch (e: any) {
+    console.error(e);
+  }
 }

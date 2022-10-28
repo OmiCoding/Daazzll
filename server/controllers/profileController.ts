@@ -3,9 +3,14 @@ import { v2 as cloudinary } from "cloudinary";
 import { DesignData } from "../custom-types"
 import busboy from "busboy";
 import prismaClient from "../prismaClient";
-import storeDesign from "../utils/helpers/storeDesign";
-import { storeUploadData, getDesignData, getBannerData, getAvatarData } from "../utils/helpers/profileHelpers";
 import { setupAvatarUrl, setupBannerUrl, setupDesignUrls } from "../utils/cloudinary/cloudinaryHelpers";
+import { 
+  storeUploadData, 
+  getDesignData, 
+  getBannerData, 
+  getAvatarData, 
+  storeDesign
+ } from "../utils/helpers/profileHelpers";
 
 
 interface DesignDataRes {
