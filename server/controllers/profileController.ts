@@ -5,7 +5,7 @@ import { storeUploadData, getDesignData, getBannerData, getAvatarData } from "..
 import prismaClient from "../prismaClient";
 import storeDesign from "../utils/helpers/storeDesign";
 import { DesignData } from "../custom-types"
-import setupAvatarUrl from "../utils/cloudinary/setupAvatarUrl";
+import { setupAvatarUrl } from "../utils/cloudinary/cloudinaryHelpers";
 import setupBannerUrl from "../utils/cloudinary/setupBannerUrl";
 import setupDesignUrls from "../utils/cloudinary/setupDesignUrls";
 
