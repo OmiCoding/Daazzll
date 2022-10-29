@@ -33,9 +33,9 @@ const ProfileProvider: React.FC<ProviderProps> = function ({ children }) {
     count: 0,
   });
 
-  const { count,} = state;
-  const { setAuth, resetAuth } = useContext(AuthContext);
   const navigate = useNavigate();
+  const { count } = state;
+  const { setAuth, resetAuth } = useContext(AuthContext);
 
   // const getProfileData = useCallback(async () => {
   //   fetch("/checkauth", {
@@ -231,6 +231,33 @@ const ProfileProvider: React.FC<ProviderProps> = function ({ children }) {
       .catch((err) => console.error(err));
   }, []);
 
+  const submitPhoto = async function(file: File, modal: string, ext: string) {
+    const accessToken = Cookies.get("access_token");
+    const formData = new FormData();
+    try {
+      await fetch(`/profile/fileId?uploadType=${modal}`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${accessToken}`,
+        },
+        body: JSON.stringify({
+          folder: modal === "banner" ? "banners" : "avatars",
+          image: file.name,
+          ext: ext,
+          type: file.type,
+        }),
+      });
+    } catch(e) {
+      console.error(e);
+      return;
+    }
+
+
+
+    
+  };
+
   const setLink = function (name: string, link: string) {
     dispatch({
       type: SET_LINK,
@@ -323,6 +350,7 @@ const ProfileProvider: React.FC<ProviderProps> = function ({ children }) {
         ...state,
         getProfileData,
         getProfile,
+        submitPhoto,
         setLink,
         activeDesign,
         resetDesign,

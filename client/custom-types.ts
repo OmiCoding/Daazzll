@@ -45,6 +45,7 @@ export interface ProfileContextInit {
   count: number;
   getProfileData?: () => void;
   getProfile?: (username: string) => void;
+  submitPhoto?: (file: File, modal: string, ext: string) => void;
   setLink?: (name: string, link: string) => void;
   storeLink?: (url: string, option: string) => void;
   setDesigns?: () => void;

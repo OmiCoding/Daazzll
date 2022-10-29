@@ -15,6 +15,7 @@ import BannerSection from "./BannerSection";
 
 import "../../../../styles/profile/addprofimage.css";
 import "../../../../styles/wrappers.css";
+import useProfile from "../../../../hooks/profile/useProfile";
 
 interface UserImageState {
   profFile: File | null;
@@ -23,6 +24,7 @@ interface UserImageState {
 
 const AddUserImages = function () {
   const { handleModal, closeModal, modal, modalActive } = useApp();
+  const { submitPhoto } = useProfile();
 
   const line = useRef<HTMLDivElement>(null);
   const wrapElem = useRef<HTMLDivElement>(null);
@@ -67,8 +69,6 @@ const AddUserImages = function () {
   ) {
     e.preventDefault();
     if (!file) return;
-    const accessToken = Cookies.get("access_token");
-
     let ext: string;
 
     if (file.type === "image/png") {
@@ -114,24 +114,33 @@ const AddUserImages = function () {
     }
 
     try {
-      await fetch(
-        `/profile/fileId?uploadType=${
-          modal === "banner" ? "banner" : "profile"
-        }`,
-        {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-            Authorization: `Bearer ${accessToken}`,
-          },
-          body: JSON.stringify({
-            folder: modal === "banner" ? "banners" : "avatars",
-            image: file.name,
-            ext: ext,
-            type: file.type,
-          }),
-        }
-      );
+      if(!submitPhoto) return;
+  
+      if(modal === "profile") {
+        if(!profFile) return;
+        submitPhoto(profFile, "avatars", ext);
+      } else {
+        if(!bannerFile) return;
+        submitPhoto(bannerFile, "banner", ext);
+      }
+      // await fetch(
+      //   `/profile/fileId?uploadType=${
+      //     modal === "banner" ? "banner" : "profile"
+      //   }`,
+        // {
+        //   method: "POST",
+        //   headers: {
+        //     "Content-Type": "application/json",
+        //     Authorization: `Bearer ${accessToken}`,
+        //   },
+        //   body: JSON.stringify({
+        //     folder: modal === "banner" ? "banners" : "avatars",
+        //     image: file.name,
+        //     ext: ext,
+        //     type: file.type,
+        //   }),
+        // }
+      // );
 
       const formData = new FormData();
 
