@@ -125,25 +125,31 @@ const ProfileProvider: React.FC<ProviderProps> = function ({ children }) {
   
         return navigate("/login");
       } else {
-        const data = await fetch("/profile/profileData", {
-          method: "GET",
-          mode: "cors",
-          credentials: "include",
-          headers: {
-            "Content-Type": "application/json",
-          }
-        })
-  
-        const { msg, username } = await data.json();
+        let profileData: any;
+        let avatarData: any;
+        let bannerData: any;
+        let designData: any;
+
+        try {
+          profileData = await fetch("/profile/profileData", {
+            method: "GET",
+            mode: "cors",
+            credentials: "include",
+            headers: {
+              "Content-Type": "application/json",
+            }
+          })
+        } catch(e) {
+          console.error(e);
+        }
+        
+        const { msg, username } = await profileData.json();
   
         if (msg === "Unauthenticated") return;
   
         if (setAuth) {
           setAuth(username);
         }
-
-        let avatarData: any;
-        let bannerData: any;
 
         try {
           avatarData = await fetch("/profile/avatar", {
@@ -174,15 +180,19 @@ const ProfileProvider: React.FC<ProviderProps> = function ({ children }) {
         const avatarUrl = await avatarData.json();
         const bannerUrl = await bannerData.json();
 
-        const designData = await fetch(`/profile/designs?cursor=${count}`, {
-          method: "GET",
-          mode: "cors",
-          credentials: "include",
-          headers: {
-            "Content-Type": "application/json",
-          }
-        })      
-  
+        try {
+          designData = await fetch(`/profile/designs?cursor=${count}`, {
+            method: "GET",
+            mode: "cors",
+            credentials: "include",
+            headers: {
+              "Content-Type": "application/json",
+            }
+          })
+        } catch(e) {
+          console.error(e);
+        }
+              
         const { imgs, cursor } = await designData.json();
 
         dispatch({
