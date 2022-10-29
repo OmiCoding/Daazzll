@@ -149,8 +149,18 @@ export const storeUploadData = async function (
   }
 };
 
-export const storeLinkData = async function(url: string, option: string) {
-  
+export const storeLinkData = async function(id: number, url: string, option: string) {
+  const data = await prismaClient.acc_socials.create({
+    data: {
+      [option]: url,
+      profileId: id,
+    },
+    select: {
+      [option]: true,
+    }
+  });
+
+  return data;
 };
 
 export const storeDesign = async function(
