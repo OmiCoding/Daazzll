@@ -19,7 +19,7 @@ const ProfileSection: React.FC<SectionProps> = function ({
 
   return (
     <CSSTransition
-      in={modal === "user-photo"}
+      in={modal === "avatar"}
       timeout={300}
       appear={true}
       classNames="slideleft"
@@ -32,7 +32,7 @@ const ProfileSection: React.FC<SectionProps> = function ({
         />
 
         <UserImagesForm
-          name={"profile"}
+          name={"avatar"}
           uploaded={uploaded}
           handleSubmit={handleSubmit}
           handleChange={handleChange}

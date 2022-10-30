@@ -19,7 +19,7 @@ const BannerContainer: React.FC<BannerProps> = function ({ user }) {
               <div className="add-img-btn-wrapper">
                 <div className="aimg-pos-rel-wrap">
                   <button
-                    onClick={(e) => handleModal!(e, "user-photo")}
+                    onClick={(e) => handleModal!(e, "avatar")}
                     className="add-img__btn"
                   >
                     <i className="fa-solid fa-camera" />

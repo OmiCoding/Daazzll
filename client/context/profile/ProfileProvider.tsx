@@ -228,6 +228,8 @@ const ProfileProvider: React.FC<ProviderProps> = function ({ children }) {
             type: file.type,
           }),
         });
+
+        console.log('jello?');
       } catch(e) {
         console.error(e);
         return;
@@ -240,7 +242,6 @@ const ProfileProvider: React.FC<ProviderProps> = function ({ children }) {
       }
 
       try {
-        // Use .then() to grab avatar or banner
         const uploadRes = await fetch(
           `/profile/upload?uploadType=${
             modal === "banner" ? "banners" : "avatars"

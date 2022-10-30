@@ -8,7 +8,7 @@ interface SwitchProps {
 const SwitchWrapper: React.FC<SwitchProps> = function ({ handleSwitch }) {
   const { modal } = useApp();
   const line = useRef<HTMLDivElement>(null);
-
+  
   return (
     <div className="mdl-switch-wrapper">
       <div className="switch-wrapper">
@@ -18,7 +18,7 @@ const SwitchWrapper: React.FC<SwitchProps> = function ({ handleSwitch }) {
               className="switch__btn"
               onClick={handleSwitch}
               style={{
-                color: modal === "user-photo" ? "#000000" : "#707a83",
+                color: modal === "avatar" ? "#000000" : "#707a83",
               }}
             >
               Profile
@@ -40,7 +40,7 @@ const SwitchWrapper: React.FC<SwitchProps> = function ({ handleSwitch }) {
             className="switch-bar"
             style={{
               transform:
-                modal === "user-photo" ? "translateX(0)" : "translateX(103px)",
+                modal === "avatar" ? "translateX(0)" : "translateX(103px)",
             }}
           />
         </ul>

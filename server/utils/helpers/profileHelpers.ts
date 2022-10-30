@@ -193,6 +193,7 @@ export const storeUploadData = async function (
               type,
               url,
               folder,
+              version,
             },
             create: {
               imageId,
@@ -200,6 +201,7 @@ export const storeUploadData = async function (
               type,
               url,
               folder,
+              version,
             },
           },
         },
@@ -220,6 +222,7 @@ export const storeUploadData = async function (
             type,
             url,
             folder,
+            version,
           },
         },
       },

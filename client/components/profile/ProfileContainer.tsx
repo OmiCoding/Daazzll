@@ -15,8 +15,6 @@ const ProfileContainer: React.FC = function () {
 
   const { user, username, pitch, design, resetDesign } = useProfile();
 
-  console.log(user, username);
-
   const postDesign = function () {
     if (!design) return;
     const formData = new FormData();

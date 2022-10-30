@@ -20,7 +20,7 @@ const ProfileModal: React.FC = function () {
 
   if (modal === "media-links") {
     modalItem = <MediaLinks />;
-  } else if (modal === "user-photo" || modal === "banner") {
+  } else if (modal === "avatar" || modal === "banner") {
     modalItem = <AddUserImages />;
   } else if (modal === "design") {
     modalItem = <Designs />;

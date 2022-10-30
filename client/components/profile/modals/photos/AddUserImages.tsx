@@ -41,7 +41,7 @@ const AddUserImages = function () {
       if (modal !== "banner") {
         handleModal(e, "banner");
       } else {
-        handleModal(e, "user-photo");
+        handleModal(e, "avatar");
       }
     }
   }
@@ -50,7 +50,7 @@ const AddUserImages = function () {
     const { name, files } = e.target;
     if (!files) return;
     if (files.length === 0) return;
-    if (name === "profile") {
+    if (name === "avatar") {
       setState({
         ...state,
         profFile: files[0],
@@ -113,10 +113,11 @@ const AddUserImages = function () {
       return;
     }
 
+   
     try {
       if(!submitPhoto) return;
-  
-      if(modal === "profile") {
+      
+      if(modal === "avatar") {
         if(!profFile) return;
         submitPhoto(profFile, "avatars", ext);
       } else {
