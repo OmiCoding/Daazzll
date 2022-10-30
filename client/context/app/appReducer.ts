@@ -21,7 +21,7 @@ const appReducer = function (prevState: AppContextInit, action: Action) {
       }
       return {
         ...prevState,
-        modal: action.data,
+        modal: data.modal,
         modalActive: true,
       };
     case GET_LOCATION:

@@ -124,26 +124,6 @@ const AddUserImages = function () {
         submitPhoto(bannerFile, "banner", ext);
       }
      
-      const formData = new FormData();
-
-      if (modal === "banner") {
-        formData.append("banner", file);
-      } else {
-        formData.append("avatar", file);
-      }
-
-      await fetch(
-        `/profile/upload?uploadType=${
-          modal === "banner" ? "banners" : "avatars"
-        }`,
-        {
-          method: "POST",
-          mode: "cors",
-          credentials: "include",
-          body: formData,
-        }
-      );
-
       if (closeModal) {
         return closeModal();
       }

@@ -30,15 +30,18 @@ const AppProvider: React.FC<AppProps> = function ({ children }) {
   );
 
   function handleModal(event: MouseEvent<HTMLButtonElement>, modal: string, modalData?: any) {
-    if (modalData.key === "design") {
-      return dispatch({
-        type: MODAL,
-        data: {
-          modal,
-          design: modalData.url,
-        }
-      })
-    } 
+    if(modalData) {
+      if (modalData.key === "design") {
+        return dispatch({
+          type: MODAL,
+          data: {
+            modal,
+            design: modalData.url,
+          }
+        })
+      }
+    }
+     
     return dispatch({
       type: MODAL,
       data: {

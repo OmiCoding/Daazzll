@@ -124,6 +124,7 @@ export const uploadProfileImgs: RequestHandler = async function (
             type: result.resource_type,
             url: result.secure_url,
             folder: result.folder,
+            version: result.verson,
           });
         }
       }
@@ -133,9 +134,24 @@ export const uploadProfileImgs: RequestHandler = async function (
       file.pipe(uploadStream);
     });
 
-    bb.on("close", () => {
-      console.log("Done parsing the form!");
+    bb.on("close", async () => {
+      let imageUrl = "";
+      if(req.query.uploadType === "banners") {
+        const data = await getBannerData(req.user.userId);
+        if(data) {
+          const { imageId, version, ext } = data;
+          imageUrl = setupBannerUrl(imageId, ext, version);
+        }
+      } else {
+        const data = await getAvatarData(req.user.userId);
+        if(data) {
+          const { imageId, version, ext } = data;
+          imageUrl = setupAvatarUrl(imageId, ext, version);
+        }
+      }
+
       res.status(200).json({
+        imageUrl,
         msg: "Ok.",
       });
     });

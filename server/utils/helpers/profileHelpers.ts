@@ -13,6 +13,7 @@ interface CommonContext {
 
 interface profileContext extends CommonContext {
   model: any;
+  version: number;
 }
 
 interface designContext extends CommonContext {
@@ -176,7 +177,7 @@ export const getAvatarData = async function(userId: number) {
 
 export const storeUploadData = async function (
   req: Request,
-  { model, imageId, ext, type, url, folder }: profileContext
+  { model, imageId, ext, type, url, folder, version }: profileContext
 ) {
   try {
     await prismaClient.acc_profiles.upsert({

@@ -240,7 +240,9 @@ const ProfileProvider: React.FC<ProviderProps> = function ({ children }) {
       }
 
       try {
-        await fetch(
+
+        // Use .then() to grab avatar or banner
+        const uploadRes = await fetch(
           `/profile/upload?uploadType=${
             modal === "banner" ? "banners" : "avatars"
           }`,
@@ -250,7 +252,15 @@ const ProfileProvider: React.FC<ProviderProps> = function ({ children }) {
             credentials: "include",
             body: formData,
           }
-        );  
+        )
+        
+      } catch(e) {
+        console.error(e);
+        return;
+      }
+
+      try {
+
       } catch(e) {
         console.error(e);
         return;

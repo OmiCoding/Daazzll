@@ -1,5 +1,6 @@
 import React from "react";
 import useApp from "../../../hooks/general/useApp";
+import useProfile from "../../../hooks/profile/useProfile";
 
 interface BannerProps {
   user: boolean;
@@ -7,6 +8,7 @@ interface BannerProps {
 
 const BannerContainer: React.FC<BannerProps> = function ({ user }) {
   const { handleModal } = useApp();
+  const { avatar } = useProfile();
 
   return (
     <div className="banner-wrapper">
@@ -29,6 +31,7 @@ const BannerContainer: React.FC<BannerProps> = function ({ user }) {
                 </div>
               </div>
             ) : null}
+            {avatar && <img className="avatar-img" src={avatar} />}
           </div>
         </div>
       </div>
