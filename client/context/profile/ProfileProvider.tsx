@@ -6,7 +6,7 @@ import { Action, ProfileContextInit, ProfileReducer } from "../../custom-types";
 import ProfileContext from "./ProfileContext";
 import profileReducer from "./profileReducer";
 import { useNavigate } from "react-router";
-import { GET_PROFILE, PROFILE_DATA, SET_CURSOR_DESIGNS, SET_LINK } from "./cases";
+import { GET_PROFILE, PROFILE_DATA, SET_IMAGE, SET_CURSOR_DESIGNS, SET_LINK } from "./cases";
 import AuthContext from "../auth/AuthContext";
 
 interface ProviderProps {
@@ -240,7 +240,6 @@ const ProfileProvider: React.FC<ProviderProps> = function ({ children }) {
       }
 
       try {
-
         // Use .then() to grab avatar or banner
         const uploadRes = await fetch(
           `/profile/upload?uploadType=${
@@ -252,8 +251,17 @@ const ProfileProvider: React.FC<ProviderProps> = function ({ children }) {
             credentials: "include",
             body: formData,
           }
-        )
+        ) 
         
+        const imageData = await uploadRes.json();
+
+        dispatch({
+          type: SET_IMAGE,
+          data: {
+            img: imageData.imageUrl,
+            modal,
+          }
+        })
       } catch(e) {
         console.error(e);
         return;

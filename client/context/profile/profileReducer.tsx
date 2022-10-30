@@ -7,6 +7,7 @@ import {
   SET_LINK,
   DONE_LOAD,
   SET_CURSOR_DESIGNS,
+  SET_IMAGE,
 } from "./cases";
 
 const profileReducer: ProfileReducer<ProfileContextInit, Action> = function (
@@ -44,6 +45,12 @@ const profileReducer: ProfileReducer<ProfileContextInit, Action> = function (
         ...prevState,
         [data.name]: data.link,
       };
+    case SET_IMAGE:
+      return {
+        ...prevState,
+        [data.modal]: data.img,
+      }
+
     case ACTIVE_DESIGN:
       return {
         ...prevState,

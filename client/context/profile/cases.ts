@@ -5,4 +5,4 @@ export const ACTIVE_DESIGN = "ACTIVE_DESIGN";
 export const RESET_DESIGN = "RESET_DESIGN";
 export const SET_CURSOR_DESIGNS = "SET_CURSOR_DESIGNS";
 export const DONE_LOAD = "DONE_LOAD";
-
+export const SET_IMAGE = "SET_IMAGE";
