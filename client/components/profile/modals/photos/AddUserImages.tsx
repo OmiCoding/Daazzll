@@ -123,25 +123,7 @@ const AddUserImages = function () {
         if(!bannerFile) return;
         submitPhoto(bannerFile, "banner", ext);
       }
-      // await fetch(
-      //   `/profile/fileId?uploadType=${
-      //     modal === "banner" ? "banner" : "profile"
-      //   }`,
-        // {
-        //   method: "POST",
-        //   headers: {
-        //     "Content-Type": "application/json",
-        //     Authorization: `Bearer ${accessToken}`,
-        //   },
-        //   body: JSON.stringify({
-        //     folder: modal === "banner" ? "banners" : "avatars",
-        //     image: file.name,
-        //     ext: ext,
-        //     type: file.type,
-        //   }),
-        // }
-      // );
-
+     
       const formData = new FormData();
 
       if (modal === "banner") {

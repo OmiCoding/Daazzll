@@ -1,6 +1,6 @@
 import { Router } from "express";
 import {
-  profile,
+  // profile,
   profileData,
   uploadProfileImgs,
   postDesigns,
@@ -27,6 +27,6 @@ router.post("/upload", uploadProfileImgs);
 
 router.post("/link", createLink);
 
-router.get("/:username", profile);
+// router.get("/:username", profile);
 
 export default router;

@@ -20,42 +20,42 @@ interface DesignDataRes {
   version: number | undefined;
 }
 
-export const profile: RequestHandler = async function (
-  req: Request,
-  res: Response,
-  next: NextFunction
-) {
-  try {
-    const { username } = req.params;
+// export const profile: RequestHandler = async function (
+//   req: Request,
+//   res: Response,
+//   next: NextFunction
+// ) {
+//   try {
+//     const { username } = req.params;
 
-    const data = await prismaClient.accounts.findFirst({
-      where: {
-        username: username,
-      },
-      select: {
-        username: true,
-        profile: {
-          select: {
-            website: true,
-            facebook: true,
-            discord: true,
-            instagram: true,
-            twitter: true,
-          },
-        },
-      },
-    });
-    return res.status(200).json({
-      ...data,
-      profile: {
-        ...data?.profile,
-      },
-    });
+//     const data = await prismaClient.accounts.findFirst({
+//       where: {
+//         username: username,
+//       },
+//       select: {
+//         username: true,
+//         profile: {
+//           select: {
+//             website: true,
+//             facebook: true,
+//             discord: true,
+//             instagram: true,
+//             twitter: true,
+//           },
+//         },
+//       },
+//     });
+//     return res.status(200).json({
+//       ...data,
+//       profile: {
+//         ...data?.profile,
+//       },
+//     });
     
-  } catch (e: any) {
-    return next(e);
-  }
-};
+//   } catch (e: any) {
+//     return next(e);
+//   }
+// };
 
 export const profileData: RequestHandler = async function (
   req: Request,
