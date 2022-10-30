@@ -6,6 +6,7 @@ import prismaClient from "../prismaClient";
 import { setupAvatarUrl, setupBannerUrl, setupDesignUrls } from "../utils/cloudinary/cloudinaryHelpers";
 import { 
   storeUploadData, 
+  getProfileData,
   getDesignData, 
   getBannerData, 
   getAvatarData, 
@@ -76,28 +77,11 @@ export const profileData: RequestHandler = async function (
       });
     }
 
-    const result = await prismaClient.accounts.findUnique({
-      where: {
-        email_username: {
-          email: email,
-          username: username,
-        },
-      },
-      select: {
-        username: true,
-        profile: {
-          select: {
-            website: true,
-            discord: true,
-            instagram: true,
-            twitter: true,
-          },
-        },
-      },
-    });
+    const result = await getProfileData(username, email);
 
+    
     return res.status(200).json({
-      username: result?.username,
+      data: {...result},
       user: true,
     });
   } catch (e) {

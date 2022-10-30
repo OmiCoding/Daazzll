@@ -17,7 +17,77 @@ interface profileContext extends CommonContext {
 interface designContext extends CommonContext {
   version: number;
 }
- 
+
+ interface SocialContext {
+  website?: string | null;
+  discord?: string | null;
+  twitter?: string | null;
+  instagram?: string | null;
+ }
+
+export const getProfileData = async function(username: string, email: string) {
+  const data = await prismaClient.accounts.findUnique({
+    where: {
+      email_username: {
+        email: email,
+        username: username,
+      },
+    },
+    select: {
+      username: true,
+      profile: {
+        select: {
+          avatar: {
+            select: {
+              url: true,
+            }
+          },
+          banner: {
+            select: {
+              url: true,
+            }
+          },
+          social: {
+            select: {
+              webstite: true,
+              discord: true,
+              instagram: true,
+              twitter: true,
+            }
+          }
+        }
+      },
+    },
+  });
+
+  let avatarUrl = "";
+  let bannerUrl = "";
+  let socialData: SocialContext = {};
+
+  if(data) {
+    if(data.profile) {
+      const profile = data.profile;
+      if(profile.avatar) {
+        avatarUrl = profile.avatar.url;
+      }
+      if(profile.banner) {
+        bannerUrl = profile.banner.url;
+      }
+      if(profile.social) {
+        socialData = {...profile.social};
+      }
+    }
+  }
+  
+
+  return {
+    username: data?.username,
+    avatar: avatarUrl,
+    banner: bannerUrl,
+    social: {...socialData}
+  };
+}
+
 export const getDesignData = async function(id: number, cursorId?: number) {
   let data: DesignData[];
   let cursor: number | null;
