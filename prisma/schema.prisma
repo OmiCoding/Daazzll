@@ -49,7 +49,7 @@ model acc_profiles {
 
 model acc_socials {
   id        Int             @id @default(autoincrement())
-  webstite  String?
+  website   String?
   discord   String?
   facebook  String?
   instagram String?
