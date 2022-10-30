@@ -1,6 +1,7 @@
 import { Request } from "express";
 import { DesignData } from "../../custom-types";
 import prismaClient from "../../prismaClient";
+import { setupAvatarUrl, setupBannerUrl } from "../cloudinary/cloudinaryHelpers";
 
 interface CommonContext {
   imageId: string;
@@ -40,11 +41,17 @@ export const getProfileData = async function(username: string, email: string) {
           avatar: {
             select: {
               url: true,
+              imageId: true,
+              ext: true,
+              version: true,
             }
           },
           banner: {
             select: {
               url: true,
+              imageId: true,
+              ext: true,
+              version: true,
             }
           },
           social: {
@@ -68,10 +75,12 @@ export const getProfileData = async function(username: string, email: string) {
     if(data.profile) {
       const profile = data.profile;
       if(profile.avatar) {
-        avatarUrl = profile.avatar.url;
+        const avatar = profile.avatar;
+        avatarUrl = setupAvatarUrl(avatar.imageId, avatar.ext, avatar.version);
       }
       if(profile.banner) {
-        bannerUrl = profile.banner.url;
+        const banner = profile.banner;
+        bannerUrl = setupBannerUrl(banner.imageId, banner.ext, banner.version);
       }
       if(profile.social) {
         socialData = {...profile.social};
@@ -82,8 +91,8 @@ export const getProfileData = async function(username: string, email: string) {
 
   return {
     username: data?.username,
-    avatar: avatarUrl,
-    banner: bannerUrl,
+    avatarUrl,
+    bannerUrl,
     social: {...socialData}
   };
 }

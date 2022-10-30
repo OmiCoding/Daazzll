@@ -16,6 +16,7 @@ const profileReducer: ProfileReducer<ProfileContextInit, Action> = function (
   const { data } = action;
   switch (action.type) {
     case PROFILE_DATA:
+      console.log(data);
       return {
         ...prevState,
         init: false,

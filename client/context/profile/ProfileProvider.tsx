@@ -27,6 +27,8 @@ const ProfileProvider: React.FC<ProviderProps> = function ({ children }) {
     facebook: "",
     instagram: "",
     website: "",
+    avatar: "",
+    banner: "",
     design: null,
     designLoad: true,
     designs: [],
@@ -126,8 +128,6 @@ const ProfileProvider: React.FC<ProviderProps> = function ({ children }) {
         return navigate("/login");
       } else {
         let profileData: any;
-        let avatarData: any;
-        let bannerData: any;
         let designData: any;
 
         try {
@@ -143,42 +143,13 @@ const ProfileProvider: React.FC<ProviderProps> = function ({ children }) {
           console.error(e);
         }
         
-        const { msg, username } = await profileData.json();
+        const { msg, username, avatarUrl, bannerUrl, social } = await profileData.json();
   
         if (msg === "Unauthenticated") return;
   
         if (setAuth) {
           setAuth(username);
         }
-
-        try {
-          avatarData = await fetch("/profile/avatar", {
-            method: "GET",
-            mode: "cors",
-            credentials: "include",
-            headers: {
-              "Content-Type": "application/json",
-            }
-          })
-        } catch(e) {
-          console.error(e);
-        }
-
-        try {
-          bannerData = await fetch("/profile/banner", {
-            method: "GET",
-            mode: "cors",
-            credentials: "include",
-            headers: {
-              "Content-Type": "application/json",
-            }
-          })
-        } catch(e) {
-          console.error(e);
-        }
-        
-        const avatarUrl = await avatarData.json();
-        const bannerUrl = await bannerData.json();
 
         try {
           designData = await fetch(`/profile/designs?cursor=${count}`, {
@@ -203,6 +174,10 @@ const ProfileProvider: React.FC<ProviderProps> = function ({ children }) {
             cursor,
             avatarUrl,
             bannerUrl,
+            website: social.website,
+            discord: social.discord,
+            instagram: social.instagram,
+            twitter: social.twitter,
           }
         })
       }
@@ -235,27 +210,51 @@ const ProfileProvider: React.FC<ProviderProps> = function ({ children }) {
     const accessToken = Cookies.get("access_token");
     const formData = new FormData();
     try {
-      await fetch(`/profile/fileId?uploadType=${modal}`, {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: `Bearer ${accessToken}`,
-        },
-        body: JSON.stringify({
-          folder: modal === "banner" ? "banners" : "avatars",
-          image: file.name,
-          ext: ext,
-          type: file.type,
-        }),
-      });
+      try {
+        await fetch(`/profile/fileId?uploadType=${modal}`, {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${accessToken}`,
+          },
+          body: JSON.stringify({
+            folder: modal === "banner" ? "banners" : "avatars",
+            image: file.name,
+            ext: ext,
+            type: file.type,
+          }),
+        });
+      } catch(e) {
+        console.error(e);
+        return;
+      }
+      
+      if (modal === "banner") {
+        formData.append("banner", file);
+      } else {
+        formData.append("avatar", file);
+      }
+
+      try {
+        await fetch(
+          `/profile/upload?uploadType=${
+            modal === "banner" ? "banners" : "avatars"
+          }`,
+          {
+            method: "POST",
+            mode: "cors",
+            credentials: "include",
+            body: formData,
+          }
+        );  
+      } catch(e) {
+        console.error(e);
+        return;
+      }
     } catch(e) {
       console.error(e);
       return;
     }
-
-
-
-    
   };
 
   const setLink = function (name: string, link: string) {

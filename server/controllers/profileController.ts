@@ -79,7 +79,7 @@ export const profileData: RequestHandler = async function (
     const result = await getProfileData(username, email);
 
     return res.status(200).json({
-      data: {...result},
+      result,
       user: true,
     });
   } catch (e) {
@@ -150,8 +150,10 @@ export const getAvatarImg: RequestHandler = async function (req: Request, res: R
     if (dbData) {
        avatarData = setupAvatarUrl(dbData.imageId, dbData.ext, dbData.version);
     }
-    
-    return res.status(200).json(avatarData);
+    return res.status(200).json({
+      url: avatarData,
+      msg: "Ok"
+    });
   } catch(e) {
     return next(e);
   }
@@ -164,8 +166,11 @@ export const getBannerImg: RequestHandler = async function(req:Request, res: Res
     if(dbData) {
       bannerData = setupBannerUrl(dbData.imageId, dbData.ext, dbData.version);
     }
-
-    return res.status(200).json(bannerData);
+    
+    return res.status(200).json({
+      url: bannerData,
+      msg: "Ok"
+    });
   } catch(e) {
     return next(e);
   }

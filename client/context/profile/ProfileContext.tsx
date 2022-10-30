@@ -12,6 +12,8 @@ const ProfileContext = createContext<ProfileContextInit>({
   twitter: "",
   instagram: "",
   website: "",
+  avatar: "",
+  banner: "",
   design: null,
   designLoad: true,
   designs: [],

@@ -39,6 +39,8 @@ export interface ProfileContextInit {
   twitter: string;
   website: string;
   descActive: boolean;
+  avatar: string;
+  banner: string;
   design: File | null;
   designLoad: boolean;
   designs: string[];

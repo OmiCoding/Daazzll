@@ -15,13 +15,13 @@ const ProfileContainer: React.FC = function () {
 
   const { user, username, pitch, design, resetDesign } = useProfile();
 
+  console.log(user, username);
+
   const postDesign = function () {
     if (!design) return;
     const formData = new FormData();
     formData.append("design", design);
     formData.append("folder", "designs");
-
-    console.log(formData, design);
 
     fetch("/profile/designs", {
       method: "POST",

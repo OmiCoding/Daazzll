@@ -18,10 +18,10 @@ model accounts {
   username    String         @db.VarChar(255)
   role        String
   isAdmin     Boolean        @default(false)
-  analytics acc_analytics?
-  settings  acc_settings?
-  profile   acc_profiles?
-  designs   designs[]
+  analytics   acc_analytics?
+  settings    acc_settings?
+  profile     acc_profiles?
+  designs     designs[]
 
   @@unique([email, username])
 }
