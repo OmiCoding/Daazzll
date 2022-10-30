@@ -2,7 +2,6 @@ import { RequestHandler, Request, Response, NextFunction } from "express";
 import { v2 as cloudinary } from "cloudinary";
 import { DesignData } from "../custom-types"
 import busboy from "busboy";
-import prismaClient from "../prismaClient";
 import { setupAvatarUrl, setupBannerUrl, setupDesignUrls } from "../utils/cloudinary/cloudinaryHelpers";
 import { 
   storeUploadData, 
@@ -79,7 +78,6 @@ export const profileData: RequestHandler = async function (
 
     const result = await getProfileData(username, email);
 
-    
     return res.status(200).json({
       data: {...result},
       user: true,

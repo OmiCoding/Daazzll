@@ -22,6 +22,7 @@ const useGuestCheck = function () {
         }
       })
       .catch((err) => {
+        console.error(err);
         if (dispatch) {
           dispatch({
             type: "ERROR_PAGE",
@@ -34,6 +35,7 @@ const useGuestCheck = function () {
     if (window.app.auth) {
       navigate(`/${username}`);
     }
+
 
     if (auth) {
       check();

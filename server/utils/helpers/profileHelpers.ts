@@ -49,7 +49,7 @@ export const getProfileData = async function(username: string, email: string) {
           },
           social: {
             select: {
-              webstite: true,
+              website: true,
               discord: true,
               instagram: true,
               twitter: true,

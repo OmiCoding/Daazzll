@@ -222,7 +222,10 @@ export const register: RequestHandler = async function (
       maxAge: 10 * 60 * 1000, // 10min
     });
 
-    return res.status(200).json({ username: result.username });
+    console.log("all good!");
+    return res.status(200).json({ 
+      username: result.username 
+    });
   } catch (e) {
     return next(e);
   }
@@ -331,6 +334,7 @@ export const passGuest = function (
       });
     }
 
+    console.log("hello??")
     return res.status(200).json({
       clear: true,
     });

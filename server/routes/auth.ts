@@ -7,6 +7,7 @@ import {
   logout,
   deleteUser,
   updateUser,
+  passGuest,
 } from "../controllers/authController";
 
 import {
@@ -34,6 +35,8 @@ const router = Router();
 router.get("/checkauth", [checkToken2], checkAuth);
 
 router.get("/checkGuest", checkGuest);
+
+router.get("/passGuest", passGuest);
 
 router.get("/logout", logout);
 
