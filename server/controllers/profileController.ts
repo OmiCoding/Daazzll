@@ -79,8 +79,12 @@ export const profileData: RequestHandler = async function (
     const result = await getProfileData(username, email);
 
     return res.status(200).json({
-      result,
+      username: result.username,
+      avatarUrl: result.avatarUrl,
+      bannerUrl: result.bannerUrl,
+      social: result.social,
       user: true,
+      msg: "Ok",
     });
   } catch (e) {
     return next(e);
@@ -166,7 +170,7 @@ export const getBannerImg: RequestHandler = async function(req:Request, res: Res
     if(dbData) {
       bannerData = setupBannerUrl(dbData.imageId, dbData.ext, dbData.version);
     }
-    
+
     return res.status(200).json({
       url: bannerData,
       msg: "Ok"

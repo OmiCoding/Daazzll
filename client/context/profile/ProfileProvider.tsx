@@ -142,8 +142,8 @@ const ProfileProvider: React.FC<ProviderProps> = function ({ children }) {
         } catch(e) {
           console.error(e);
         }
-        
-        const { msg, username, avatarUrl, bannerUrl, social } = await profileData.json();
+
+        let { msg, username, avatarUrl, bannerUrl, social } = await profileData.json();
   
         if (msg === "Unauthenticated") return;
   
@@ -165,6 +165,10 @@ const ProfileProvider: React.FC<ProviderProps> = function ({ children }) {
         }
               
         const { imgs, cursor } = await designData.json();
+
+        if(!social) {
+          social = {};
+        }
 
         dispatch({
           type: PROFILE_DATA,
