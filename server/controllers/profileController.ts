@@ -2,7 +2,7 @@ import { RequestHandler, Request, Response, NextFunction } from "express";
 import { v2 as cloudinary } from "cloudinary";
 import { DesignData } from "../custom-types"
 import busboy from "busboy";
-import { setupAvatarUrl, setupBannerUrl, setupDesignUrls } from "../utils/cloudinary/cloudinaryHelpers";
+import { setupAvatarUrl, setupBannerUrl, setUpDesignUrl, setupDesignUrls } from "../utils/cloudinary/cloudinaryHelpers";
 import { 
   storeUploadData, 
   getProfileData,
@@ -197,9 +197,12 @@ export const postDesigns: RequestHandler = async function(
 ) {
   try {
     const data = await uploadDesignPromise(req);
+    
     await storeDesign(req.user.userId, data);
 
+    const designUrl = setUpDesignUrl(data.imageId, data.version);
     return res.status(200).json({
+      designUrl,
       msg: "Ok",
     })
   } catch (err) {
