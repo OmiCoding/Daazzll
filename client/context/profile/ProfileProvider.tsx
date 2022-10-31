@@ -6,7 +6,7 @@ import { Action, ProfileContextInit, ProfileReducer } from "../../custom-types";
 import ProfileContext from "./ProfileContext";
 import profileReducer from "./profileReducer";
 import { useNavigate } from "react-router";
-import { GET_PROFILE, PROFILE_DATA, ACTIVE_IMAGE, SET_CURSOR_DESIGNS, SET_LINK, SET_AVATAR, SET_BANNER } from "./cases";
+import { GET_PROFILE, PROFILE_DATA, SET_CURSOR_DESIGNS, SET_LINK, SET_AVATAR, SET_BANNER } from "./cases";
 import AuthContext from "../auth/AuthContext";
 
 interface ProviderProps {
@@ -39,66 +39,6 @@ const ProfileProvider: React.FC<ProviderProps> = function ({ children }) {
   const navigate = useNavigate();
   const { count } = state;
   const { setAuth, resetAuth } = useContext(AuthContext);
-
-  // const getProfileData = useCallback(async () => {
-  //   fetch("/checkauth", {
-  //     method: "GET",
-  //     mode: "cors",
-  //     credentials: "include",
-  //   })
-  //     .then((data) => data.json())
-  //     .then((res) => {
-  //       if (!res.clear) {
-  //         fetch("/logout", {
-  //           method: "GET",
-  //           mode: "cors",
-  //           credentials: "include",
-  //           headers: {
-  //             "Content-Type": "application/json",
-  //           },
-  //         })
-  //           .then((data) => data.json())
-  //           .then((res) => {
-  //             sessionStorage.removeItem("hallpass");
-  //             sessionStorage.removeItem("username");
-  //             if (resetAuth) {
-  //               resetAuth();
-  //             }
-  //             return navigate("/login");
-  //           })
-  //           .catch((err) => {
-  //             console.error(err);
-  //           });
-  //       } else {
-  //         fetch("/profile/profileData", {
-  //           method: "GET",
-  //           mode: "cors",
-  //           credentials: "include",
-  //           headers: {
-  //             "Content-Type": "application/json",
-  //           },
-  //         })
-  //           .then((data) => data.json())
-  //           .then((res) => {
-  //             if (res.msg === "Unauthenticated.") return;
-
-  //             if (setAuth) {
-  //               setAuth(res.username);
-  //             }
-  //             // dispatch({
-  //             //   type: PROFILE_DATA,
-  //             //   data: res,
-  //             // });
-  //           })
-  //           .catch((err) => {
-  //             console.error(err);
-  //           });
-  //       }
-  //     })
-  //     .catch((err) => {
-  //       console.error(err);
-  //     });
-  // }, [navigate, resetAuth]);
 
   const getProfileData = useCallback (async () => {
     try {
@@ -212,28 +152,8 @@ const ProfileProvider: React.FC<ProviderProps> = function ({ children }) {
   }, []);
 
   const submitPhoto = async function(file: File, modal: string) {
-    // const accessToken = Cookies.get("access_token");
     const formData = new FormData();
     try {
-      // try {
-      //   await fetch(`/profile/fileId?uploadType=${modal}`, {
-      //     method: "POST",
-      //     headers: {
-      //       "Content-Type": "application/json",
-      //       Authorization: `Bearer ${accessToken}`,
-      //     },
-      //     body: JSON.stringify({
-      //       folder: modal === "banner" ? "banners" : "avatars",
-      //       image: file.name,
-      //       ext: ext,
-      //       type: file.type,
-      //     }),
-      //   });
-      // } catch(e) {
-      //   console.error(e);
-      //   return;
-      // }
-      
       if (modal === "banner") {
         formData.append("banner", file);
       } else {
