@@ -7,7 +7,9 @@ import {
   SET_LINK,
   DONE_LOAD,
   SET_CURSOR_DESIGNS,
-  ACTIVE_IMAGE
+  ACTIVE_IMAGE,
+  SET_AVATAR,
+  SET_BANNER,
 } from "./cases";
 
 const profileReducer: ProfileReducer<ProfileContextInit, Action> = function (
@@ -45,17 +47,16 @@ const profileReducer: ProfileReducer<ProfileContextInit, Action> = function (
         ...prevState,
         [data.name]: data.link,
       };
-    case ACTIVE_IMAGE:
-      if(data.avatar) {
+    case SET_AVATAR:
+      
         return {
           ...prevState,
-          activeImg: data.avatar,
+          avatar: data.avatar,
         }
-      } else {
-        return {
+    case SET_BANNER:
+      return {
           ...prevState,
-          activeImg: data.avatar,
-        }
+          banner: data.banner,
       }
     case ACTIVE_DESIGN:
       return {

@@ -6,7 +6,7 @@ import { Action, ProfileContextInit, ProfileReducer } from "../../custom-types";
 import ProfileContext from "./ProfileContext";
 import profileReducer from "./profileReducer";
 import { useNavigate } from "react-router";
-import { GET_PROFILE, PROFILE_DATA, ACTIVE_IMAGE, SET_CURSOR_DESIGNS, SET_LINK } from "./cases";
+import { GET_PROFILE, PROFILE_DATA, ACTIVE_IMAGE, SET_CURSOR_DESIGNS, SET_LINK, SET_AVATAR, SET_BANNER } from "./cases";
 import AuthContext from "../auth/AuthContext";
 
 interface ProviderProps {
@@ -211,28 +211,28 @@ const ProfileProvider: React.FC<ProviderProps> = function ({ children }) {
       .catch((err) => console.error(err));
   }, []);
 
-  const submitPhoto = async function(file: File, modal: string, ext: string) {
-    const accessToken = Cookies.get("access_token");
+  const submitPhoto = async function(file: File, modal: string) {
+    // const accessToken = Cookies.get("access_token");
     const formData = new FormData();
     try {
-      try {
-        await fetch(`/profile/fileId?uploadType=${modal}`, {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-            Authorization: `Bearer ${accessToken}`,
-          },
-          body: JSON.stringify({
-            folder: modal === "banner" ? "banners" : "avatars",
-            image: file.name,
-            ext: ext,
-            type: file.type,
-          }),
-        });
-      } catch(e) {
-        console.error(e);
-        return;
-      }
+      // try {
+      //   await fetch(`/profile/fileId?uploadType=${modal}`, {
+      //     method: "POST",
+      //     headers: {
+      //       "Content-Type": "application/json",
+      //       Authorization: `Bearer ${accessToken}`,
+      //     },
+      //     body: JSON.stringify({
+      //       folder: modal === "banner" ? "banners" : "avatars",
+      //       image: file.name,
+      //       ext: ext,
+      //       type: file.type,
+      //     }),
+      //   });
+      // } catch(e) {
+      //   console.error(e);
+      //   return;
+      // }
       
       if (modal === "banner") {
         formData.append("banner", file);
@@ -240,10 +240,8 @@ const ProfileProvider: React.FC<ProviderProps> = function ({ children }) {
         formData.append("avatar", file);
       }
 
-      console.log(file);
-
       try {
-        await fetch(
+        const data = await fetch(
           `/profile/upload?uploadType=${
             modal === "banner" ? "banners" : "avatars"
           }`,
@@ -255,21 +253,25 @@ const ProfileProvider: React.FC<ProviderProps> = function ({ children }) {
           }
         )
 
+        const { imageUrl } = await data.json();
+
         if(modal === "avatars") {
           dispatch({
-            type: ACTIVE_IMAGE,
+            type: SET_AVATAR,
             data: {
-              avatar: "avatar",
+              avatar: imageUrl,
             }
           })
         } else {
           dispatch({
-            type: ACTIVE_IMAGE,
+            type: SET_BANNER,
             data: {
-              banner: "banner",
+              banner: imageUrl,
             }
           })
         }
+
+        
       } catch(e) {
         console.error(e);
         return;

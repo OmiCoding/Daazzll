@@ -7,7 +7,6 @@ import React, {
   ChangeEvent,
 } from "react";
 import { CSSTransition } from "react-transition-group";
-import Cookies from "js-cookie";
 import useApp from "../../../../hooks/general/useApp";
 import SwitchWrapper from "./SwitchWrapper";
 import ProfileSection from "./ProfileSection";
