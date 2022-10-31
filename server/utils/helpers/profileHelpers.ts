@@ -1,4 +1,6 @@
 import { Request } from "express";
+import { v2 as cloudinary } from "cloudinary";
+import busboy from "busboy";
 import { DesignData } from "../../custom-types";
 import prismaClient from "../../prismaClient";
 import { setupAvatarUrl, setupBannerUrl } from "../cloudinary/cloudinaryHelpers";
@@ -11,12 +13,12 @@ interface CommonContext {
   folder: string;
 }
 
-interface profileContext extends CommonContext {
+interface ProfileContext extends CommonContext {
   model: any;
   version: number;
 }
 
-interface designContext extends CommonContext {
+interface DesignContext extends CommonContext {
   version: number;
 }
 
@@ -175,14 +177,11 @@ export const getAvatarData = async function(userId: number) {
 
 }
 
-export const storeUploadData = async function (
-  req: Request,
-  { model, imageId, ext, type, url, folder, version }: profileContext
-) {
+export const storeUploadData = async function (userId: number, email: string, username: string, { model, imageId, ext, type, url, folder, version }: ProfileContext) {
   try {
     await prismaClient.acc_profiles.upsert({
       where: {
-        userId: req.user.userId,
+        userId: userId,
       },
       update: {
         [model]: {
@@ -193,15 +192,15 @@ export const storeUploadData = async function (
               type,
               url,
               folder,
-              version,
+              version,    
             },
-            create: {
+            create: {           
               imageId,
               ext,
               type,
               url,
               folder,
-              version,
+              version
             },
           },
         },
@@ -210,8 +209,8 @@ export const storeUploadData = async function (
         user: {
           connect: {
             email_username: {
-              email: req.user.email,
-              username: req.user.username,
+              email: email,
+              username: username,
             },
           },
         },
@@ -228,6 +227,7 @@ export const storeUploadData = async function (
       },
     });
   } catch (err) {
+    console.log(err);
     throw new Error("Something has gone wrong...");
   }
 };
@@ -247,8 +247,8 @@ export const storeLinkData = async function(id: number, url: string, option: str
 };
 
 export const storeDesign = async function(
-  req: Request,
-  { imageId, ext, type, url, folder, version }: designContext
+  userId: number,
+  { imageId, ext, type, url, folder, version }: DesignContext
 ) {
   try {
     await prismaClient.designs.create({
@@ -259,7 +259,7 @@ export const storeDesign = async function(
         url,
         folder,
         version,
-        userId: req.user.userId,
+        userId: userId,
       },
     });
   } catch (e: any) {
@@ -267,3 +267,81 @@ export const storeDesign = async function(
   }
 };
 
+export const uploadProfPromise = async function(req: Request) {
+  return new Promise<ProfileContext>((resolve, reject) => {
+    const bb = busboy({ headers: req.headers });
+    let folder = "";
+    let model = "";
+
+    if (req.query.uploadType === "banners") {
+      folder = req.query.uploadType;
+      model = "banner";
+    } else if (req.query.uploadType === "avatars") {
+      folder = req.query.uploadType;
+      model = "avatar";
+    } else {
+      throw new Error("A folder must be specified.");
+    }
+
+    const uploadStream = cloudinary.uploader.upload_stream(
+      {
+        folder: folder,
+      },
+      function (err, result) {
+        if (err) {
+          console.error(err);
+          reject(err);
+        }
+        if (result) {
+          resolve ({
+            model: model,
+            imageId: result.public_id,
+            ext: result.format,
+            type: result.resource_type,
+            url: result.secure_url,
+            folder: result.folder,
+            version: result.version,
+          });
+        }
+      }
+    )
+
+    bb.on("file", (name, file, info) => {
+      file.pipe(uploadStream);
+    });
+    req.pipe(bb);
+  });
+}
+
+export const uploadDesignPromise = async function(req: Request) {
+  return new Promise<DesignContext>((resolve, reject) => {
+    const bb = busboy({ headers: req.headers });
+
+    const uploadStream = cloudinary.uploader.upload_stream(
+      {
+        folder: "designs",
+      },
+      function (err, result) {
+        if (err) {
+          console.error(err);
+          reject(err);
+        }
+        if (result) {
+          resolve({
+            imageId: result.public_id,
+            ext: result.format,
+            type: result.resource_type,
+            url: result.secure_url,
+            folder: result.folder,
+            version: result.version,
+          });
+        }
+      }
+    );
+
+    bb.on("file", (name, file, info) => {
+      file.pipe(uploadStream);
+    });
+    req.pipe(bb);
+  })
+}

@@ -9,7 +9,9 @@ import {
   getDesignData, 
   getBannerData, 
   getAvatarData, 
-  storeDesign
+  storeDesign,
+  uploadProfPromise,
+  uploadDesignPromise,
  } from "../utils/helpers/profileHelpers";
 
 
@@ -97,66 +99,22 @@ export const uploadProfileImgs: RequestHandler = async function (
   next: NextFunction
 ) {
   try {
-    const bb = busboy({ headers: req.headers });
+    const { userId, username, email } = req.user;
+    const data = await uploadProfPromise(req);
+    let imageUrl = "";
 
-    let folder = "";
-    if (req.query.uploadType === "banners") {
-      folder = req.query.uploadType;
-    } else if (req.query.uploadType === "avatars") {
+    await storeUploadData(userId, email, username, data);
+
+    if(data.model === "avatar") {
+      imageUrl = setupAvatarUrl(data.imageId, data.ext, data.version);
     } else {
-      throw new Error("A folder must be specified.");
+      imageUrl = setupBannerUrl(data.imageId, data.ext, data.version);
     }
 
-    const uploadStream = cloudinary.uploader.upload_stream(
-      {
-        folder: folder,
-      },
-      async function (err, result) {
-        if (err) {
-          console.error(err);
-        }
-
-        if (result) {
-          await storeUploadData(req, {
-            model: req.query.uploadType,
-            imageId: result.public_id,
-            ext: result.format,
-            type: result.resource_type,
-            url: result.secure_url,
-            folder: result.folder,
-            version: result.verson,
-          });
-        }
-      }
-    );
-
-    bb.on("file", (name, file, info) => {
-      file.pipe(uploadStream);
-    });
-
-    bb.on("close", async () => {
-      let imageUrl = "";
-      if(req.query.uploadType === "banners") {
-        const data = await getBannerData(req.user.userId);
-        if(data) {
-          const { imageId, version, ext } = data;
-          imageUrl = setupBannerUrl(imageId, ext, version);
-        }
-      } else {
-        const data = await getAvatarData(req.user.userId);
-        if(data) {
-          const { imageId, version, ext } = data;
-          imageUrl = setupAvatarUrl(imageId, ext, version);
-        }
-      }
-
-      res.status(200).json({
-        imageUrl,
-        msg: "Ok.",
-      });
-    });
-
-    req.pipe(bb);
+    return res.status(200).json({
+      imageUrl,
+      msg: "Ok",
+    })
   } catch (err) {
     next(err);
   }
@@ -166,7 +124,6 @@ export const getAvatarImg: RequestHandler = async function (req: Request, res: R
   try {
     const dbData = await getAvatarData(req.user.userId);
     let avatarData;
-
     if (dbData) {
        avatarData = setupAvatarUrl(dbData.imageId, dbData.ext, dbData.version);
     }
@@ -186,7 +143,6 @@ export const getBannerImg: RequestHandler = async function(req:Request, res: Res
     if(dbData) {
       bannerData = setupBannerUrl(dbData.imageId, dbData.ext, dbData.version);
     }
-
     return res.status(200).json({
       url: bannerData,
       msg: "Ok"
@@ -240,41 +196,12 @@ export const postDesigns: RequestHandler = async function(
   next: NextFunction
 ) {
   try {
-    const bb = busboy({ headers: req.headers });
+    const data = await uploadDesignPromise(req);
+    await storeDesign(req.user.userId, data);
 
-    const uploadStream = cloudinary.uploader.upload_stream(
-      {
-        folder: "designs",
-      },
-      async function (err, result) {
-        if (err) {
-          console.error(err);
-        }
-        if (result) {
-          await storeDesign(req, {
-            imageId: result.public_id,
-            ext: result.format,
-            type: result.resource_type,
-            url: result.secure_url,
-            folder: result.folder,
-            version: result.version,
-          });
-        }
-      }
-    );
-
-    bb.on("file", (name, file, info) => {
-      file.pipe(uploadStream);
-    });
-
-    bb.on("close", () => {
-      console.log("Done parsing the form!");
-      res.status(200).json({
-        msg: "Ok.",
-      });
-    });
-
-    req.pipe(bb);
+    return res.status(200).json({
+      msg: "Ok",
+    })
   } catch (err) {
     next(err);
   }

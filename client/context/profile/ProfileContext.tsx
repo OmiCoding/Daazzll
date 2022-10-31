@@ -14,6 +14,7 @@ const ProfileContext = createContext<ProfileContextInit>({
   website: "",
   avatar: "",
   banner: "",
+  activeImg: "",
   design: null,
   designLoad: true,
   designs: [],

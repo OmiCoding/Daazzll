@@ -41,6 +41,7 @@ export interface ProfileContextInit {
   descActive: boolean;
   avatar: string;
   banner: string;
+  activeImg: string;
   design: File | null;
   designLoad: boolean;
   designs: string[];

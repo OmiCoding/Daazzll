@@ -6,7 +6,7 @@ import { Action, ProfileContextInit, ProfileReducer } from "../../custom-types";
 import ProfileContext from "./ProfileContext";
 import profileReducer from "./profileReducer";
 import { useNavigate } from "react-router";
-import { GET_PROFILE, PROFILE_DATA, SET_IMAGE, SET_CURSOR_DESIGNS, SET_LINK } from "./cases";
+import { GET_PROFILE, PROFILE_DATA, ACTIVE_IMAGE, SET_CURSOR_DESIGNS, SET_LINK } from "./cases";
 import AuthContext from "../auth/AuthContext";
 
 interface ProviderProps {
@@ -29,6 +29,7 @@ const ProfileProvider: React.FC<ProviderProps> = function ({ children }) {
     website: "",
     avatar: "",
     banner: "",
+    activeImg: "",
     design: null,
     designLoad: true,
     designs: [],
@@ -228,8 +229,6 @@ const ProfileProvider: React.FC<ProviderProps> = function ({ children }) {
             type: file.type,
           }),
         });
-
-        console.log('jello?');
       } catch(e) {
         console.error(e);
         return;
@@ -241,8 +240,10 @@ const ProfileProvider: React.FC<ProviderProps> = function ({ children }) {
         formData.append("avatar", file);
       }
 
+      console.log(file);
+
       try {
-        const uploadRes = await fetch(
+        await fetch(
           `/profile/upload?uploadType=${
             modal === "banner" ? "banners" : "avatars"
           }`,
@@ -252,24 +253,23 @@ const ProfileProvider: React.FC<ProviderProps> = function ({ children }) {
             credentials: "include",
             body: formData,
           }
-        ) 
-        
-        const imageData = await uploadRes.json();
+        )
 
-        dispatch({
-          type: SET_IMAGE,
-          data: {
-            img: imageData.imageUrl,
-            modal,
-          }
-        })
-      } catch(e) {
-        console.error(e);
-        return;
-      }
-
-      try {
-
+        if(modal === "avatars") {
+          dispatch({
+            type: ACTIVE_IMAGE,
+            data: {
+              avatar: "avatar",
+            }
+          })
+        } else {
+          dispatch({
+            type: ACTIVE_IMAGE,
+            data: {
+              banner: "banner",
+            }
+          })
+        }
       } catch(e) {
         console.error(e);
         return;
@@ -279,6 +279,8 @@ const ProfileProvider: React.FC<ProviderProps> = function ({ children }) {
       return;
     }
   };
+
+  // const getBanner = async function()
 
   const setLink = function (name: string, link: string) {
     dispatch({
