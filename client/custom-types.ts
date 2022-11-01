@@ -46,6 +46,7 @@ export interface ProfileContextInit {
   designLoad: boolean;
   designs: string[];
   count: number;
+  submit: boolean;
   getProfileData?: () => void;
   getProfile?: (username: string) => void;
   submitPhoto?: (file: File, modal: string, ext: string) => void;

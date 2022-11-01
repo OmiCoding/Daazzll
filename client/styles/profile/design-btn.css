@@ -45,9 +45,11 @@
   z-index: 0;
 }
 
+.design-btn-input-wrapper--submit {
+  background-color: var(--text-color);
+}
+
 .design-btn-input-wrapper:hover {
-  color: var(--text-color);
-  background-color: var(--bg-color);
   box-shadow: 3px 10px 13px var(--shadow-color);
 }
 
@@ -62,11 +64,19 @@
   cursor: pointer;
 }
 
+.design-btn__input--submit {
+  background-color: var(--text-color);
+}
+
 .design-btn__text {
   position: relative;
   font-size: var(--btn-size);
   pointer-events: none;
   z-index: 0;
+}
+
+.design-btn__text--submit {
+  color: var(--invTxt-color);
 }
 
 @media screen and (min-width: 320px) {

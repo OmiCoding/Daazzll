@@ -8,11 +8,12 @@ interface BannerProps {
 
 const BannerContainer: React.FC<BannerProps> = function ({ user }) {
   const { handleModal } = useApp();
-  const { avatar } = useProfile();
+  const { avatar, banner } = useProfile();
 
   return (
     <div className="banner-wrapper">
       <div className="max-wrapper">
+        {banner && <img className="banner-img" src={banner} />}
         <div className="bg-img-wrapper">
           <div className="img-wrapper">
             {user ? (

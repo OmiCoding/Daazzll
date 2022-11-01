@@ -7,7 +7,6 @@ import {
   SET_LINK,
   DONE_LOAD,
   SET_CURSOR_DESIGNS,
-  ACTIVE_IMAGE,
   SET_AVATAR,
   SET_BANNER,
 } from "./cases";
@@ -62,11 +61,13 @@ const profileReducer: ProfileReducer<ProfileContextInit, Action> = function (
       return {
         ...prevState,
         design: data,
+        submit: true,
       };
     case RESET_DESIGN:
       return {
         ...prevState,
         design: null,
+        submit: false,
       };
     case SET_CURSOR_DESIGNS:
       return {

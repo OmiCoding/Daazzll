@@ -34,6 +34,7 @@ const ProfileProvider: React.FC<ProviderProps> = function ({ children }) {
     designLoad: true,
     designs: [],
     count: 0,
+    submit: false,
   });
 
   const navigate = useNavigate();
@@ -225,21 +226,6 @@ const ProfileProvider: React.FC<ProviderProps> = function ({ children }) {
         url,
       }),
     })
-    //   .then((data) => data.json())
-    //   .then((res) => {
-    //     if (
-    //       res.msg === "Link has been added to account!" &&
-    //       res.name &&
-    //       res.link
-    //     ) {
-    //       if (setLink) {
-    //         return setLink(res.name, res.link);
-    //       }
-    //     }
-    //   })
-    //   .catch((err) => {
-    //     console.error(err);
-    //   });
   }
 
   const activeDesign = function (file: File) {

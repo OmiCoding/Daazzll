@@ -7,7 +7,6 @@ const DesignCard: React.FC<{
   if(typeof elem === "string") {
     return (
       <li className="designs__card">
-        <button className="designs__card-btn" onClick={(e) => handleClick(e, elem)} />
         <img style={{
           width: "100%",
           height: "100%",

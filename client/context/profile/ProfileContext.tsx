@@ -19,6 +19,7 @@ const ProfileContext = createContext<ProfileContextInit>({
   designLoad: true,
   designs: [],
   count: 0,
+  submit: false,
 });
 
 export default ProfileContext;

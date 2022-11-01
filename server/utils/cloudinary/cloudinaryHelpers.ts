@@ -14,6 +14,9 @@ export const setupBannerUrl = function setupBannerUrl(imageId: string, ext: stri
   return cloudinary.url(`${imageId}.${ext}`, {
     ...authConfig,
     dpr: "auto",
+    height: 220,
+    width: 1280,
+    crop: "fit",
     version: version ? "" + version : undefined,
   })
 }
