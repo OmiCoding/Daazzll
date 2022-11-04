@@ -7,6 +7,7 @@ import {
   getAvatarImg,
   getBannerImg,
   createLink,
+  getUser,
 } from "../controllers/profileController";
 import { checkAccToken, checkUser } from "../middleware/auth/authMidWare";
 
@@ -25,5 +26,7 @@ router.post("/designs", postDesigns);
 router.post("/upload", uploadProfileImgs);
 
 router.post("/link", createLink);
+
+router.get("/:username", [checkAccToken, checkUser], getUser);
 
 export default router;

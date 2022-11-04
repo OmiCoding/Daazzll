@@ -365,3 +365,77 @@ export const storeLink = async function(userId: number, option: string, url: str
 
   return data;
 }
+
+export const userData = async function(user: string) {
+  const data = await prismaClient.accounts.findFirst({
+    where: {
+      username: user,
+    },
+    select: {
+      username: true,
+      profile: {
+        select: {
+          pitch: true,
+          social: {
+            select: {
+              website: true,
+              discord: true,
+              facebook: true,
+              instagram: true,
+              twitter: true,
+            }
+          },
+          avatar: {
+            select: {
+              imageId: true,
+              ext: true,
+              version: true,
+            }
+          },
+          banner: {
+            select: {
+              imageId: true,
+              ext: true,
+              version: true,
+            }
+          }
+        }
+      }
+    }
+  });
+
+  let username = "";
+  let avatarUrl = "";
+  let bannerUrl = "";
+  let pitch = "";
+  let social;
+
+  if(data) {
+    username = data.username;
+    if(data.profile) {
+      const profile = data.profile;
+      if(profile.pitch) {
+        pitch = profile.pitch;
+      }
+      if(profile.avatar) {
+        const avatar = profile.avatar;
+        avatarUrl = setupAvatarUrl(avatar.imageId, avatar.ext, avatar.version);
+      }
+      if(profile.banner) {
+        const banner = profile.banner;
+        bannerUrl = setupBannerUrl(banner.imageId, banner.ext, banner.version);
+      }
+      if(profile.social) {
+        social = profile.social;
+      }
+    }
+  }
+
+  return {
+    username,
+    pitch,
+    avatar: avatarUrl,
+    banner: bannerUrl,
+    social,
+  }
+}
