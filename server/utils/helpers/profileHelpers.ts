@@ -366,6 +366,19 @@ export const storeLink = async function(userId: number, option: string, url: str
   return data;
 }
 
+export const linkData = async function(userId: number, option: string) {
+  const data = await prismaClient.acc_socials.findUnique({
+    where: {
+      profileId: userId,
+    },
+    select: {
+      [option]: true,
+    }
+  })
+
+  return data;
+}
+
 export const userData = async function(user: string) {
   const data = await prismaClient.accounts.findFirst({
     where: {

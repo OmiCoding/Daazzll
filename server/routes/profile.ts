@@ -8,6 +8,7 @@ import {
   getBannerImg,
   createLink,
   getUser,
+  getLink,
 } from "../controllers/profileController";
 import { checkAccToken, checkUser } from "../middleware/auth/authMidWare";
 
@@ -26,6 +27,8 @@ router.post("/designs", postDesigns);
 router.post("/upload", uploadProfileImgs);
 
 router.post("/link", createLink);
+
+router.get("/link", getLink);
 
 router.get("/:username", [checkAccToken, checkUser], getUser);
 

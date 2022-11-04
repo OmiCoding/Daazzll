@@ -14,6 +14,7 @@ import {
   uploadDesignPromise,
   storeLink,
   userData,
+  linkData,
  } from "../utils/helpers/profileHelpers";
 
 
@@ -227,6 +228,21 @@ export const createLink: RequestHandler = async function (req, res, next) {
     return next(e);
   }
 };
+
+export const getLink: RequestHandler = async function(req, res, next) {
+  try {
+    const { option } = req.body;  
+    
+    const link = await linkData(req.user.userId, option);
+
+    return res.status(200).json({
+      link,
+      msg: "Ok"
+    })
+  } catch(e) {
+    return next(e);
+  }
+}
 
 export const getUser: RequestHandler = async function(req: Request, res: Response, next: NextFunction) {
   try {
