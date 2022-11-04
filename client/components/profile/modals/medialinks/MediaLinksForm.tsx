@@ -4,7 +4,7 @@ import useProfile from "../../../../hooks/profile/useProfile";
 import MLSelectSection from "./MLSelectSection";
 
 const MediaLinksForm: React.FC = function () {
-  const { setLink, storeLink } = useProfile();
+  const { storeLink } = useProfile();
 
   const [state, setState] = useState({
     link: "",
@@ -22,7 +22,7 @@ const MediaLinksForm: React.FC = function () {
     ph = "https://twitter.com/[username]";
   } else if (option === "Instagram") {
     ph = "https://www.instagram.com/username";
-  } else if (option === "Globe") {
+  } else if (option === "Website") {
     ph = "https://domainname.ext";
   } else if (option === "Tiktok") {
     ph = "https://tiktok.com/username";

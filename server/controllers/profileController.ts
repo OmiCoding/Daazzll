@@ -12,6 +12,7 @@ import {
   storeDesign,
   uploadProfPromise,
   uploadDesignPromise,
+  storeLink,
  } from "../utils/helpers/profileHelpers";
 
 
@@ -214,8 +215,12 @@ export const createLink: RequestHandler = async function (req, res, next) {
   try {
     const { option, url } = req.body;
 
+    const link = await storeLink(req.user.userId, option, url);
+    console.log(link);
+
     return res.status(200).json({
-      msg: "Ok.",
+      link,
+      msg: "Ok",
     });
   } catch (e: any) {
     return next(e);

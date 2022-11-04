@@ -345,3 +345,20 @@ export const uploadDesignPromise = async function(req: Request) {
     req.pipe(bb);
   })
 }
+
+export const storeLink = async function(userId: number, option: string, url: string) {
+  const data = await prismaClient.acc_socials.upsert({
+    where: {
+      profileId: userId,
+    },
+    update: {
+      [option]: url,
+    },
+    create: {
+      [option]: url,
+      profileId: userId
+    }
+  })
+
+  return data;
+}

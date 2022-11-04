@@ -72,7 +72,7 @@ const MLSelectSection: React.FC<SelectProps> = function ({
         </div>
         <div className="select__option">
           <input
-            value="Globe"
+            value="Website"
             type="button"
             className="option__btn"
             onClick={handleOption}
