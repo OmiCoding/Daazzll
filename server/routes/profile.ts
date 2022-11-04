@@ -26,6 +26,4 @@ router.post("/upload", uploadProfileImgs);
 
 router.post("/link", createLink);
 
-// router.get("/:username", profile);
-
 export default router;
