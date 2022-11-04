@@ -42,13 +42,13 @@ const DesignContainer = function () {
       .then((data) => data.json())
       .then((res) => {
         if (resetDesign) {
-          resetDesign();
+          resetDesign(res.designUrl);
         }
       })
       .catch((err) => {
         console.error(err);
         if (resetDesign) {
-          resetDesign();
+          resetDesign("");
         }
       });
   }

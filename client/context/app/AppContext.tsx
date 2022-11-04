@@ -7,6 +7,7 @@ const AppContext = createContext<AppContextInit>({
   absHeader: false,
   location: "",
   design: "",
+  resize: "",
 });
 
 export default AppContext;

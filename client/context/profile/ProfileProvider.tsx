@@ -203,8 +203,6 @@ const ProfileProvider: React.FC<ProviderProps> = function ({ children }) {
     }
   };
 
-  // const getBanner = async function()
-
   const setLink = function (name: string, link: string) {
     dispatch({
       type: SET_LINK,
@@ -235,9 +233,12 @@ const ProfileProvider: React.FC<ProviderProps> = function ({ children }) {
     });
   };
 
-  const resetDesign = function () {
+  const resetDesign = function (designUrl: string) {
     return dispatch({
       type: "RESET_DESIGN",
+      data: {
+        designUrl,
+      }
     });
   };
 
@@ -274,7 +275,7 @@ const ProfileProvider: React.FC<ProviderProps> = function ({ children }) {
     } catch(e) {
       console.error(e);
     }
-  }, [count]) 
+  }, [count]);
 
   return (
     <ProfileContext.Provider

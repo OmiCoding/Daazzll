@@ -1,5 +1,5 @@
 import { Action, AppContextInit } from "../../custom-types";
-import { CLOSE_MODAL, MODAL, GET_LOCATION } from "./cases";
+import { CLOSE_MODAL, MODAL, GET_LOCATION, RESIZE } from "./cases";
 
 const appReducer = function (prevState: AppContextInit, action: Action) {
   const { data } = action;
@@ -29,6 +29,11 @@ const appReducer = function (prevState: AppContextInit, action: Action) {
         ...prevState,
         location: action.data,
       };
+    case RESIZE:
+      return {
+        ...prevState,
+        resize: data.device,
+      }
     default:
       return {
         ...prevState,

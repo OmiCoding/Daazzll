@@ -11,6 +11,7 @@ const DesignCard: React.FC<{
           width: "100%",
           height: "100%",
         }} src={elem} />
+        <button className="designs__card-btn" onClick={(e) => handleClick(e, elem)} />
       </li> 
     );
   } else {

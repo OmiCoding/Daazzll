@@ -53,9 +53,7 @@ const ProfileModal: React.FC = function () {
     >
       <Modal>
         <div ref={bgElem} className="bg-modal-1">
-          <div className="pf-modal-wrapper">
-            <div className="pf-modal">{modalItem}</div>
-          </div>
+            {modalItem}
         </div>
       </Modal>
     </CSSTransition>

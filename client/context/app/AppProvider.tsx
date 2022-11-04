@@ -1,9 +1,9 @@
-import React, { MouseEvent, ReactNode, useReducer } from "react";
+import React, { useCallback, useReducer, MouseEvent, ReactNode } from "react";
 import { Action, AppContextInit, AppReducer } from "../../custom-types";
 
 import AppContext from "./AppContext";
 import appReducer from "./appReducer";
-import { CLOSE_MODAL, MODAL, GET_LOCATION } from "./cases";
+import { CLOSE_MODAL, MODAL, GET_LOCATION, RESIZE } from "./cases";
 
 interface AppProps {
   children: ReactNode;
@@ -18,6 +18,7 @@ const AppProvider: React.FC<AppProps> = function ({ children }) {
     design: "",
     avatar: "",
     banner: "",
+    resize: "",
   };
 
   if (window) {
@@ -69,6 +70,17 @@ const AppProvider: React.FC<AppProps> = function ({ children }) {
     });
   }
 
+  const handleResize = useCallback((device) => {
+      dispatch({
+        type: RESIZE,
+        data: {
+          device,
+        }
+      })
+  }, [])
+  
+  
+
   return (
     <AppContext.Provider
       value={{
@@ -77,6 +89,7 @@ const AppProvider: React.FC<AppProps> = function ({ children }) {
         handleModal,
         closeModal,
         getLocation,
+        handleResize,
       }}
     >
       {children}

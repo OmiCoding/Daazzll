@@ -10,7 +10,6 @@ interface ModalContext {
 const Modal: React.FC<ModalContext> = function ({ children }) {
   const childElem = useRef(document.createElement("div"));
   const modalRoot = useRef(document.getElementById("modal-root"));
-  // const modalWrap = useRef(document.getElementById("wrapper"));
   const root = useRef(document.getElementById("root"));
   const { modalActive } = useApp();
 
@@ -31,7 +30,6 @@ const Modal: React.FC<ModalContext> = function ({ children }) {
   useEffect(() => {
     const currChild = childElem.current;
     const currMRoot = modalRoot.current;
-    // const currWrap = modalWrap.current;
     const currRoot = root.current;
     currChild.classList.add("modal-wrapper");
 
@@ -44,16 +42,11 @@ const Modal: React.FC<ModalContext> = function ({ children }) {
 
     if (modalActive && currMRoot && currRoot) {
       currMRoot.classList.add("display--block");
-
-      if (window.innerWidth < 1280) {
-        currMRoot.style.top = "" + window.scrollY + "px";
-      }
-      // currWrap.style.top = "" + window.scrollY + "px";
+      currMRoot.style.top = "" + window.scrollY + "px";
       currRoot.classList.add("root--active");
       document.body.style.overflowY = "hidden";
     } else {
       if (currMRoot && !modalActive && currRoot) {
-        // currWrap.style.top = "0px";
         currMRoot.classList.remove("display--block");
         currChild.style.height = "auto";
         document.body.style.overflowY = "auto";
@@ -63,10 +56,6 @@ const Modal: React.FC<ModalContext> = function ({ children }) {
 
     window.addEventListener("resize", handleResize);
     return () => {
-      if (currRoot) {
-        // currRoot.style.top = "0px";
-      }
-
       if (currMRoot) {
         currMRoot.style.top = "unset";
       }
@@ -75,10 +64,9 @@ const Modal: React.FC<ModalContext> = function ({ children }) {
       currChild.style.height = "auto";
       document.body.style.overflowY = "auto";
       currRoot?.classList.remove("root--active");
-
       window.removeEventListener("resize", handleResize);
     };
-  }, [modalActive]);
+  }, [modalActive, handleResize]);
 
   return createPortal(children, childElem.current);
 };

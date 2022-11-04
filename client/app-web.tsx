@@ -8,9 +8,12 @@ import Register from "./pages/Register";
 import Watch from "./pages/Watch";
 import Wallet from "./pages/Wallet";
 import Profiles from "./pages/Profiles";
+import useResize from "./hooks/general/useResize";
 
 const App: React.FC = function () {
   // Protected Routes on the frontend are defined here
+  useResize();
+  
   return (
     <Routes>
       <Route path="/" element={<PageLayout />}>

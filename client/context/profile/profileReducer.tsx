@@ -64,11 +64,20 @@ const profileReducer: ProfileReducer<ProfileContextInit, Action> = function (
         submit: true,
       };
     case RESET_DESIGN:
-      return {
-        ...prevState,
-        design: null,
-        submit: false,
-      };
+      if(data.designUrl.length === 0) {
+        return {
+          ...prevState,
+          design: null,
+          submit: false,
+        };   
+      } else {
+        return {
+          ...prevState,
+          design: null,
+          submit: false,
+          designs: [...prevState.designs, data.designUrl],
+        };
+      }
     case SET_CURSOR_DESIGNS:
       return {
         ...prevState,

@@ -10,11 +10,14 @@ export interface AppContextInit {
   absHeader: boolean;
   location: string;
   design: string;
+  resize: string;
   dispatch?: Dispatch<Action>;
   handleModal?: (e: MouseEvent<HTMLButtonElement>, modal: string, modalData?: any) => void;
   closeModal?: (e?: MouseEvent<HTMLButtonElement>) => void;
   getLocation?: (path: string) => void;
+  handleResize?: (device: string) => void;
 }
+
 
 export interface AuthContextInit {
   auth: boolean;
@@ -55,7 +58,7 @@ export interface ProfileContextInit {
   setDesigns?: () => void;
   dispatch?: Dispatch<Action>;
   activeDesign?: (file: File) => void;
-  resetDesign?: () => void;
+  resetDesign?: (imageUrl: string) => void;
   doneLoad?: () => void;
 }
 

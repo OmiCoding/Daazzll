@@ -1,7 +1,5 @@
 import React, {
   useState,
-  useRef,
-  useEffect,
   FormEvent,
   MouseEvent,
   ChangeEvent,
@@ -24,10 +22,6 @@ interface UserImageState {
 const AddUserImages = function () {
   const { handleModal, closeModal, modal, modalActive } = useApp();
   const { submitPhoto } = useProfile();
-
-  const line = useRef<HTMLDivElement>(null);
-  const wrapElem = useRef<HTMLDivElement>(null);
-
   const [state, setState] = useState<UserImageState>({
     profFile: null,
     bannerFile: null,
@@ -132,19 +126,6 @@ const AddUserImages = function () {
     }
   }
 
-  useEffect(() => {
-    const currElem = wrapElem.current;
-    if (currElem && window.innerWidth > 1280) {
-      currElem.style.top = "" + window.scrollY + "px";
-    }
-
-    return () => {
-      if (currElem) {
-        currElem.style.top = "0";
-      }
-    };
-  }, [wrapElem]);
-
   return (
     <CSSTransition
       in={modalActive}
@@ -153,7 +134,7 @@ const AddUserImages = function () {
       classNames="mdlAnim"
       unmountOnExit
     >
-      <div ref={wrapElem} id="wrapper" className="modal-wrapper-2 api-wrapper">
+      <div id="wrapper" className="modal-wrapper-2 api-wrapper">
         <div className="mdl-btn-wrapper">
           <button className="mdl__cls-btn" onClick={(e) => closeModal!(e)}>
             Close
