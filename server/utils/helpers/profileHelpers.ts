@@ -357,6 +357,9 @@ export const storeLink = async function(userId: number, option: string, url: str
     create: {
       [option]: url,
       profileId: userId
+    },
+    select: {
+      [option]: true,
     }
   })
 
