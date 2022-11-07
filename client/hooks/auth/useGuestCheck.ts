@@ -32,10 +32,11 @@ const useGuestCheck = function () {
   }, [dispatch, navigate, username]);
 
   useEffect(() => {
+    // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+    // @ts-ignore
     if (window.app.auth) {
       navigate(`/${username}`);
     }
-
 
     if (auth) {
       check();

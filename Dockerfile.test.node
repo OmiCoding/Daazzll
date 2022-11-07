@@ -13,7 +13,9 @@ COPY --chown=node:node ./client ./client/
 
 COPY --chown=node:node ./svgs ./svgs/
 
-COPY --chown=node:node ./@types/assets ./@types/
+COPY --chown=node:node ./@types ./@types/
+
+COPY --chown=node:node ./@types ./@types/
 
 COPY --chown=node:node package-lock.json package.json ./
 
@@ -33,7 +35,7 @@ RUN npm ci && npm run babel:server:test && npm run build:test
 
 RUN npm prune --production
 
-##### - Stage 2 - run server #######
+###### - Stage 2 - run server ######
 
 FROM node:16-bullseye-slim
 

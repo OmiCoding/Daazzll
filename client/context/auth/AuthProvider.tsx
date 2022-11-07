@@ -23,8 +23,6 @@ interface sessionObj {
   pass: boolean;
 }
 
-// Change the fetch url's for production
-
 const AuthProvider: React.FC<ProviderProps> = function ({ children }) {
   const authInit = {
     auth: false,

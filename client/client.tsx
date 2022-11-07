@@ -9,8 +9,6 @@ import HeaderProvider from "./context/header/HeaderProvider";
 
 loadableReady(() => {
   const root = document.getElementById("root");
-
-  // React v18 this needs to be changed.
   if (root && root.innerHTML !== "") {
     hydrate(
       <AppProvider>
@@ -22,11 +20,12 @@ loadableReady(() => {
           </AuthProvider>
         </HeaderProvider>
       </AppProvider>,
+      // <BrowserRouter>
+      //   <App />
+      // </BrowserRouter>,
       root
     );
   } else {
-    console.log(root, root.innerHTML);
-    console.log("render");
     render(
       <AppProvider>
         <HeaderProvider>
@@ -37,7 +36,10 @@ loadableReady(() => {
           </AuthProvider>
         </HeaderProvider>
       </AppProvider>,
-      root
+    //    <BrowserRouter>
+    //    <App />
+    //  </BrowserRouter>,
+     root
     );
   }
 });

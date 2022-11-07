@@ -44,8 +44,8 @@ if (BUILD === "dev") {
   keyPath = path.join(__dirname + "/../certs/daazzll.dev+3-key.pem");
   certPath = path.join(__dirname + "/../certs/daazzll.dev+3.pem");
 } else {
-  keyPath = path.join(__dirname + "/../daazzll.dev+3-key.pem");
-  certPath = path.join(__dirname + "/../daazzll.dev+3.pem");
+  keyPath = path.join(__dirname + "/../certs/daazzll.dev+3-key.pem");
+  certPath = path.join(__dirname + "/../certs/daazzll.dev+3.pem");
 }
 const privKey = fs.readFileSync(keyPath, "utf-8");
 const cert = fs.readFileSync(certPath, "utf-8");
@@ -75,6 +75,7 @@ if (process.env.BUILD === "dev" || process.env.BUILD === "test") {
         "https://daazzl.dev:8433",
         "https://daazzl.dev:8080/",
         "https://daazzl.dev:8433/",
+        "https://localhost/",
       ],
       methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"],
       credentials: true,
