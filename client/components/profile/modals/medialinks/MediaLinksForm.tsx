@@ -1,9 +1,10 @@
-import Cookies from "js-cookie";
 import React, { ChangeEvent, FormEvent, MouseEvent, useState } from "react";
+import useApp from "../../../../hooks/general/useApp";
 import useProfile from "../../../../hooks/profile/useProfile";
 import MLSelectSection from "./MLSelectSection";
 
 const MediaLinksForm: React.FC = function () {
+  const { closeModal } = useApp();
   const { storeLink } = useProfile();
 
   const [state, setState] = useState({
@@ -59,15 +60,15 @@ const MediaLinksForm: React.FC = function () {
   };
 
   const handleSubmit = (e: FormEvent<HTMLFormElement>) => {
-    const accessToken = Cookies.get("access_token");
-
     e.preventDefault();
-
-    // proper validation required in the future
     if (link.length === 0) return;
 
     if (storeLink) {
       storeLink(link, option);
+    }
+
+    if(closeModal) {
+      closeModal();
     }
   };
 

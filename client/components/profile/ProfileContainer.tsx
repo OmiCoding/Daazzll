@@ -28,7 +28,6 @@ const ProfileContainer: React.FC = function () {
             active={active}
           />
           <AddDesignSection />
-          {/* <DesignSubmit postDesign={postDesign} /> */}
         </section>
       </div>
       <LoadableModal />

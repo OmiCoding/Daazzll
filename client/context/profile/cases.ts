@@ -1,6 +1,7 @@
 export const PROFILE_DATA = "PROFILE_DATA";
 export const GET_PROFILE = "GET_PROFILE";
 export const SET_LINK = "SET_LINK";
+export const STORE_LINK = "STORE_LINK";
 export const SET_AVATAR = "SET_AVATAR";
 export const SET_BANNER = "SET_BANNER";
 export const ACTIVE_DESIGN = "ACTIVE_DESIGN";

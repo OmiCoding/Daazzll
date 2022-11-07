@@ -2,6 +2,7 @@ import React from "react";
 import { Link } from "react-router-dom";
 import WarnSvg from "../../../svgs/warning-08.svg";
 import { RegisterState } from "../../custom-types";
+import { CSSTransition } from "react-transition-group";
 
 interface RegisterFormProps extends RegisterState {
   handleSubmit: (e: React.FormEvent<HTMLFormElement>) => void;
@@ -17,12 +18,16 @@ const RegisterForm: React.FC<RegisterFormProps> = function ({
   username,
   pass,
   confirmPass,
+  terms,
+  checkBox,
   warn_1,
   warn_2,
   warn_3,
   warn_4,
   warn_5,
 }) {
+
+  console.log(checkBox);
   return (
     <form onSubmit={handleSubmit} className="page__form-1">
       <div className="page-input-divider-1">
@@ -152,7 +157,18 @@ const RegisterForm: React.FC<RegisterFormProps> = function ({
         </div>
       </div>
       <div className="terms-wrapper">
-        <div className="terms__checkbox"></div>
+        <div className="terms-checkbox-wrapper">
+          <input className="terms__checkbox" type="checkbox" name="terms" value="terms" checked={checkBox} onChange={handleChange} />
+          <CSSTransition
+            appear={true}
+            in={checkBox}
+            timeout={400}
+            classNames={"checkbox-decoration"}
+            unmountOnExit={checkBox}
+          >
+            <div className="checkbox-decoration" />
+          </CSSTransition>
+        </div>
         <p className="terms__text">
           I have read and agree to the{" "}
           <Link to="/terms" className="terms__link">

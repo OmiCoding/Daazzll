@@ -6,7 +6,7 @@ import { Action, ProfileContextInit, ProfileReducer } from "../../custom-types";
 import ProfileContext from "./ProfileContext";
 import profileReducer from "./profileReducer";
 import { useNavigate } from "react-router";
-import { GET_PROFILE, PROFILE_DATA, SET_CURSOR_DESIGNS, SET_LINK, SET_AVATAR, SET_BANNER } from "./cases";
+import { GET_PROFILE, PROFILE_DATA, SET_CURSOR_DESIGNS, SET_LINK, SET_AVATAR, SET_BANNER, STORE_LINK } from "./cases";
 import AuthContext from "../auth/AuthContext";
 
 interface ProviderProps {
@@ -214,16 +214,36 @@ const ProfileProvider: React.FC<ProviderProps> = function ({ children }) {
   };
 
   const storeLink = async function(url: string, option: string) {
-    const data = await fetch("/profile/link", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({
-        option: option.toLowerCase(),
-        url,
-      }),
-    })
+    try {
+      const lcOption = option.toLowerCase();
+      const data = await fetch("/profile/link", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          option: lcOption,
+          url,
+        }),
+      })
+  
+      const link = await data.json();
+  
+      const item = link;
+      if(item[lcOption]) {
+        dispatch({
+          type: STORE_LINK,
+          data: {
+            link: item[lcOption],
+            option: lcOption,
+          }
+        })
+      }
+    } catch(e) {
+      console.error(e);
+    }
+    
+   
   }
 
   const activeDesign = function (file: File) {
@@ -288,6 +308,7 @@ const ProfileProvider: React.FC<ProviderProps> = function ({ children }) {
         activeDesign,
         resetDesign,
         setDesigns,
+        storeLink,
         doneLoad,
         dispatch,
       }}

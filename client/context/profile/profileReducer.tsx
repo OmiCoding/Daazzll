@@ -5,6 +5,7 @@ import {
   PROFILE_DATA,
   RESET_DESIGN,
   SET_LINK,
+  STORE_LINK,
   DONE_LOAD,
   SET_CURSOR_DESIGNS,
   SET_AVATAR,
@@ -16,6 +17,7 @@ const profileReducer: ProfileReducer<ProfileContextInit, Action> = function (
   action
 ) {
   const { data } = action;
+
   switch (action.type) {
     case PROFILE_DATA:
       return {
@@ -28,6 +30,11 @@ const profileReducer: ProfileReducer<ProfileContextInit, Action> = function (
         username: data.username,
         avatar: data.avatarUrl,
         banner: data.bannerUrl,
+        discord: data.discord ? data.discord : "",
+        twitter: data.twitter ? data.twitter : "",
+        instagram: data.instagram ? data.instagram : "",
+        facebook: data.facebook ? data.facebook : "",
+        website: data.website ? data.website : "",    
       };
     case GET_PROFILE:
       return {
@@ -46,6 +53,11 @@ const profileReducer: ProfileReducer<ProfileContextInit, Action> = function (
         ...prevState,
         [data.name]: data.link,
       };
+    case STORE_LINK:
+      return {
+        ...prevState,
+        [data.option]: data.link,
+      }
     case SET_AVATAR:
       
         return {

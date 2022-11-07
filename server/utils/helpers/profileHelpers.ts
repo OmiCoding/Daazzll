@@ -63,6 +63,7 @@ export const getProfileData = async function(username: string, email: string) {
               discord: true,
               instagram: true,
               twitter: true,
+              facebook: true,
             }
           }
         }
@@ -347,7 +348,7 @@ export const uploadDesignPromise = async function(req: Request) {
 }
 
 export const storeLink = async function(userId: number, option: string, url: string) {
-  const data = await prismaClient.acc_socials.upsert({
+  const data: any = await prismaClient.acc_socials.upsert({
     where: {
       profileId: userId,
     },

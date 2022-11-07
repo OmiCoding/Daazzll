@@ -149,10 +149,6 @@
   transition: all 400ms var(--transition-1);
 }
 
-.fa-plus {
-  padding-left: 0.3rem;
-}
-
 .profile-pitch {
   display: flex;
   position: relative;
@@ -161,13 +157,12 @@
   flex-direction: column;
   width: 100%;
   padding: 0 1rem;
-  z-index: 0;
+  z-index: 3;
 }
 
 .profile-media-wrapper {
   display: flex;
   position: relative;
-  justify-content: flex-end;
   align-items: center;
   height: 50px;
   z-index: 0;
@@ -228,7 +223,8 @@
   transition: all var(--transition-1) 300ms;
 }
 
-.profile__list__item > .fa-solid {
+.profile__list__item > .fa-solid,
+.profile__list__item > .fa-brands {
   margin-right: 0.8rem;
 }
 
@@ -277,7 +273,7 @@
   text-align: center;
   font-family: var(--head-font);
   font-weight: var(--fnt-weight-2);
-  padding: 1rem 0;
+  padding-bottom: 1rem;
   margin-top: 1rem;
 }
 
@@ -364,6 +360,7 @@
   }
 
   .profile-media-wrapper {
+    justify-content: flex-end;
     width: 100%;
   }
 
@@ -374,6 +371,12 @@
     background-color: var(--bg-color);
     border-radius: 7px;
     flex-direction: column;
+    z-index: 2;
+    cursor: pointer;
+  }
+
+  .social-media-wrapper {
+    display: none;
   }
 
   .bg-img-wrapper {
@@ -444,6 +447,29 @@
     justify-content: space-between;
   }
 
+  .social-media-wrapper {
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+  }
+
+  .social-media__link {
+    display: inline-block;
+    padding: 1rem;
+    font-size: var(--reg-size);
+    font-weight: var(--fnt-weight-2);
+    color: var(--grey-text);
+    border: 1px solid var(--border-color);
+    border-radius: 7px;
+    margin-right: 1rem;
+    transition: all cubic-bezier(0.4, 0.4, 0.2, 1) 300ms;
+  }
+
+  .social-media__link:hover {
+    color: var(--text-color);
+    box-shadow: 0px 10px 13px var(--shadow-color);
+  }
+  
   .profile-media-wrapper {
     width: 50%;
   }

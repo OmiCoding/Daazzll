@@ -84,9 +84,16 @@ if (process.env.BUILD === "dev" || process.env.BUILD === "test") {
   );
 } else {
   // When we go into production...
+  app.use(cors({
+    origin: [
+      "https://daazzll.com/"
+    ],
+    methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"],
+    credentials: true,
+    allowedHeaders: ["Authorization", "Content-Type"],
+    exposedHeaders: ["Authorization"],
+  }))
 }
-// app.use(helmet());
-
 // This path needs to be fixed during production for docker container
 const BUILD_PATH =
   BUILD === "dev" ? path.resolve("build") : "/home/node/src/build";

@@ -1,5 +1,6 @@
 import React, { MouseEvent, useState } from "react";
 import ProfileMediaList from "./ProfileMediaList";
+import SocialMedia from "./SocialMedia";
 
 interface MediaProps {
   user: boolean;
@@ -21,6 +22,7 @@ const ProfileMediaContainer: React.FC<MediaProps> = function ({ user }) {
 
   return (
     <div className="profile-media-wrapper">
+      <SocialMedia />
       <div className="flex-media-wrapper">
         <button className="profile-media__btn hide--desktop">
           <i className="fa-solid fa-wand-magic-sparkles" />

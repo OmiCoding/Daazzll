@@ -1,5 +1,7 @@
+import { link } from "joi";
 import React from "react";
 import useApp from "../../../hooks/general/useApp";
+import useProfile from "../../../hooks/profile/useProfile";
 
 interface MediaProps {
   show: boolean;
@@ -8,7 +10,17 @@ interface MediaProps {
 
 const ProfileMediaList: React.FC<MediaProps> = function ({ show, user }) {
   const { handleModal } = useApp();
+  const { website, instagram, facebook, discord, twitter } = useProfile();
 
+  const linkObj = {
+    website,
+    instagram,
+    facebook,
+    discord,
+    twitter,
+  }
+  
+  const objArr = Object.keys(linkObj);
   return (
     <ul
       className="profile-media__list"
@@ -38,6 +50,28 @@ const ProfileMediaList: React.FC<MediaProps> = function ({ show, user }) {
         <i className="fa-solid fa-wand-magic-sparkles" />
         Add to watchlist
       </li>
+      {objArr.filter((elem) => {
+        //@ts-ignore
+        if(linkObj[elem].length === 0) {
+          return false;
+        } 
+        return true;
+      }).map((elem, ind) => {
+        if(elem === "website") {
+          return (
+            <li key={ind} className="profile__list__item hide--mobile">
+              <i className={`fa-solid fa-${elem}`} />
+              {elem}
+            </li>   
+          );
+        }
+        return (
+          <li key={ind} className="profile__list__item hide--mobile">
+            <i className={`fa-brands fa-${elem}`} />
+            {elem}
+          </li>
+        );
+      })}
     </ul>
   );
 };

@@ -69,6 +69,8 @@ export interface RegisterState {
   username: string;
   pass: string;
   confirmPass: string;
+  terms: string;
+  checkBox: boolean;
   warn_1: string | undefined;
   warn_2: string | undefined;
   warn_3: string | undefined;

@@ -221,7 +221,7 @@ export const createLink: RequestHandler = async function (req, res, next) {
     console.log(link);
 
     return res.status(200).json({
-      link,
+      [option]: link[option],
       msg: "Ok",
     });
   } catch (e: any) {

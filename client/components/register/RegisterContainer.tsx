@@ -19,6 +19,8 @@ const RegisterContainer = function () {
     username: "",
     pass: "",
     confirmPass: "",
+    terms: "",
+    checkBox: false,
     warn_1: undefined,
     warn_2: undefined,
     warn_3: undefined,
@@ -33,6 +35,8 @@ const RegisterContainer = function () {
     username,
     pass,
     confirmPass,
+    terms,
+    checkBox,
     warn_1,
     warn_2,
     warn_3,
@@ -41,6 +45,15 @@ const RegisterContainer = function () {
   } = state;
 
   const handleChange = (e: ChangeEvent<HTMLInputElement>): void => {
+    if(e.target.name === "terms") { 
+      console.log(e.target.name);
+      return setState({
+        ...state,
+        [e.target.name]: e.target.value,
+        checkBox: !checkBox,
+      })
+    }
+
     return setState({
       ...state,
       [e.target.name]: e.target.value,
@@ -98,6 +111,8 @@ const RegisterContainer = function () {
             username={username}
             pass={pass}
             confirmPass={confirmPass}
+            terms={terms}
+            checkBox={checkBox}
             warn_1={warn_1}
             warn_2={warn_2}
             warn_3={warn_3}
