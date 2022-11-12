@@ -27,7 +27,7 @@
     "babel:server:prod": "TYPE=node npx dotenv -e .env.production -- babel --extensions .ts,.tsx --config-file ./babel.config.js ./server -d ./lib",
     "start:server": "TYPE=node npx dotenv -e .env.dev -- nodemon ./lib/index.js",
     "migrate:dev": "npx dotenv -e .env.test -- prisma migrate dev",
-    "docker:server": "TYPE=node npx dotenv -e .env.test -- node ./lib/index.js",
+    "docker:server": "TYPE=node npx dotenv -e .env.production -- node ./lib/index.js",
     "docker:start": "npm run migrate:dev && npm run docker:server",
     "test": "npx dotenv -e .env.test -- jest -i",
     "check": "node getCookies.js"
