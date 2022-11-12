@@ -24,43 +24,6 @@ interface DesignDataRes {
   version: number | undefined;
 }
 
-// export const profile: RequestHandler = async function (
-//   req: Request,
-//   res: Response,
-//   next: NextFunction
-// ) {
-//   try {
-//     const { username } = req.params;
-
-//     const data = await prismaClient.accounts.findFirst({
-//       where: {
-//         username: username,
-//       },
-//       select: {
-//         username: true,
-//         profile: {
-//           select: {
-//             website: true,
-//             facebook: true,
-//             discord: true,
-//             instagram: true,
-//             twitter: true,
-//           },
-//         },
-//       },
-//     });
-//     return res.status(200).json({
-//       ...data,
-//       profile: {
-//         ...data?.profile,
-//       },
-//     });
-    
-//   } catch (e: any) {
-//     return next(e);
-//   }
-// };
-
 export const profileData: RequestHandler = async function (
   req: Request,
   res: Response,
@@ -102,11 +65,11 @@ export const uploadProfileImgs: RequestHandler = async function (
   next: NextFunction
 ) {
   try {
-    const { userId, username, email } = req.user;
+    const { id, username, email } = req.user;
     const data = await uploadProfPromise(req);
     let imageUrl = "";
 
-    await storeUploadData(userId, email, username, data);
+    await storeUploadData(id, email, username, data);
 
     if(data.model === "avatar") {
       imageUrl = setupAvatarUrl(data.imageId, data.ext, data.version);
@@ -125,7 +88,7 @@ export const uploadProfileImgs: RequestHandler = async function (
 
 export const getAvatarImg: RequestHandler = async function (req: Request, res: Response, next: NextFunction) {
   try {
-    const dbData = await getAvatarData(req.user.userId);
+    const dbData = await getAvatarData(req.user.id);
     let avatarData;
     if (dbData) {
        avatarData = setupAvatarUrl(dbData.imageId, dbData.ext, dbData.version);
@@ -141,7 +104,7 @@ export const getAvatarImg: RequestHandler = async function (req: Request, res: R
 
 export const getBannerImg: RequestHandler = async function(req:Request, res: Response, next: NextFunction) {
   try {
-    const dbData = await getBannerData(req.user.userId);
+    const dbData = await getBannerData(req.user.id);
     let bannerData;
     if(dbData) {
       bannerData = setupBannerUrl(dbData.imageId, dbData.ext, dbData.version);
@@ -170,9 +133,9 @@ export const getDesigns: RequestHandler = async function(
   const parsedCursor = parseInt(cursor);
 
   if (parsedCursor === 0) {
-    dbData = await getDesignData(req.user.userId);
+    dbData = await getDesignData(req.user.id);
   } else {
-    dbData = await getDesignData(req.user.userId, parsedCursor); 
+    dbData = await getDesignData(req.user.id, parsedCursor); 
   }
 
   const idArr: string[] = [];
@@ -201,7 +164,7 @@ export const postDesigns: RequestHandler = async function(
   try {
     const data = await uploadDesignPromise(req);
     
-    await storeDesign(req.user.userId, data);
+    await storeDesign(req.user.id, data);
 
     const designUrl = setUpDesignUrl(data.imageId, data.version);
     return res.status(200).json({
@@ -217,7 +180,7 @@ export const createLink: RequestHandler = async function (req, res, next) {
   try {
     const { option, url } = req.body;
 
-    const link = await storeLink(req.user.userId, option, url);
+    const link = await storeLink(req.user.id, option, url);
     console.log(link);
 
     return res.status(200).json({
@@ -233,7 +196,7 @@ export const getLink: RequestHandler = async function(req, res, next) {
   try {
     const { option } = req.body;  
     
-    const link = await linkData(req.user.userId, option);
+    const link = await linkData(req.user.id, option);
 
     return res.status(200).json({
       link,

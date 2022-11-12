@@ -10,11 +10,13 @@ import {
   getUser,
   getLink,
 } from "../controllers/profileController";
-import { checkAccToken, checkUser } from "../middleware/auth/authMidWare";
+import { checkToken, checkUser } from "../middleware/auth/authMidWare";
 
 const router = Router();
 
-router.get("/profileData", [checkAccToken, checkUser], profileData);
+router.use(checkUser);
+router.use(checkToken);
+router.get("/profileData", profileData);
 
 router.get("/designs", getDesigns);
 
@@ -30,6 +32,6 @@ router.post("/link", createLink);
 
 router.get("/link", getLink);
 
-router.get("/:username", [checkAccToken, checkUser], getUser);
+router.get("/:username", getUser);
 
 export default router;

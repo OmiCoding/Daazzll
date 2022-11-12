@@ -1,4 +1,4 @@
-import sessions from "express-session";
+import session from "express-session";
 import connectRedis from "connect-redis";
 import { createClient } from "redis";
 import { config } from "dotenv";
@@ -16,11 +16,12 @@ if (!REDIS_HOST) {
 
 export const redisClient = createClient({
   url: `redis://${REDIS_HOST}:${REDIS_PORT}`,
+  legacyMode: true,
 });
 
-const RedisStore = connectRedis(sessions);
+const RedisStore = connectRedis(session);
 
 export const redisStore = new RedisStore({
   client: redisClient,
-  prefix: "sess1:",
+
 });

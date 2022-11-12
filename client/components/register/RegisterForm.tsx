@@ -18,7 +18,6 @@ const RegisterForm: React.FC<RegisterFormProps> = function ({
   username,
   pass,
   confirmPass,
-  terms,
   checkBox,
   warn_1,
   warn_2,
@@ -27,7 +26,6 @@ const RegisterForm: React.FC<RegisterFormProps> = function ({
   warn_5,
 }) {
 
-  console.log(checkBox);
   return (
     <form onSubmit={handleSubmit} className="page__form-1">
       <div className="page-input-divider-1">

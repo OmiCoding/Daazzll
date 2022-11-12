@@ -1,11 +1,16 @@
-import crypto from "crypto";
 import { RequestHandler, Request, Response, NextFunction } from "express";
 import { compare, hash } from "bcrypt";
-import { v4 as uuidv4 } from "uuid";
-
-import { genToken, signedToken } from "../utils/helpers/authHelpers";
 import prismaClient from "../prismaClient";
-import { PRIV_KEY_PATH } from "../serverConfig";
+
+declare global {
+  namespace Express {
+    interface User {
+      id: number;
+      username: string,
+      email: string,
+    } 
+  }
+}
 
 export const login: RequestHandler = async function (
   req: Request,
@@ -14,17 +19,15 @@ export const login: RequestHandler = async function (
 ) {
   try {
     const { email_user, password } = req.body;
-    let propName: string;
-
-    if (/[@\.]/.test(email_user)) {
-      propName = "email";
-    } else {
-      propName = "username";
+    if(!email_user) {
+      return res.status(400).json({
+        msg: "Please enter an email",
+      })
     }
-
-    const result: any = await prismaClient.accounts.findFirst({
+ 
+    const result = await prismaClient.accounts.findFirst({
       where: {
-        [propName]: email_user,
+        email: email_user,
       },
       select: {
         id: true,
@@ -33,14 +36,11 @@ export const login: RequestHandler = async function (
         pass: true,
       },
     });
-
     if (!result) {
       return res.status(400).json({
-        msg: `No account found with that ${propName}`,
+        msg: "No account found with that email",
       });
     }
-
-    const { id, username, email } = result;
 
     const verify = await compare(password, result.pass);
 
@@ -50,70 +50,19 @@ export const login: RequestHandler = async function (
       });
     }
 
-    const accessId = uuidv4();
-    const refreshId = uuidv4();
-
-    const accessToken = await genToken(
-      {
-        role: "user",
-        tokenId: accessId,
-        email: result.email,
-        username: result.username,
-      },
-      PRIV_KEY_PATH,
-      "2m",
-      120
-    );
-
-    const refreshToken = await genToken(
-      {
-        role: "user",
-        tokenId: refreshId,
-        email: result.email,
-        username: result.username,
-      },
-      PRIV_KEY_PATH,
-      "5m",
-      300
-    );
-
-    const uid = crypto.randomBytes(24).toString("base64");
-
-    await signedToken(
-      {
-        role: "user",
-        userId: id,
-        email: email,
-        username: username,
-      },
-      uid,
-      120
-    );
-
-    res.cookie("access_token", accessToken, {
-      path: "/",
-      secure: true,
-      sameSite: "strict",
-      maxAge: 2 * 60 * 1000, // 10min
+   req.login({
+    id: result.id,
+    username: result.username,
+    email: result.email
+   }, (e) => {
+    if(e) {
+      return next(e);
+    }
+    return res.status(200).json({
+      username: result.username,
+      msg: "Ok",
     });
-
-    res.cookie("refresh_token", refreshToken, {
-      path: "/",
-      secure: true,
-      sameSite: "strict",
-      maxAge: 5 * 60 * 1000, // 30min
-    });
-
-    res.cookie("sid", uid, {
-      path: "/",
-      sameSite: "strict",
-      httpOnly: true,
-      secure: true,
-      signed: true,
-      maxAge: 2 * 60 * 1000, // 10min
-    });
-
-    return res.status(200).json({ username });
+  })
   } catch (e) {
     return next(e);
   }
@@ -126,10 +75,6 @@ export const register: RequestHandler = async function (
 ) {
   try {
     const { username, email, fName, lName, password } = req.body;
-
-    const accessId = uuidv4();
-    const refreshId = uuidv4();
-
     const foundAcc = await prismaClient.accounts.findUnique({
       where: {
         email_username: {
@@ -146,7 +91,6 @@ export const register: RequestHandler = async function (
     }
 
     const hashedPass = await hash(password, 10);
-
     const result = await prismaClient.accounts.create({
       data: {
         role: "user",
@@ -161,70 +105,16 @@ export const register: RequestHandler = async function (
         email: true,
         username: true,
       },
-    });
+    })
 
-    const accessToken = await genToken(
-      {
-        role: "user",
-        tokenId: accessId,
-        email: result.email,
+    return req.login(result, (e) => {
+      if(e) {
+        return next(e);
+      }
+      return res.status(200).json({
         username: result.username,
-      },
-      PRIV_KEY_PATH,
-      "10m",
-      600
-    );
-
-    const refreshToken = await genToken(
-      {
-        role: "user",
-        tokenId: refreshId,
-        email: result.email,
-        username: result.username,
-      },
-      PRIV_KEY_PATH,
-      "30d",
-      1800
-    );
-
-    const uid = crypto.randomBytes(24).toString("base64");
-
-    await signedToken(
-      {
-        role: "user",
-        userId: result.id,
-        email: result.email,
-        username: result.username,
-      },
-      uid,
-      600
-    );
-
-    res.cookie("access_token", accessToken, {
-      path: "/",
-      secure: true,
-      sameSite: "strict",
-      maxAge: 10 * 60 * 1000, // 10min
-    });
-    res.cookie("refresh_token", refreshToken, {
-      path: "/",
-      secure: true,
-      sameSite: "strict",
-      maxAge: 30 * 60 * 1000, // 30min
-    });
-
-    res.cookie("sid", uid, {
-      path: "/",
-      sameSite: "strict",
-      httpOnly: true,
-      secure: true,
-      signed: true,
-      maxAge: 10 * 60 * 1000, // 10min
-    });
-
-    console.log("all good!");
-    return res.status(200).json({ 
-      username: result.username 
+        msg: "Ok",
+      });
     });
   } catch (e) {
     return next(e);
@@ -237,31 +127,14 @@ export const logout: RequestHandler = async function (
   next: NextFunction
 ) {
   try {
-    res.clearCookie("access_token", {
-      path: "/",
-      secure: true,
-      sameSite: "strict",
-    });
-
-    res.clearCookie("refresh_token", {
-      path: "/",
-      secure: true,
-      sameSite: "strict",
-    });
-
-    res.clearCookie("sid", {
-      path: "/",
-      sameSite: "strict",
-      httpOnly: true,
-      secure: true,
-      signed: true,
-    });
-
-    req.user = undefined;
-
-    return res.status(200).json({
-      msg: "Ok",
-    });
+    req.logout(function(err) {
+      if(err) {
+        return next(err);
+      }
+      res.status(200).json({
+        msg: "Ok sucessfully logged out!",
+      })
+    })
   } catch (e) {
     return next(e);
   }
@@ -322,19 +195,6 @@ export const passGuest = function (
   next: NextFunction
 ) {
   try {
-    if (req.user) {
-      return res.status(403).json({
-        clear: false,
-      });
-    }
-
-    if (req.cookies) {
-      return res.status(403).json({
-        clear: false,
-      });
-    }
-
-    console.log("hello??")
     return res.status(200).json({
       clear: true,
     });

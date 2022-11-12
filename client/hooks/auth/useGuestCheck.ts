@@ -7,7 +7,7 @@ const useGuestCheck = function () {
   const navigate = useNavigate();
 
   const check = useCallback(() => {
-    fetch("/passGuest", {
+    fetch("/checkGuest", {
       method: "GET",
       mode: "cors",
       credentials: "include",
@@ -15,14 +15,14 @@ const useGuestCheck = function () {
         "Content-Type": "application/json",
       },
     })
-      .then((data) => data.json())
+      .then((data) => data.json()
+      )
       .then((res) => {
         if (!res.clear) {
           navigate(`/${username}`);
         }
       })
       .catch((err) => {
-        console.error(err);
         if (dispatch) {
           dispatch({
             type: "ERROR_PAGE",
@@ -38,6 +38,7 @@ const useGuestCheck = function () {
       navigate(`/${username}`);
     }
 
+    console.log(auth);
     if (auth) {
       check();
     }

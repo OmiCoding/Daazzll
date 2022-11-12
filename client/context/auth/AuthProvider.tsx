@@ -19,9 +19,6 @@ import {
 interface ProviderProps {
   children: ReactNode;
 }
-interface sessionObj {
-  pass: boolean;
-}
 
 const AuthProvider: React.FC<ProviderProps> = function ({ children }) {
   const authInit = {
@@ -54,7 +51,6 @@ const AuthProvider: React.FC<ProviderProps> = function ({ children }) {
       })
       .then((res) => {
         if (res.username) {
-          sessionStorage.setItem("username", res.username);
           dispatch({
             type: REGISTER_USER,
             data: {
@@ -71,7 +67,6 @@ const AuthProvider: React.FC<ProviderProps> = function ({ children }) {
   };
 
   const login = function (body: LoginBody) {
-    console.log(body);
     fetch("/login", {
       method: "POST",
       mode: "cors",
@@ -85,8 +80,6 @@ const AuthProvider: React.FC<ProviderProps> = function ({ children }) {
       .then((res) => {
         if (res.username) {
           // probably want to use some sort of encryption
-          sessionStorage.setItem("hallpass", JSON.stringify({ pass: true }));
-          sessionStorage.setItem("username", res.username);
           dispatch({
             type: LOGIN_USER,
             data: {
@@ -104,16 +97,13 @@ const AuthProvider: React.FC<ProviderProps> = function ({ children }) {
 
   const logout = async function () {
     await fetch("/logout", {
-      method: "GET",
+      method: "POST",
       mode: "cors",
       credentials: "include",
       headers: {
         "Content-Type": "application/json",
       },
     });
-
-    sessionStorage.removeItem("hallpass");
-    sessionStorage.removeItem("username");
     dispatch({
       type: RESET_AUTH,
     });

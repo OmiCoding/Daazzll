@@ -2,34 +2,41 @@ import fs from "fs";
 import https from "https";
 import path from "path";
 import express from "express";
+import session from "express-session";
 import cors from "cors";
 import cookieParser from "cookie-parser";
+import passport from "passport";
+import { Strategy as LocalStrategy } from "passport-local";
 import prismaClient from "./prismaClient";
-import { redisClient } from "./storageInit";
+import { redisClient, redisStore } from "./storageInit";
 import renderer from "./controllers/renderer";
 import errorHandler from "./controllers/errorHandler";
-import { setUserProp } from "./middleware/auth/authMidWare";
 import auth from "./routes/auth";
 import profile from "./routes/profile";
+import httpsHelper from "./utils/helpers/httpsHelper";
+import { serializeUser, deserializeUser, strategyFunc } from "./utils/helpers/passport";
 
 import "dotenv/config";
 
 declare module "express-session" {
   export interface SessionData {
     name: string;
+    passport: any,
   }
 }
 
 declare global {
   namespace Express {
-    export interface Request {
-      user?: ReqUser;
+    interface User {
+      id: number;
     }
   }
 }
 
 const { API_SERVER_PORT, SESSION_SECRET, REDIS_PORT, USER_SECRET, BUILD } =
   process.env;
+
+const BUILD_PATH = BUILD === "dev" ? path.resolve("build") : "/home/node/src/build";
 
 if (!API_SERVER_PORT) {
   throw new Error("api port is undefined.");
@@ -38,21 +45,18 @@ if (!SESSION_SECRET) {
   throw new Error("Session secret is undefined.");
 }
 
-let keyPath;
-let certPath;
-if (BUILD === "dev") {
-  keyPath = path.join(__dirname + "/../certs/daazzll.dev+3-key.pem");
-  certPath = path.join(__dirname + "/../certs/daazzll.dev+3.pem");
+let credentials
+if (BUILD === "dev" || BUILD === "test") {
+  credentials = httpsHelper("dev");
 } else {
-  keyPath = path.join(__dirname + "/../certs/daazzll.dev+3-key.pem");
-  certPath = path.join(__dirname + "/../certs/daazzll.dev+3.pem");
+  credentials = httpsHelper("production");
 }
-const privKey = fs.readFileSync(keyPath, "utf-8");
-const cert = fs.readFileSync(certPath, "utf-8");
-const credentials = {
-  key: privKey,
-  cert: cert,
-};
+const privKey = fs.readFileSync(credentials.key, "utf-8");
+const cert = fs.readFileSync(credentials.cert, "utf-8");
+let ca: string | undefined;
+if(credentials.ca) {
+  ca = fs.readFileSync(credentials.ca, "utf-8");
+} 
 
 const app = express();
 app.use(express.urlencoded({ extended: true }));
@@ -61,8 +65,20 @@ app.use(
     limit: "50mb",
   })
 );
+app.use(session({
+  resave: false,
+  saveUninitialized: false,
+  secret: SESSION_SECRET,
+  cookie: {
+    path: "/",
+    secure: true,
+    httpOnly: true,
+    sameSite: true,
+  },
+  store: redisStore,
+}));
+app.use(cookieParser(USER_SECRET));
 
-// include helmet
 if (process.env.BUILD === "dev" || process.env.BUILD === "test") {
   app.use(
     cors({
@@ -83,7 +99,7 @@ if (process.env.BUILD === "dev" || process.env.BUILD === "test") {
       exposedHeaders: ["Authorization"],
     })
   );
-} else {
+} else if(process.env.BUILD === "production") {
   // When we go into production...
   app.use(cors({
     origin: [
@@ -95,25 +111,32 @@ if (process.env.BUILD === "dev" || process.env.BUILD === "test") {
     exposedHeaders: ["Authorization"],
   }))
 }
-// This path needs to be fixed during production for docker container
-const BUILD_PATH =
-  BUILD === "dev" ? path.resolve("build") : "/home/node/src/build";
-
-app.use(cookieParser(USER_SECRET));
 app.use("/static", express.static(BUILD_PATH));
-app.use(setUserProp);
-app.use(function (req, res, next) {
-  if (req.session && !req.session.name) {
-    req.session.name = "sess1";
-  }
-  return next();
-});
+
+// This path needs to be fixed during production for docker container
+passport.use(new LocalStrategy(strategyFunc));
+passport.serializeUser<number>(serializeUser);
+passport.deserializeUser<number>(deserializeUser); 
+app.use(passport.initialize());
+app.use(passport.session());
 app.use(auth);
 app.use("/profile", profile);
+app.get("/", function(req, res) {
+  console.log(req.sessionID);
+  console.log(req.session);
+  console.log(req.user);
+  return res.status(200).json({
+    msg: "ok",
+  })
+});
 app.use("*", renderer);
 app.use(errorHandler);
 
-const httpsServer = https.createServer(credentials, app);
+const httpsServer = https.createServer({
+  key: privKey,
+  cert: cert,
+  ca: ca,
+}, app);
 
 const startServer = function () {
   try {

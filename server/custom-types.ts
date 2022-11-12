@@ -2,7 +2,7 @@ import { JwtPayload } from "jsonwebtoken";
 
 export interface ReqUser {
   role: string;
-  userId?: number;
+  id?: number;
   email?: string;
   username?: string;
   cursor?: number;

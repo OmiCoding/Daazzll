@@ -39,11 +39,21 @@ const renderer: RequestHandler = function (
 
   let authObj;
 
-  if (req.user && req.cookies.access_token) {
-    authObj = {
-      auth: true,
-      username: req.user.username,
-    };
+  if (req.user) {
+    if(req.session) {
+      const session = req.session;
+      if(session.passport) {
+        const passport = session.passport;
+        if(passport.user) {
+          if(req.user === passport.user) {
+            authObj = {
+              auth: true,
+              username: req.user.username,
+            }
+          }
+        }
+      }
+    }
   }
 
   let templateString = ` 

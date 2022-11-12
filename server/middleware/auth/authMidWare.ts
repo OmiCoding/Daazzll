@@ -29,8 +29,8 @@ export const checkAccToken: RequestHandler = function (
   res: Response,
   next: NextFunction
 ) {
-  if (req.cookies.access_token) {
-    return next();
+  if (req.session) {
+    
   } else {
     return res.status(401).json({
       msg: "Unauthenticated.",
@@ -43,8 +43,10 @@ export const checkedLoggedIn: RequestHandler = function (
   res: Response,
   next: NextFunction
 ) {
-  if (req.cookies.access_token) {
-    return res.status(403).json({ msg: "Bad request." });
+  if(req.user) {
+    return res.status(403).json({
+      msg: "Bad request.",
+    });
   }
   return next();
 };
@@ -54,10 +56,13 @@ export const checkGuest: RequestHandler = function (
   res: Response,
   next: NextFunction
 ) {
-  if (req.cookies.refresh_token) {
-    return next();
+  if (req.user) {
+    return res.status(403).json({
+      clear: false,
+      msg: "Unauthorized."
+    });
   } else {
-    return res.status(401).json({ msg: "Unauthenticated." });
+    return next();
   }
 };
 
@@ -166,6 +171,32 @@ export const checkLogin: RequestHandler = function (
 
   return next();
 };
+
+export const checkToken: RequestHandler = function (req, res, next) {
+  if(req.session) {
+    const session = req.session;
+    if(session.passport) {
+      const passport = session.passport;
+      if(passport.user) {
+        if(req.user) {
+          const isChecked = Boolean(passport.user === req.user.id);
+          if(isChecked) {
+            return next();
+          } 
+        }
+      } 
+    }
+    return res.status(401).json({
+      msg: "Unauthenticated",
+      clear: false,
+    })
+  } else {
+    return res.status(401).json({
+      msg: "Unauthenticated",
+      clear: false,
+    })
+  }
+}
 
 export const checkToken2: RequestHandler = async function (
   req: Request,

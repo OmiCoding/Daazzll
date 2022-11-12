@@ -20,9 +20,6 @@ loadableReady(() => {
           </AuthProvider>
         </HeaderProvider>
       </AppProvider>,
-      // <BrowserRouter>
-      //   <App />
-      // </BrowserRouter>,
       root
     );
   } else {
@@ -36,9 +33,6 @@ loadableReady(() => {
           </AuthProvider>
         </HeaderProvider>
       </AppProvider>,
-    //    <BrowserRouter>
-    //    <App />
-    //  </BrowserRouter>,
      root
     );
   }

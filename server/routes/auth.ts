@@ -18,7 +18,7 @@ import {
   checkUpdateUser,
   checkUser,
   checkedLoggedIn,
-  checkToken2,
+  checkToken,
 } from "../middleware/auth/authMidWare";
 
 import {
@@ -32,13 +32,9 @@ const router = Router();
 
 // GET Requests
 
-router.get("/checkauth", [checkToken2], checkAuth);
+router.get("/checkauth", [checkUser, checkToken], checkAuth);
 
-router.get("/checkGuest", checkGuest);
-
-router.get("/passGuest", passGuest);
-
-router.get("/logout", logout);
+router.get("/checkGuest", [checkGuest], passGuest);
 
 // POST Requests
 
@@ -51,14 +47,16 @@ router.post("/login", [checkedLoggedIn, joiLogin, checkLogin], login);
 
 router.post(
   "/update",
-  [checkGuest, checkUser, checkToken2, joiUpdateUser, checkUpdateUser],
+  [checkUser, checkToken, joiUpdateUser, checkUpdateUser],
   updateUser
 );
 
 router.post(
   "/delete",
-  [checkGuest, checkUser, checkToken2, joiDeleteUser, checkDeleteUser],
+  [checkUser, checkToken, joiDeleteUser, checkDeleteUser],
   deleteUser
 );
+
+router.post("/logout", logout);
 
 export default router;
