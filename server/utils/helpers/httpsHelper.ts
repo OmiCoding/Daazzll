@@ -15,8 +15,8 @@ const httpsHelper = function(build: string): HelperProps {
   } else {
     return {
       key: path.join("/etc/letsencrypt/live/daazzll.com/privkey.pem"),
-      cert: path.join("/etc/letsencrypt/live/daazzll.com/"),
-      ca: path.join("/etc/letsencrypt/live/daazzll.com/"),
+      cert: path.join("/etc/letsencrypt/live/daazzll.com/cert.pem"),
+      ca: path.join("/etc/letsencrypt/live/daazzll.com/fullchain.pem"),
     };
   }
 }

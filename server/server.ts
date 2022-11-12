@@ -103,7 +103,8 @@ if (process.env.BUILD === "dev" || process.env.BUILD === "test") {
   // When we go into production...
   app.use(cors({
     origin: [
-      "https://daazzll.com/"
+      "https://daazzll.com/",
+      "https://www.daazzll.com/",
     ],
     methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"],
     credentials: true,
@@ -121,14 +122,6 @@ app.use(passport.initialize());
 app.use(passport.session());
 app.use(auth);
 app.use("/profile", profile);
-app.get("/", function(req, res) {
-  console.log(req.sessionID);
-  console.log(req.session);
-  console.log(req.user);
-  return res.status(200).json({
-    msg: "ok",
-  })
-});
 app.use("*", renderer);
 app.use(errorHandler);
 
