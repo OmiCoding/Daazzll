@@ -1,7 +1,5 @@
 import { RequestHandler, Request, Response, NextFunction } from "express";
-import { v2 as cloudinary } from "cloudinary";
 import { DesignData } from "../custom-types"
-import busboy from "busboy";
 import { setupAvatarUrl, setupBannerUrl, setUpDesignUrl, setupDesignUrls } from "../utils/cloudinary/cloudinaryHelpers";
 import { 
   storeUploadData, 

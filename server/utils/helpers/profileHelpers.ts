@@ -38,6 +38,7 @@ export const getProfileData = async function(username: string, email: string) {
       },
     },
     select: {
+      id: true,
       username: true,
       profile: {
         select: {
@@ -89,6 +90,12 @@ export const getProfileData = async function(username: string, email: string) {
       if(profile.social) {
         socialData = {...profile.social};
       }
+    } else {
+      prismaClient.acc_profiles.create({
+        data: {
+          userId: data.id,
+        }
+      })
     }
   }
   
