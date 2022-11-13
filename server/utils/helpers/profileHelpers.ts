@@ -91,11 +91,12 @@ export const getProfileData = async function(username: string, email: string) {
         socialData = {...profile.social};
       }
     } else {
-      prismaClient.acc_profiles.create({
+      const res = await prismaClient.acc_profiles.create({
         data: {
           userId: data.id,
         }
-      })
+      });
+      console.log(res);
     }
   }
   
