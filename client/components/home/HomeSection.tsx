@@ -1,9 +1,17 @@
 import React from "react";
+import { useNavigate } from "react-router";
 import PlayBtnSvg from "../../../svgs/playbtn.svg";
 import "../../styles/home/general.css"
 import "../../styles/home/showcase.css";
 
 const HomeSection: React.FC = function () {
+
+  const navigate = useNavigate();
+
+  function handleClick() {
+    return navigate("/register");
+  }
+
   return (
     <section className="home">
       <div className="max-wrapper">
@@ -17,7 +25,7 @@ const HomeSection: React.FC = function () {
               world.
             </p>
             <div className="sc-btn-wrapper">
-              <button className="sc-btn">Join us</button>
+              <button className="sc-btn" onClick={() => handleClick()}>Join us</button>
             </div>
           </div>
           <div className="svg-container">
