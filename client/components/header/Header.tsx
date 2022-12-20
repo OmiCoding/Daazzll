@@ -26,8 +26,6 @@ function Header() {
       curr.style.position = "fixed";
       document.documentElement.style.overflowY = "hidden";
       document.body.style.overflowY = "hidden";
-      // const elem = document.getElementById("root");
-      // elem.style.overflowY = "auto";
     } else {
       curr.style.position = "sticky";
       document.documentElement.style.overflowY = "visible";

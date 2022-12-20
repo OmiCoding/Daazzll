@@ -8,7 +8,7 @@ import HeaderContext from "../../context/header/HeaderContext";
 import useAuth from "../../hooks/auth/useAuth";
 import useApp from "../../hooks/general/useApp";
 
-const arr = ["Home", "Feed", "Explore", "Login", "Register", "Logout"];
+const arr = ["Login", "Register", "Logout"];
 
 const HeaderNav: React.FC<HeaderProps> = function ({ handleHB }) {
   const { location } = useApp();
@@ -37,15 +37,6 @@ const HeaderNav: React.FC<HeaderProps> = function ({ handleHB }) {
       {arr.length > 0 ? (
         <ul className="nav__list nl--desktop">
           {arr.map((elem, i) => {
-            if (i < 3) {
-              return (
-                <li key={elem} className="nav__list__items pad-1 nl--desktop ">
-                  <Link to={`/${elem.toLowerCase()}`} className="items__link">
-                    {elem}
-                  </Link>
-                </li>
-              );
-            }
             if (!auth && elem !== "Logout") {
               return (
                 <li
